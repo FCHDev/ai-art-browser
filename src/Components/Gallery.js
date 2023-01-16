@@ -30,7 +30,8 @@ const Gallery = () => {
                     <div className="gallery-item" key={index} onClick={() => getImg(pic.img, pic?.title)}>
                         <img className="block object-cover object-center w-full h-full rounded-lg hover:opacity-50"
                              src={pic.img}
-                             alt={pic.id}/>
+                             alt={pic?.title}
+                             title={pic?.title}/>
                     </div>
                 )}
             </div>)
@@ -39,12 +40,13 @@ const Gallery = () => {
     return (
         <>
             <div className={`${!modal ? "modal" : "modal open relative"}`}>
-                <img src={holdSrc} alt="growth"/>
+                <img src={holdSrc} alt={holdTitle}/>
                 <img className="fixed md:top-10 md:left-10 bottom-7 h-8 cursor-pointer opacity-50"
                      onClick={() => closeImg()}
                      src={closeIcon}
                      alt="fermer close"/>
-                <span className="fixed bg-black text-white md:text-3xl text-base md:top-32 md:left-3 top-2 px-2 rounded-xl">
+                <span
+                    className="fixed bg-black text-white md:text-3xl md:right-1 md:top-4 text-base top-3 px-2 rounded-xl">
                     {holdTitle}
                 </span>
             </div>

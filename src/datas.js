@@ -24,29 +24,35 @@ import img023 from './Assets/Images/WP - Tower.png'
 import img024 from './Assets/Images/WP - TreeBomb.png'
 import img025 from './Assets/Images/WP - Violin.png'
 import img026 from './Assets/Images/WP - ZeldaStyle.png'
+import img027 from './Assets/Images/RoundTheCorner.png'
 
 
 
 export const datas = [
     {
         id: "01",
-        img: img001
+        img: img001,
+        title: "City under a color storm"
     },
     {
         id: "02",
-        img: img002
+        img: img002,
+        title: "City under color"
     },
     {
         id: "03",
-        img: img003
+        img: img003,
+        title: "Super stylish Mario"
     },
     {
         id: "04",
-        img: img004
+        img: img004,
+        title: "Trump riding a dragon"
     },
     {
         id: "05",
-        img: img005
+        img: img005,
+        title: "Bouvier in a suit"
     },
     {
         id: "06",
@@ -60,27 +66,33 @@ export const datas = [
     },
     {
         id: "08",
-        img: img008
+        img: img008,
+        title: "The Batman, reworked"
     },
     {
         id: "09",
-        img: img009
+        img: img009,
+        title: "Focus"
     },
     {
         id: "10",
-        img: img010
+        img: img010,
+        title: "The Hanna Barbera Batman"
     },
     {
         id: "11",
-        img: img011
+        img: img011,
+        title: "Alone alien"
     },
     {
         id: "12",
-        img: img012
+        img: img012,
+        title: "Super stylish wizzard"
     },
     {
         id: "13",
-        img: img013
+        img: img013,
+        title: "In the bottle"
     },
     {
         id: "14",
@@ -133,5 +145,10 @@ export const datas = [
     {
         id: "26",
         img: img026
+    },
+    {
+        id: "27",
+        img: img027,
+        title: "Round the corner"
     }
 ]
