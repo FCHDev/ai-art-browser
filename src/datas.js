@@ -96,55 +96,68 @@ export const datas = [
     },
     {
         id: "14",
-        img: img014
+        img: img014,
+        title: "Flower power guitar"
     },
     {
         id: "15",
-        img: img015
+        img: img015,
+        title: "Hacking the world"
     },
     {
         id: "16",
-        img: img016
+        img: img016,
+        title: "Exploring space"
     },
     {
         id: "17",
-        img: img017
+        img: img017,
+        title: "Japanese garden"
     },
     {
         id: "18",
-        img: img018
+        img: img018,
+        title: "Kim Jon Un in Hawaï"
     },
     {
         id: "19",
-        img: img019
+        img: img019,
+        title: "Paris crazy purple sky"
     },
     {
         id: "20",
-        img: img020
+        img: img020,
+        title: "Pianist (Miyazaki style)"
     },
     {
         id: "21",
-        img: img021
+        img: img021,
+        title: "Asian mountains"
     },
     {
         id: "22",
-        img: img022
+        img: img022,
+        title: "The lightning"
     },
     {
         id: "23",
-        img: img023
+        img: img023,
+        title: "Endless tower"
     },
     {
         id: "24",
-        img: img024
+        img: img024,
+        title: "Bomb tree"
     },
     {
         id: "25",
-        img: img025
+        img: img025,
+        title: "Psychedelic violin"
     },
     {
         id: "26",
-        img: img026
+        img: img026,
+        title: "A kind of Zelda castle"
     },
     {
         id: "27",
