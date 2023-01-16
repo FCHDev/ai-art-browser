@@ -36,6 +36,9 @@ body {
     object-fit: cover;
     cursor: pointer;
 }
+.gallery-item img:hover {
+
+}
 
 .modal {
     width: 100%;
@@ -47,7 +50,7 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #161215;
-    transition: opacity .4s ease, visibility .4s ease, transform .5s ease-in-out;
+    transition: opacity .2s ease, visibility .2s ease, transform .3s ease-in-out;
     visibility: hidden;
     opacity: 0;
     transform: scale(0);
