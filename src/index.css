@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alexandria:wght@400;700&family=Kanit&family=Lobster&family=Noto+Sans+JP:wght@400;900&family=Nunito:wght@400;700&family=Poppins&family=Prompt&family=Roboto+Mono&family=Sono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #161215;
+    color: #FAF7F0;
+    font-family: 'Nunito', sans-serif;
+}
+
+.gallery {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2vmin;
+    padding: 0 14px;
+}
+
+.gallery::after {
+    content: '';
+    display: block;
+    flex-grow: 10;
+}
+
+.gallery-item {
+    height: 250px;
+    flex-grow: 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.modal {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #161215;
+    transition: opacity .4s ease, visibility .4s ease, transform .5s ease-in-out;
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(0);
+    overflow: hidden;
+    z-index: 999;
+}
+.modal.open {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+}
+/*.close-icon {*/
+/*    position: fixed;*/
+/*    height: 50px;*/
+/*    width: auto;*/
+/*    left: 2vh;*/
+/*    top: 1vw;*/
+/*    cursor: pointer;*/
+/*}*/
