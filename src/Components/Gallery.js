@@ -6,11 +6,13 @@ const Gallery = () => {
     // CLIQUE SUR L'IMAGE ET OUVRE MODALE
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
+    const [holdTitle, setHoldTitle] = useState('')
     const [view, setView] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
 
-    function getImg(imgSrc) {
+    function getImg(imgSrc, imgTitle) {
         setHoldSrc(imgSrc)
+        setHoldTitle(imgTitle)
         setModal(true)
     }
 
@@ -25,7 +27,7 @@ const Gallery = () => {
                 {datas.sort(function () {
                     return 0.5 - Math.random();
                 }).map((pic, index) =>
-                    <div className="gallery-item" key={index} onClick={() => getImg(pic.img)}>
+                    <div className="gallery-item" key={index} onClick={() => getImg(pic.img, pic?.title)}>
                         <img className="block object-cover object-center w-full h-full rounded-lg hover:opacity-50"
                              src={pic.img}
                              alt={pic.id}/>
@@ -36,12 +38,15 @@ const Gallery = () => {
 
     return (
         <>
-            <div className={`${!modal ? "modal" : "modal open"}`}>
+            <div className={`${!modal ? "modal" : "modal open relative"}`}>
                 <img src={holdSrc} alt="growth"/>
                 <img className="fixed md:top-10 md:left-10 bottom-7 h-8 cursor-pointer opacity-50"
                      onClick={() => closeImg()}
                      src={closeIcon}
                      alt="fermer close"/>
+                <span className="fixed bg-black text-white md:text-3xl text-base md:top-32 md:left-3 top-2 px-2 rounded-xl">
+                    {holdTitle}
+                </span>
             </div>
 
             {isLoaded

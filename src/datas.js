@@ -50,11 +50,13 @@ export const datas = [
     },
     {
         id: "06",
-        img: img006
+        img: img006,
+        title: "Cyber Guy in blue"
     },
     {
         id: "07",
-        img: img007
+        img: img007,
+        title: "Asian city @night"
     },
     {
         id: "08",

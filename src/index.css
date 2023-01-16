@@ -52,12 +52,16 @@ body {
     opacity: 0;
     transform: scale(0);
     overflow: hidden;
-    z-index: 999;
+    z-index: 950;
 }
 .modal.open {
     visibility: visible;
     opacity: 1;
     transform: scale(1);
+}
+
+.img-title {
+    z-index: 999;
 }
 /*.close-icon {*/
 /*    position: fixed;*/
