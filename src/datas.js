@@ -25,6 +25,20 @@ import img024 from './Assets/Images/WP - TreeBomb.jpg'
 import img025 from './Assets/Images/WP - Violin.jpg'
 import img026 from './Assets/Images/WP - ZeldaStyle.jpg'
 import img027 from './Assets/Images/RoundTheCorner.jpg'
+import img028 from './Assets/Images/DarkMacron.jpg'
+import img029 from './Assets/Images/DarkSoulBoss - ElonMusk.jpg'
+import img030 from './Assets/Images/DarkSoulBoss - JeffBezos.jpg'
+import img031 from './Assets/Images/DeadpoolDog.png'
+import img032 from './Assets/Images/DarkSoulBoss - Obama.jpg'
+import img033 from './Assets/Images/ObamaWithLightSaber.jpg'
+import img034 from './Assets/Images/ChristineDarkSouls.jpg'
+import img035 from './Assets/Images/StairwayToHeaven.jpg'
+import img036 from './Assets/Images/YodaGlasses.jpg'
+import img037 from './Assets/Images/TrumpPeluche.jpg'
+import img038 from './Assets/Images/TrooperCorde.jpg'
+import img039 from './Assets/Images/TheKiss.jpg'
+import img040 from './Assets/Images/TrumpCaricature.jpg'
+
 
 
 
@@ -127,7 +141,7 @@ export const datas = [
     {
         id: "20",
         img: img020,
-        title: "Pianist (Miyazaki style)"
+        title: "The pianist (Miyazaki style)"
     },
     {
         id: "21",
@@ -163,5 +177,70 @@ export const datas = [
         id: "27",
         img: img027,
         title: "Round the corner"
-    }
+    },
+    {
+        id: "28",
+        img: img028,
+        title: "Dark Macron"
+    },
+    {
+        id: "29",
+        img: img029,
+        title: "Elon Musk, Dark Souls Boss"
+    },
+    {
+        id: "30",
+        img: img030,
+        title: "Jeff Bezos, Dark Souls Boss"
+    },
+    {
+        id: "31",
+        img: img031,
+        title: "Deadpool dog"
+    },
+    {
+        id: "32",
+        img: img032,
+        title: "Barack Obama, Dark Souls Boss"
+    },
+    {
+        id: "33",
+        img: img033,
+        title: "May the force be with Barack Obama"
+    },
+    {
+        id: "34",
+        img: img034,
+        title: "Christine Lagarde, Dark Souls Boss"
+    },
+    {
+        id: "35",
+        img: img035,
+        title: "Stairway to heaven"
+    },
+    {
+        id: "36",
+        img: img036,
+        title: "Master Yoda with glasses"
+    },
+    {
+        id: "37",
+        img: img037,
+        title: "Trump plush"
+    },
+    {
+        id: "38",
+        img: img038,
+        title: "Jump rope Stormtrooper"
+    },
+    {
+        id: "39",
+        img: img039,
+        title: "The kiss"
+    },
+    {
+        id: "40",
+        img: img040,
+        title: "CaricaTrump"
+    },
 ]
