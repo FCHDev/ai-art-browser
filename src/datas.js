@@ -38,6 +38,12 @@ import img037 from './Assets/Images/TrumpPeluche.jpg'
 import img038 from './Assets/Images/TrooperCorde.jpg'
 import img039 from './Assets/Images/TheKiss.jpg'
 import img040 from './Assets/Images/TrumpCaricature.jpg'
+import img041 from './Assets/Images/KimJongClown.jpg'
+import img042 from './Assets/Images/InstaNeonLogo.jpg'
+import img043 from './Assets/Images/MarkZuckerDumb.jpg'
+import img044 from './Assets/Images/MarkZuckerBan.jpg'
+import img045 from './Assets/Images/MarkByOda.jpg'
+import img046 from './Assets/Images/AngryBlueGoku.jpg'
 
 
 
@@ -243,4 +249,34 @@ export const datas = [
         img: img040,
         title: "CaricaTrump"
     },
+    {
+        id: "41",
+        img: img041,
+        title: "Kim Jong-Clown"
+    },
+    {
+        id: "42",
+        img: img042,
+        title: "Instagram Neon rework"
+    },
+    {
+        id: "43",
+        img: img043,
+        title: "Mark Zucker-Dumb"
+    },
+    {
+        id: "44",
+        img: img044,
+        title: "Mark ? Quiet !"
+    },
+    {
+        id: "45",
+        img: img045,
+        title: "Mark, by Eiichirō Oda"
+    },
+    {
+        id: "46",
+        img: img046,
+        title: "Angry blue Goku"
+    }
 ]
