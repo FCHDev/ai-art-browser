@@ -12,10 +12,10 @@ body {
 
 .gallery {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 10px auto;
     display: flex;
     flex-wrap: wrap;
-    gap: 2vmin;
+    gap: 1.5vmin;
     padding: 0 14px;
 }
 
@@ -35,6 +35,7 @@ body {
     height: 100%;
     object-fit: cover;
     cursor: pointer;
+    z-index: 1;
 }
 .gallery-item img:hover {
 
@@ -77,4 +78,10 @@ q::before {
 q::after {
     content: close-quote;
 }
+
+.cl-userButtonAvatarBox {
+    width: 75px;
+    height: auto;
+}
+
 

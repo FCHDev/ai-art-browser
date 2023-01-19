@@ -44,6 +44,18 @@ import img043 from './Assets/Images/MarkZuckerDumb.jpg'
 import img044 from './Assets/Images/MarkZuckerBan.jpg'
 import img045 from './Assets/Images/MarkByOda.jpg'
 import img046 from './Assets/Images/AngryBlueGoku.jpg'
+import img047 from './Assets/Images/BBKing.jpg'
+import img048 from './Assets/Images/GardenOnTheMoon.jpg'
+import img049 from './Assets/Images/SnoopDoggyNoble.jpg'
+import img050 from './Assets/Images/FightingRat.jpg'
+import img051 from './Assets/Images/CatsDominate.jpg'
+import img052 from './Assets/Images/UglyKrilin.jpg'
+import img053 from './Assets/Images/Montmartre.jpg'
+import img054 from './Assets/Images/AngusVeryYoung.jpg'
+import img055 from './Assets/Images/BobJames.jpg'
+import img056 from './Assets/Images/ItsBurning.jpg'
+import img057 from './Assets/Images/Jesus.jpg'
+import img058 from './Assets/Images/StatueLiberty.jpg'
 
 
 
@@ -267,7 +279,7 @@ export const datas = [
     {
         id: "44",
         img: img044,
-        title: "Mark ? Quiet !"
+        title: "M. Zuckerberg ? Quiet !"
     },
     {
         id: "45",
@@ -278,5 +290,65 @@ export const datas = [
         id: "46",
         img: img046,
         title: "Angry blue Goku"
+    },
+    {
+        id: "47",
+        img: img047,
+        title: "BB King caricature"
+    },
+    {
+        id: "48",
+        img: img048,
+        title: "Garden on the Moon"
+    },
+    {
+        id: "49",
+        img: img049,
+        title: "Snoop Doggy Noble"
+    },
+    {
+        id: "50",
+        img: img050,
+        title: "Do you wanna fight cat ?"
+    },
+    {
+        id: "51",
+        img: img051,
+        title: "Cats rule the world"
+    },
+    {
+        id: "52",
+        img: img052,
+        title: "Krilin is very annoyed"
+    },
+    {
+        id: "53",
+        img: img053,
+        title: "Montmartre, Paris"
+    },
+    {
+        id: "54",
+        img: img054,
+        title: "Angus 'very' Young (AC/DC)"
+    },
+    {
+        id: "55",
+        img: img055,
+        title: "Bob James, sketched"
+    },
+    {
+        id: "56",
+        img: img056,
+        title: "It's burning 🔥"
+    },
+    {
+        id: "57",
+        img: img057,
+        title: "King Jesus"
+    },
+    {
+        id: "58",
+        img: img058,
+        title: "Statue of Liberty's burning"
     }
 ]

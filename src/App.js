@@ -1,27 +1,50 @@
-import Gallery from "./Components/Gallery";
-import midJourneyLogo from "./Assets/Images/midjourneyLogo.png"
 import React from "react";
+import {
+    ClerkProvider,
+    SignedIn,
+    SignedOut,
+    UserButton,
+    useUser,
+    RedirectToSignIn
+} from "@clerk/clerk-react";
+import { dark } from '@clerk/themes'
+import Header from "./Components/Header";
 import {datas} from "./datas";
+import Gallery from "./Components/Gallery";
+
+const frontendApi = process.env.REACT_APP_CLERK_FRONTEND_API;
 
 function App() {
-
     const numberOfPics = datas.length
+    return (
+        <>
+            <Header numberOfPics={numberOfPics}/>
+            <ClerkProvider frontendApi={frontendApi}
+                           appearance={{
+                               baseTheme: dark
+                           }}>
+                <SignedIn>
+                    <Hello />
+                    <Gallery/>
+                </SignedIn>
+                <SignedOut>
+                    <div className="text-center text-5xl mt-10">À plus dans l'bus 🚌</div>
+                    <RedirectToSignIn />
+                </SignedOut>
+            </ClerkProvider>
+        </>
+
+    );
+}
+
+function Hello() {
+    // Get the user's first name
+    const {user} = useUser();
 
     return (
-        <div className="w-full mx-auto flex flex-col items-center py-5">
-            <a href="https://www.midjourney.com/" target="_blank" rel="noreferrer noopener">
-                <img className="md:fixed md:block hidden rounded-full h-20 top-5 left-10" src={midJourneyLogo}
-                     alt="midjourney"/>
-            </a>
-            <h1 className="text-center text-4xl md:text-6xl font-bold">
-                My A.I. Art Gallery
-            </h1>
-            <div className="flex h-14 justify-evenly items-center mx-auto">
-                <h4 className="mr-2">{numberOfPics} artworks made with MidJourney</h4>
-                <img className="h-6 rounded-xl" src={midJourneyLogo} alt="midjourney"/>
-            </div>
-
-            <Gallery/>
+        <div className="flex items-center flex-col pb-3">
+            <UserButton userProfileMode={"modal"} appearance={{}}/>
+            {user ? <h2 className="md:block hidden">{user.firstName}</h2> : null}
         </div>
     );
 }

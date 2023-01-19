@@ -1,49 +1,61 @@
 import React, {useEffect, useState} from 'react';
 import {datas} from '../datas'
 import closeIcon from '../Assets/SVG/close.svg'
+import ArtWork from "./ArtWork";
+import Favorites from "../Pages/Favorites";
 
 const Gallery = () => {
     // CLIQUE SUR L'IMAGE ET OUVRE MODALE
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
-    const [view, setView] = useState(null)
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [fav, setFav] = useState([])
 
-    function getImg(imgSrc, imgTitle) {
-        setHoldSrc(imgSrc)
-        setHoldTitle(imgTitle)
-        setModal(true)
-    }
-
+    // Clique pour ouvrir l'image dans une modale pleine page
     function closeImg() {
         setModal(false)
     }
 
     useEffect(() => {
-        setIsLoaded(true)
-        setView(
-            <div className={`gallery`}>
-                {datas.sort(function () {
-                    return 0.5 - Math.random();
-                }).map((pic, index) =>
-                    <div className="gallery-item" key={index} onClick={() => getImg(pic.img, pic?.title)}>
-                        <img className="
-                        block object-cover object-center w-full h-full rounded-lg hover:opacity-50
-                        transition ease-in-out delay-75 md:hover:-translate-y-1 md:hover:scale-110 duration-75"
-                             src={pic.img}
-                             alt={pic?.title}
-                             title={pic?.title}/>
-                    </div>
-                )}
-            </div>)
-    }, [])
+        // Charger les favoris stockés à partir du stockage local
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites'));
+        if (storedFavorites) {
+            setFav(storedFavorites);
+        }
+    }, []);
+
+    useEffect(() => {
+        // Stocker les favoris dans le stockage local à chaque mise à jour
+        localStorage.setItem('favorites', JSON.stringify(fav));
+    }, [fav]);
+
+
+    function clearFavorites() {
+        setFav([]);
+        console.log(fav)
+        localStorage.clear();
+    }
+
+    function toggleFavorite(id, src, title) {
+        setFav(prevFavorites => {
+            const alreadyFavorited = prevFavorites.find(fav => fav.id === id);
+            if (alreadyFavorited) {
+                return prevFavorites.filter(item => item !== alreadyFavorited);
+            } else {
+                return [...prevFavorites, {id, src, title}];
+            }
+        })
+    }
 
     return (
         <>
+            {/*SECTION FAV*/}
+            <Favorites fav={fav} clearFavorites={clearFavorites}/>
+
+            {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
             <div className={`${!modal ? "modal" : "modal open relative"}`}>
                 <q
-                    className="img-title fixed bg-black text-white
+                    className="img-title fixed bg-[#161215] text-white
                     md:text-3xl md:right-8 md:top-4
                     top-8 px-4 rounded-xl">
                     {holdTitle}
@@ -55,10 +67,25 @@ const Gallery = () => {
                      alt="fermer close"/>
             </div>
 
-            {isLoaded
-                ? view
-                : "Loading Art..."}
-
+            {/*VUE PRINCIPALE*/}
+            <div className="gallery">
+                {datas
+                    // .sort(function () {
+                    //     return 0.5 - Math.random();
+                    // })
+                    .map((pic) =>
+                            <ArtWork
+                                key={pic.id}
+                                src={pic.img}
+                                title={pic.title}
+                                isFavorited={fav.find(fav => fav.id === pic.id)}
+                                onClick={() => toggleFavorite(pic.id, pic.img, pic.title)}
+                                setHoldSrc={setHoldSrc}
+                                setHoldTitle={setHoldTitle}
+                                setModal={setModal}
+                            />
+                    )}
+            </div>
         </>
     )
 
