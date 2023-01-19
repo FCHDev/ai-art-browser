@@ -1,4 +1,4 @@
-import React from "react";
+import React, {lazy, Suspense} from "react";
 import {
     ClerkProvider,
     SignedIn,
@@ -7,11 +7,15 @@ import {
     useUser,
     RedirectToSignIn
 } from "@clerk/clerk-react";
-import { dark } from '@clerk/themes'
+import {dark} from '@clerk/themes'
 import Header from "./Components/Header";
 import {datas} from "./datas";
-import Gallery from "./Components/Gallery";
+// import Gallery from "./Components/Gallery";
 
+// On implémente le lazy loading sur la page principale
+const Gallery = lazy(() => import('./Components/Gallery'));
+
+// On configure notre clé API Clerk dans un variable d'environnement'
 const frontendApi = process.env.REACT_APP_CLERK_FRONTEND_API;
 
 function App() {
@@ -24,12 +28,14 @@ function App() {
                                baseTheme: dark
                            }}>
                 <SignedIn>
-                    <Hello />
-                    <Gallery/>
+                    <Hello/>
+                    <Suspense fallback={<div>Chargement...</div>}>
+                        <Gallery/>
+                    </Suspense>
                 </SignedIn>
                 <SignedOut>
                     <div className="text-center text-5xl mt-10">À plus dans l'bus 🚌</div>
-                    <RedirectToSignIn />
+                    <RedirectToSignIn/>
                 </SignedOut>
             </ClerkProvider>
         </>
