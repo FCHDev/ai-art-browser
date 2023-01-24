@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ArtWork = ({src, title, isFavorited, onClick, setHoldSrc, setHoldTitle, setModal}) => {
+const ArtWork = ({src, title, isFavorited, onClick, setHoldSrc, setHoldTitle, setModal, isLoading}) => {
 
     function getImg(imgSrc, imgTitle) {
         setHoldSrc(imgSrc)
@@ -18,7 +18,7 @@ const ArtWork = ({src, title, isFavorited, onClick, setHoldSrc, setHoldTitle, se
                  onClick={() => getImg(src, title)}
             />
             <svg
-                className="absolute bottom-1 right-1 z-10 cursor-pointer"
+                className={`${isLoading ? "hidden" : "block"} absolute bottom-1 right-1 z-10 cursor-pointer`}
                 onClick={onClick}
                 id="Heart"
                 height="30px"

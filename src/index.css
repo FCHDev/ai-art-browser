@@ -12,7 +12,7 @@ body {
 
 .gallery {
     max-width: 1200px;
-    margin: 10px auto;
+    margin: 10px auto 120px;
     display: flex;
     flex-wrap: wrap;
     gap: 1.5vmin;
@@ -37,6 +37,7 @@ body {
     cursor: pointer;
     z-index: 1;
 }
+
 .gallery-item img:hover {
 
 }
@@ -58,6 +59,7 @@ body {
     overflow: hidden;
     z-index: 950;
 }
+
 .modal.open {
     visibility: visible;
     opacity: 1;
@@ -72,16 +74,39 @@ body {
 q {
     quotes: "« " " »";
 }
+
 q::before {
     content: open-quote;
 }
+
 q::after {
     content: close-quote;
 }
 
 .cl-userButtonAvatarBox {
-    width: 75px;
+    width: 60px;
     height: auto;
+}
+
+.admin {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    background: lightgrey;
+    border-radius: 10px;
+}
+
+
+.artwork-preview {
+    max-width: 300px;
+}
+
+.artwork-preview img {
+    width: 100%;
 }
 
 
