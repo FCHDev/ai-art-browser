@@ -17,8 +17,6 @@ const Gallery = ({fav, setFav, artworks, isLoading}) => {
     }
 
 
-    console.log(holdTitle)
-
 
     // const download = () => {
     //     const element = document.createElement("a");
