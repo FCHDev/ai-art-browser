@@ -31,7 +31,7 @@ const ArtWork = ({
                  onClick={(event) => getImg(src, title, event)}
             />
             <div
-                className={`${isNew(creationDate) ? "" : "hidden"} h-14 absolute top-0 right-0 z-10`}>
+                className={`${isNew(creationDate) ? "" : "hidden"} absolute top-0 right-0 z-10`}>
                 <img src={New} alt="bandeau nouvel item"/>
             </div>
             <svg
