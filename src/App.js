@@ -29,12 +29,31 @@ function App() {
     // eslint-disable-next-line
     const [isLoading, setIsLoading] = useState(true);
 
+
+    // FETCH INITIAL
+    useEffect(() => {
+        onValue(ref(db), (snapshot) => {
+            const data = snapshot.val();
+            if (data !== null) {
+                // eslint-disable-next-line
+                Object.values([data]).map((item) => {
+                    setArtworks(Object.values(item))
+                    setTotalArtworks(Object.values(item).length)
+                    setIsLoading(false)
+                    console.log("REFRESH USE EFFECT")
+                });
+            }
+        });
+    }, []);
+
+    // GESTION DES FAVORIS / CLEAR
     function clearFavorites() {
         setFav([]);
         localStorage.clear();
     }
 
-    useEffect(() => {
+    // REDISPLAY LES ARTWORKS DANS L'ORDRE INITIAL
+    function refreshHome() {
         onValue(ref(db), (snapshot) => {
             const data = snapshot.val();
             if (data !== null) {
@@ -46,7 +65,9 @@ function App() {
                 });
             }
         });
-    }, []);
+    }
+
+
 
     return (
         <>
@@ -61,9 +82,17 @@ function App() {
                         <Route path="/" element={
                             <>
                                 <SignedIn>
-                                    <Header totalArtworks={totalArtworks} fav={fav}/>
+                                    <Header
+                                        totalArtworks={totalArtworks}
+                                        fav={fav}
+                                        refreshHome={refreshHome}/>
                                     <Suspense fallback={<div className="text-center">Chargement...</div>}>
-                                        <Gallery fav={fav} setFav={setFav} artworks={artworks} isLoading={isLoading}/>
+                                        <Gallery
+                                            fav={fav}
+                                            setFav={setFav}
+                                            artworks={artworks}
+                                            isLoading={isLoading}
+                                            refreshHome={refreshHome}/>
                                     </Suspense>
                                     <Hello/>
                                 </SignedIn>
@@ -74,7 +103,8 @@ function App() {
                         }/>
                         <Route path="/upload-image" element={
                             <AdminPage artworks={artworks}
-                                       totalArtwork={totalArtworks}/>
+                                       totalArtwork={totalArtworks}
+                                       refreshHome={refreshHome}/>
                         }/>
                         <Route path="/favorites" element={
                             <>

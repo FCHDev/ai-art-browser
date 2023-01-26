@@ -1,35 +1,24 @@
 import React, {lazy, useEffect, useState} from 'react';
 import closeIcon from '../Assets/SVG/close.svg'
 import ScrollToTop from "react-scroll-to-top";
+import {isNew} from "../Utility/functions";
 
 const ArtWork = lazy(() => import('./ArtWork'));
 
-const Gallery = ({fav, setFav, artworks, isLoading}) => {
+const Gallery = ({fav, setFav, artworks, isLoading, refreshHome}) => {
     // CLIQUE SUR L'IMAGE ET OUVRE MODALE
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
 
+    console.log("Gallery Render")
 
     // Clique pour ouvrir l'image dans une modale pleine page
-    function closeImg() {
+    function closeImg(e) {
+        e.preventDefault()
         setModal(false)
     }
 
-
-
-    // const download = () => {
-    //     const element = document.createElement("a");
-    //     const file = new Blob(
-    //         [
-    //             holdSrc
-    //         ],
-    //         {type: "image/jpg"}
-    //     );
-    //     element.href = URL.createObjectURL(file);
-    //     element.download = `${holdTitle}.jpg`;
-    //     element.click()
-    // }
 
     useEffect(() => {
         // Charger les favoris stockés à partir du stockage local
@@ -58,48 +47,72 @@ const Gallery = ({fav, setFav, artworks, isLoading}) => {
 
     return (
         <>
-            {/*SECTION FAV*/}
-            {/*<Favorites fav={fav} clearFavorites={clearFavorites}/>*/}
 
             {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
             <div className={`${!modal ? "modal" : "modal open relative"} flex flex-col`}>
                 <q
                     className="img-title fixed bg-[#161215] text-white
-                    md:text-3xl md:right-8 md:top-4
+                    md:text-3xl md:top-4
                     top-8 px-4 rounded-xl">
                     {holdTitle}
                 </q>
                 <img className="rounded-xl max-h-screen mb-5" src={holdSrc} alt={holdTitle}/>
                 <img className="fixed md:top-10 md:left-10 bottom-10 h-8 cursor-pointer opacity-80"
-                     onClick={() => closeImg()}
+                     onClick={(e) => closeImg(e)}
                      src={closeIcon}
                      alt="fermer close"/>
-                {/*<a href="/" download={true}>*/}
-                {/*    <button*/}
-                {/*        className="border rounded-xl flex items-center justify-center px-3 mx-3 hover:bg-gray-700">*/}
-                {/*        Download Image*/}
-                {/*    </button>*/}
-                {/*</a>*/}
             </div>
+
+            {/*VUE NEW*/}
+            <div className="flex flex-col mx-auto md:my-16 my-5">
+                <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20">
+                    {
+                        artworks
+                            .filter((pic) => isNew(pic.creationDate))
+                            .sort((a, b) => (a.creationDate < b.creationDate ? 1 : -1))
+                            .map((pic) =>
+                                <ArtWork
+                                    key={pic.id}
+                                    src={pic.imgURL}
+                                    title={pic.title}
+                                    creationDate={pic.creationDate}
+                                    isFavorited={fav.find(fav => fav.id === pic.id)}
+                                    onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)}
+                                    setHoldSrc={setHoldSrc}
+                                    setHoldTitle={setHoldTitle}
+                                    setModal={setModal}
+                                    isLoading={isLoading}
+                                    refreshHome={refreshHome}
+                                />
+                            )}
+                    <div
+                        className={`bg-[#009688] h-[30px] rounded-xl text-center font-bold text-xl flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
+                        What's new ?
+                    </div>
+                </div>
+            </div>
+
 
             {/*VUE PRINCIPALE*/}
             <div className="gallery">
                 {
                     artworks
-                        // .sort(function () {
-                        //     return 0.5 - Math.random();
-                        // })
+                        .sort((a, b) => (a.creationDate && b.creationDate
+                            ? (a.creationDate < b.creationDate ? 1 : -1)
+                            : null ))
                         .map((pic) =>
                             <ArtWork
                                 key={pic.id}
                                 src={pic.imgURL}
                                 title={pic.title}
+                                creationDate={pic.creationDate}
                                 isFavorited={fav.find(fav => fav.id === pic.id)}
                                 onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)}
                                 setHoldSrc={setHoldSrc}
                                 setHoldTitle={setHoldTitle}
                                 setModal={setModal}
                                 isLoading={isLoading}
+                                refreshHome={refreshHome}
                             />
                         )}
             </div>

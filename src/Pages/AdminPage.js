@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Link} from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {AiFillCaretLeft} from "react-icons/ai";
@@ -7,9 +8,8 @@ import {refDb} from "../service/firebase-config";
 import {db, storage} from "../service/firebase-config";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import {v4} from "uuid";
-import {Link} from "react-router-dom";
 
-const AdminPage = ({artworks, totalArtwork}) => {
+const AdminPage = ({artworks, totalArtwork, refreshHome}) => {
     /// UPLOAD IMAGES
     const [imageUpload, setImageUpload] = useState(null);
     const [picPreview, setPicPreview] = useState();
@@ -39,7 +39,7 @@ const AdminPage = ({artworks, totalArtwork}) => {
 
 
     // STATES
-
+    const creationDate = new Date().getTime()
     const id = totalArtwork;
     const [imgURL, setImgURL] = useState("");
     const [title, setTitle] = React.useState("")
@@ -54,13 +54,18 @@ const AdminPage = ({artworks, totalArtwork}) => {
         setTitle(event.target.value);
     };
 
+    // const handleCreationDate = (event) => {
+    //     setCreationDate(event.target.value);
+    // };
+
 
     // FONCTION POUR CREER NOUVEAU GUITARISTE
     const writeUserData = () => {
         set(refDb(db, `/${title}`), {
             id,
             imgURL,
-            title
+            title,
+            creationDate
         });
         setImgURL("")
         setTitle("");
@@ -99,6 +104,18 @@ const AdminPage = ({artworks, totalArtwork}) => {
                     multiline
                     maxRows={1}
                     value={id}
+                    className="search"
+                    margin="normal"
+                    type="text"
+                    fullWidth={true}
+                />
+                <TextField
+                    id="date"
+                    label="Creation date"
+                    disabled={true}
+                    multiline
+                    maxRows={1}
+                    value={creationDate}
                     className="search"
                     margin="normal"
                     type="text"
