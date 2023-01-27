@@ -1,4 +1,4 @@
-import React, {lazy, Suspense, useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Route, Routes} from "react-router-dom";
 import {UserProvider} from "./Context/Context";
 import {
@@ -10,66 +10,28 @@ import {
     RedirectToSignIn
 } from "@clerk/clerk-react";
 import {dark} from '@clerk/themes'
-import {onValue, ref} from "firebase/database";
-import {db} from "./service/firebase-config";
 import Header from "./Components/Header";
+import Gallery from "./Components/Gallery";
 import Favorites from "./Pages/Favorites";
 import AdminPage from "./Pages/AdminPage";
 
-// On implémente le lazy loading sur la page principale
-const Gallery = lazy(() => import('./Components/Gallery'));
 
 // On configure notre clé API Clerk dans un variable d'environnement'
 const frontendApi = process.env.REACT_APP_CLERK_FRONTEND_API;
 
 function App() {
+    // STATES GLOBAUX
     const [fav, setFav] = useState([])
     const [artworks, setArtworks] = useState([])
     const [totalArtworks, setTotalArtworks] = useState("")
-    // eslint-disable-next-line
+
     const [isLoading, setIsLoading] = useState(true);
 
-
-    // FETCH INITIAL
-    useEffect(() => {
-        onValue(ref(db), (snapshot) => {
-            const data = snapshot.val();
-            if (data !== null) {
-                // eslint-disable-next-line
-                Object.values([data]).map((item) => {
-                    setArtworks(Object.values(item))
-                    setTotalArtworks(Object.values(item).length)
-                    setIsLoading(false)
-                });
-            } else {
-                throw new Error("Il y a un souci")
-            }
-            console.log("Updated")
-        });
-        console.log("Mounted")
-    }, []);
-
-    console.log(artworks)
 
     // GESTION DES FAVORIS / CLEAR
     function clearFavorites() {
         setFav([]);
         localStorage.clear();
-    }
-
-    // REDISPLAY LES ARTWORKS DANS L'ORDRE INITIAL
-    function refreshHome() {
-        onValue(ref(db), (snapshot) => {
-            const data = snapshot.val();
-            if (data !== null) {
-                // eslint-disable-next-line
-                Object.values([data]).map((item) => {
-                    setArtworks(Object.values(item))
-                    setTotalArtworks(Object.values(item).length)
-                    setIsLoading(false)
-                });
-            }
-        });
     }
 
 
@@ -89,14 +51,15 @@ function App() {
                                     <Header
                                         totalArtworks={totalArtworks}
                                         fav={fav}/>
-                                    <Suspense fallback={<div className="text-center">Chargement...</div>}>
+
                                         <Gallery
                                             fav={fav}
                                             setFav={setFav}
                                             artworks={artworks}
+                                            setArtworks={setArtworks}
+                                            setTotalArtworks={setTotalArtworks}
                                             isLoading={isLoading}
-                                            refreshHome={refreshHome}/>
-                                    </Suspense>
+                                            setIsLoading={setIsLoading}/>
                                     <Hello/>
                                 </SignedIn>
                                 <SignedOut>
@@ -106,8 +69,7 @@ function App() {
                         }/>
                         <Route path="/upload-image" element={
                             <AdminPage artworks={artworks}
-                                       totalArtwork={totalArtworks}
-                                       refreshHome={refreshHome}/>
+                                       totalArtwork={totalArtworks}/>
                         }/>
                         <Route path="/favorites" element={
                             <>

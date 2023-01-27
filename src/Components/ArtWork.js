@@ -28,6 +28,7 @@ const ArtWork = ({
             <img className={`${isNew(creationDate) ? "border border-2 border-[#009688]" : ""} block object-cover object-center w-full h-full rounded-lg z-1 cursor-pointer`}
                  src={src}
                  alt={title}
+                 loading={"lazy"}
                  onClick={(event) => getImg(src, title, event)}
             />
 

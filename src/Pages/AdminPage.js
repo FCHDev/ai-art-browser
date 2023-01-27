@@ -9,7 +9,7 @@ import {db, storage} from "../service/firebase-config";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import {v4} from "uuid";
 
-const AdminPage = ({artworks, totalArtwork, refreshHome}) => {
+const AdminPage = ({artworks, totalArtwork}) => {
     /// UPLOAD IMAGES
     const [imageUpload, setImageUpload] = useState(null);
     const [picPreview, setPicPreview] = useState();
