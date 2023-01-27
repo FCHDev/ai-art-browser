@@ -40,11 +40,16 @@ function App() {
                     setArtworks(Object.values(item))
                     setTotalArtworks(Object.values(item).length)
                     setIsLoading(false)
-                    console.log("REFRESH USE EFFECT")
                 });
+            } else {
+                throw new Error("Il y a un souci")
             }
+            console.log("Updated")
         });
+        console.log("Mounted")
     }, []);
+
+    console.log(artworks)
 
     // GESTION DES FAVORIS / CLEAR
     function clearFavorites() {
@@ -68,7 +73,6 @@ function App() {
     }
 
 
-
     return (
         <>
             <ClerkProvider
@@ -84,8 +88,7 @@ function App() {
                                 <SignedIn>
                                     <Header
                                         totalArtworks={totalArtworks}
-                                        fav={fav}
-                                        refreshHome={refreshHome}/>
+                                        fav={fav}/>
                                     <Suspense fallback={<div className="text-center">Chargement...</div>}>
                                         <Gallery
                                             fav={fav}

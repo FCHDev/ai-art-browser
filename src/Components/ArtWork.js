@@ -23,16 +23,17 @@ const ArtWork = ({
     }
 
     return (
-        <div className="gallery-item relative transition ease-in-out delay-75 md:hover:-translate-y-1 md:hover:scale-105 duration-75">
-            <img className={`${isNew(creationDate) ? "border border-2 border-[#009688]" : ""}
-                    //     block object-cover object-center w-full h-full rounded-lg `}
+        <div
+            className="gallery-item relative transition ease-in-out delay-75 md:hover:-translate-y-1 md:hover:scale-105 duration-75">
+            <img className={`${isNew(creationDate) ? "border border-2 border-[#009688]" : ""} block object-cover object-center w-full h-full rounded-lg z-1 cursor-pointer`}
                  src={src}
                  alt={title}
                  onClick={(event) => getImg(src, title, event)}
             />
-            <div
-                className={`${isNew(creationDate) ? "" : "hidden"} h-[50px] absolute top-0 right-0 z-10`}>
-                <img src={New} alt="bandeau nouvel item"/>
+
+            <div className="absolute z-10 top-0 right-0">
+                <img src={New} alt="bandeau nouvel item"
+                     className={`${isNew(creationDate) ? "" : "hidden"}`}/>
             </div>
             <svg
                 className={`${isLoading ? "hidden" : "block"} absolute bottom-1 right-1 z-10 cursor-pointer`}

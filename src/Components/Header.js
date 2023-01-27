@@ -4,7 +4,7 @@ import Heart from "../Assets/SVG/heart.svg";
 import {Link} from "react-router-dom";
 import {useUserContext} from "../Context/Context";
 
-const Header = ({totalArtworks, fav, refreshHome}) => {
+const Header = ({totalArtworks, fav}) => {
 
     const user = useUserContext();
 
@@ -20,8 +20,7 @@ const Header = ({totalArtworks, fav, refreshHome}) => {
             </div>
             <div className="md:w-1/2 mx-auto mt-3 mb-5 h-10 flex justify-center">
                 <Link to="/"
-                      className="border w-1/6 rounded-xl flex items-center justify-center px-3 mx-3 hover:bg-gray-700"
-                      onClick={refreshHome}>
+                      className="border w-1/6 rounded-xl flex items-center justify-center px-3 mx-3 hover:bg-gray-700">
                     <svg className="md:mr-2 fill-current text-white"
                          height="20px"
                          viewBox="0 0 512 512"

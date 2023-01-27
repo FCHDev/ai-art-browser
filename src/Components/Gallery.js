@@ -5,7 +5,7 @@ import {isNew} from "../Utility/functions";
 
 const ArtWork = lazy(() => import('./ArtWork'));
 
-const Gallery = ({fav, setFav, artworks, isLoading, refreshHome}) => {
+const Gallery = ({fav, setFav, artworks, isLoading}) => {
     // CLIQUE SUR L'IMAGE ET OUVRE MODALE
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
@@ -82,7 +82,6 @@ const Gallery = ({fav, setFav, artworks, isLoading, refreshHome}) => {
                                     setHoldTitle={setHoldTitle}
                                     setModal={setModal}
                                     isLoading={isLoading}
-                                    refreshHome={refreshHome}
                                 />
                             )}
                     <div
@@ -112,7 +111,6 @@ const Gallery = ({fav, setFav, artworks, isLoading, refreshHome}) => {
                                 setHoldTitle={setHoldTitle}
                                 setModal={setModal}
                                 isLoading={isLoading}
-                                refreshHome={refreshHome}
                             />
                         )}
             </div>
