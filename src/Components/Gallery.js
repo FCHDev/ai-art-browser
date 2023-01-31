@@ -1,11 +1,12 @@
-import React, {lazy, Suspense, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import ArtWork from "./ArtWork";
+import {isNew} from "../Utility/functions";
+
 import closeIcon from '../Assets/SVG/close.svg'
 import ScrollToTop from "react-scroll-to-top";
-import {isNew} from "../Utility/functions";
 import {onValue, ref} from "firebase/database";
 import {db} from "../service/firebase-config";
 
-const ArtWork = lazy(() => import('./ArtWork'));
 
 const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoading, setIsLoading}) => {
     // STATES LOCAUX
@@ -13,28 +14,66 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
 
-    // CALL FIREBASE
+
+// REPERER LES NEWS
+    function anyNewItems() {
+        let thereIsNews = false
+        artworks.map((item) => {
+            if (isNew(item.date, thereIsNews)) {
+                thereIsNews = true
+            }
+        })
+        return thereIsNews
+    }
+
+    // CREATION IMAGE EN LOCAL STORAGE
     useEffect(() => {
         onValue(ref(db), (snapshot) => {
             const data = snapshot.val();
             if (data !== null) {
-                // eslint-disable-next-line
                 Object.values([data]).map((item) => {
-                    setArtworks(Object.values(item))
-                    setTotalArtworks(Object.values(item).length)
-                    setIsLoading(false)
-                    console.log("🔥🔥🔥🔥 Firebase is called 🔥🔥🔥🔥")
+                    setArtworks(Object.values(item));
+                    setTotalArtworks(Object.values(item).length);
+                    setIsLoading(false);
+                    storeImages();
+                    console.log("🔥🔥🔥🔥 Firebase is called 🔥🔥🔥🔥");
                 });
             } else {
-                throw new Error("Il y a un souci")
+                throw new Error("Il y a un souci");
             }
-            console.log("Updated")
-        });
-        console.log("Mounted")
-    }, [setArtworks, setIsLoading, setTotalArtworks]);
+        }, {onlyOnce: true});
+    }, [db]);
 
-    console.log("Gallery is rendered")
-    console.log(artworks)
+
+// create function to keep images in local storage
+    function storeImages() {
+        localStorage.setItem('localArtworks', JSON.stringify(artworks.map((item) => item.imgURL)));
+        console.log("🔥🔥🔥🔥 Images are stored in local storage 🔥🔥🔥🔥")
+
+    }
+
+    // CALL FIREBASE
+    // useEffect(() => {
+    //         onValue(ref(db), (snapshot) => {
+    //             const data = snapshot.val();
+    //             if (data !== null) {
+    //                 // eslint-disable-next-line
+    //                 Object.values([data]).map((item) => {
+    //                     setArtworks(Object.values(item))
+    //                     setTotalArtworks(Object.values(item).length)
+    //                     setIsLoading(false)
+    //                     console.log("🔥🔥🔥🔥 Firebase is called 🔥🔥🔥🔥")
+    //                     storeImages()
+    //                 });
+    //             } else {
+    //                 throw new Error("Il y a un souci")
+    //             }
+    //             // console.log("Updated")
+    //         }, {onlyOnce: true});
+    //     // console.log("Mounted")
+    // }, [db]);
+
+    // console.log(artworks.map((item) => item.imgURL))
 
 
     // Clique pour ouvrir l'image dans une modale pleine page
@@ -44,6 +83,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
     }
 
 
+    // GESTION DES FAV DANS LE LOCALSTORAGE
     useEffect(() => {
         // Charger les favoris stockés à partir du stockage local
         const storedFavorites = JSON.parse(localStorage.getItem('favorites'));
@@ -71,7 +111,6 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
 
     return (
         <>
-
             {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
             <div className={`${!modal ? "modal" : "modal open relative"} flex flex-col`}>
                 <q
@@ -88,11 +127,8 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
             </div>
 
             {/*VUE NEW*/}
-            <div className="flex flex-col mx-auto md:my-16 my-5">
+            <div className={`${anyNewItems ? "block" : "hidden"} flex flex-col mx-auto md:my-16 my-5`}>
                 <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20">
-                    <Suspense fallback={<div className="text-center">
-                        Chargement...
-                    </div>}>
                     {
                         artworks
                             .filter((pic) => isNew(pic.creationDate))
@@ -111,7 +147,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
                                     isLoading={isLoading}
                                 />
                             )}
-                    </Suspense>
+
                     <div
                         className={`bg-[#009688] h-[30px] rounded-xl text-center font-bold text-xl flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
                         What's new ?
@@ -122,9 +158,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
 
             {/*VUE PRINCIPALE*/}
             <div className="gallery">
-                <Suspense fallback={<div className="text-center">
-                    Chargement...
-                </div>}>
+
                 {
                     artworks
                         .sort((a, b) => (a.creationDate && b.creationDate
@@ -144,7 +178,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
                                 isLoading={isLoading}
                             />
                         )}
-                </Suspense>
+
             </div>
             <ScrollToTop
                 smooth={true}

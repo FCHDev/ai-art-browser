@@ -1,6 +1,7 @@
 import React from 'react';
 import {isNew} from "../Utility/functions";
 import New from "../Assets/SVG/new.svg"
+import LazyLoad from 'react-lazy-load'
 
 const ArtWork = ({
                      src,
@@ -25,17 +26,30 @@ const ArtWork = ({
     return (
         <div
             className="gallery-item relative transition ease-in-out delay-75 md:hover:-translate-y-1 md:hover:scale-105 duration-75">
-            <img className={`${isNew(creationDate) ? "border border-2 border-[#009688]" : ""} block object-cover object-center w-full h-full rounded-lg z-1 cursor-pointer`}
-                 src={src}
-                 alt={title}
-                 loading={"lazy"}
-                 onClick={(event) => getImg(src, title, event)}
-            />
+            <LazyLoad height={250}>
+                <img
+                    className={`${isNew(creationDate) ? "border border-2 border-[#009688]" : ""} block object-cover object-center w-full h-full rounded-lg z-1 cursor-pointer`}
+                    src={src}
+                    alt={title}
+                    loading={"lazy"}
+                    onClick={(event) => getImg(src, title, event)}
+                />
+            </LazyLoad>
 
+            {/*Bandeau sur l'image "new"*/}
             <div className="absolute z-10 top-0 right-0">
                 <img src={New} alt="bandeau nouvel item"
-                     className={`${isNew(creationDate) ? "" : "hidden"}`}/>
+                     className={`${isNew(creationDate) ? "" : "hidden"}`}
+                     loading={"lazy"}/>
             </div>
+
+            {/*Titre sur l'image "new"*/}
+            <div
+                className={`${isNew(creationDate) ? "" : "hidden"} text-sm absolute z-10 bottom-1 left-2 bg-black bg-opacity-50 rounded-xl px-3`}>
+                {title}
+            </div>
+            
+            {/*❤️ sur l'image "new"*/}
             <svg
                 className={`${isLoading ? "hidden" : "block"} absolute bottom-1 right-1 z-10 cursor-pointer`}
                 onClick={onClick}

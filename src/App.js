@@ -24,11 +24,12 @@ function App() {
     const [fav, setFav] = useState([])
     const [artworks, setArtworks] = useState([])
     const [totalArtworks, setTotalArtworks] = useState("")
-
     const [isLoading, setIsLoading] = useState(true);
 
 
     // GESTION DES FAVORIS / CLEAR
+
+
     function clearFavorites() {
         setFav([]);
         localStorage.clear();
