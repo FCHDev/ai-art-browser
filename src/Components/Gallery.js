@@ -42,7 +42,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
                 throw new Error("Il y a un souci");
             }
         }, {onlyOnce: true});
-    }, [db]);
+    }, []);
 
 
 // create function to keep images in local storage
