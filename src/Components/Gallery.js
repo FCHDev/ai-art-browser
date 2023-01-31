@@ -18,6 +18,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
 // REPERER LES NEWS
     function anyNewItems() {
         let thereIsNews = false
+        // eslint-disable-next-line
         artworks.map((item) => {
             if (isNew(item.date, thereIsNews)) {
                 thereIsNews = true
@@ -31,6 +32,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
         onValue(ref(db), (snapshot) => {
             const data = snapshot.val();
             if (data !== null) {
+                // eslint-disable-next-line
                 Object.values([data]).map((item) => {
                     setArtworks(Object.values(item));
                     setTotalArtworks(Object.values(item).length);
@@ -41,7 +43,8 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
             } else {
                 throw new Error("Il y a un souci");
             }
-        }, {onlyOnce: true});
+        });
+        // eslint-disable-next-line
     }, []);
 
 
