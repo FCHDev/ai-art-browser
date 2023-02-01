@@ -101,7 +101,7 @@ q::after {
     align-items: center;
     flex-direction: column;
     padding: 10px;
-    background: lightgrey;
+    background-color: #FAF7F0;
     border-radius: 10px;
 }
 

@@ -55,28 +55,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
 
     }
 
-    // CALL FIREBASE
-    // useEffect(() => {
-    //         onValue(ref(db), (snapshot) => {
-    //             const data = snapshot.val();
-    //             if (data !== null) {
-    //                 // eslint-disable-next-line
-    //                 Object.values([data]).map((item) => {
-    //                     setArtworks(Object.values(item))
-    //                     setTotalArtworks(Object.values(item).length)
-    //                     setIsLoading(false)
-    //                     console.log("🔥🔥🔥🔥 Firebase is called 🔥🔥🔥🔥")
-    //                     storeImages()
-    //                 });
-    //             } else {
-    //                 throw new Error("Il y a un souci")
-    //             }
-    //             // console.log("Updated")
-    //         }, {onlyOnce: true});
-    //     // console.log("Mounted")
-    // }, [db]);
 
-    // console.log(artworks.map((item) => item.imgURL))
 
 
     // Clique pour ouvrir l'image dans une modale pleine page

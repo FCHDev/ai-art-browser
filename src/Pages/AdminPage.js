@@ -3,64 +3,65 @@ import {Link} from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {AiFillCaretLeft} from "react-icons/ai";
-import {v4} from "uuid";
 
 import {set} from "firebase/database";
 import {refDb} from "../service/firebase-config";
-import {db, storage} from "../service/firebase-config";
-import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import {db} from "../service/firebase-config";
 
 const AdminPage = ({artworks, totalArtwork}) => {
     /// UPLOAD IMAGES
     const [imageUpload, setImageUpload] = useState(null);
     const [picPreview, setPicPreview] = useState();
 
-    // console.log(artworks)
-    // console.log(totalArtwork)
-
-    const uploadImage = () => {
-        if (imageUpload == null) return;
-        const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-        uploadBytes(imageRef, imageUpload)
-            .then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setImgURL(url);
-                    setPicPreview(
-                        <div className="artwork-preview">
-                            <img className="rounded-xl" src={url} alt="artwork"/>
-                        </div>
-                    );
-                });
-                // alert("Image uploaded");
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
+    // const uploadImage = () => {
+    //     if (imageUpload == null) return;
+    //     const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+    //     uploadBytes(imageRef, imageUpload)
+    //         .then((snapshot) => {
+    //             getDownloadURL(snapshot.ref).then((url) => {
+    //                 setImgURL(url);
+    //                 setPicPreview(
+    //                     <div className="artwork-preview">
+    //                         <img className="rounded-xl" src={url} alt="artwork"/>
+    //                     </div>
+    //                 );
+    //             });
+    //             // alert("Image uploaded");
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
+    // };
 
 
     // STATES
     const creationDate = new Date().getTime()
-    const id = totalArtwork;
+    const id = imgCount()
     const [imgURL, setImgURL] = useState("");
-    const [title, setTitle] = React.useState("")
+    const [title, setTitle] = useState("")
+
 
     // HANDLES
-
     const handleImgURLChange = (event) => {
         setImgURL(event.target.value);
     };
-
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
     };
 
-    // const handleCreationDate = (event) => {
-    //     setCreationDate(event.target.value);
-    // };
+    const reset = () => {
+        setPicPreview(null);
+        setImageUpload(null);
+        setTitle("");
+        setImgURL("")
+    }
 
+    function imgCount() {
+        const storedImg = JSON.parse(localStorage.getItem('localArtworks'));
+        return storedImg.length
+    }
 
-    // FONCTION POUR CREER NOUVEAU GUITARISTE
+    // FONCTION POUR ÉCRIRE UN NOUVEL ARTWORK SUR FIREBASE
     const writeUserData = () => {
         set(refDb(db, `/${title}`), {
             id,
@@ -68,19 +69,33 @@ const AdminPage = ({artworks, totalArtwork}) => {
             title,
             creationDate
         });
-        setImgURL("")
-        setTitle("");
+        reset()
     };
 
+    // FONCTION POUR MODIFIER UN NOUVEL ARTWORK SUR FIREBASE
+    const idItem = 112
+    const path = "A futuristic knight"
+    const handleUpdate = () => {
+        set(refDb(db, `/${path}`), {
+            id: idItem,
+            imgURL: "/uploads/FuturisticKnight.jpg",
+            title: path
+        });
+        console.log("Update done !")
+    }
+
+    // POUR ENREGISTRER LES DONNEES AVANT SOUMISSION
     const handleSubmit = (event) => {
         event.preventDefault();
-        writeUserData();
-        // REFRESH PAGE ET SCROLL AU TOP APRES SOUMISSION
-        window.scrollTo(0, 0);
-        // alert(title + " a bien été ajouté !");
-        setPicPreview("")
-        setImageUpload(null)
+        setImgURL("/uploads/" + imageUpload.name)
+        setPicPreview(
+            <div className="artwork-preview">
+                <img className="rounded-xl" src={"/uploads/" + imageUpload.name} alt="artwork"/>
+            </div>
+        );
+        console.log(title + " a bien été ajouté !")
     };
+
 
     return (
         <div className="admin" id="top">
@@ -163,17 +178,30 @@ const AdminPage = ({artworks, totalArtwork}) => {
                         setImageUpload(event.target.files[0]);
                     }}
                 />
-                <label className="border bg-white text-gray-700 cursor-pointer rounded px-3 py-1 flex justify-center"
-                       htmlFor="inputButtonTag">
-                    Upload Image
-                    <input id="inputButtonTag" type="button" onClick={uploadImage}/>{" "}
-                </label>
+                {/*<label className="border bg-white text-gray-700 cursor-pointer rounded px-3 py-1 flex justify-center"*/}
+                {/*       htmlFor="inputButtonTag">*/}
+                {/*    Upload Image*/}
+                {/*    <input id="inputButtonTag" type="button" onClick={uploadImage}/>{" "}*/}
+                {/*</label>*/}
+            </div>
+
+            <div className="flex w-1/6 justify-between">
+                <button
+                    className="border bg-gray-700 text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
+                    onClick={handleSubmit}>
+                    Ajouter
+                </button>
+                <button
+                    className="border bg-gray-500 text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
+                    onClick={handleUpdate}>
+                    Updater
+                </button>
             </div>
 
             <button
-                className="border bg-gray-700 text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
-                onClick={handleSubmit}>
-                Ajouter
+                className="border bg-[crimson] text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
+                onClick={writeUserData}>
+                Envoyer
             </button>
 
             {picPreview}

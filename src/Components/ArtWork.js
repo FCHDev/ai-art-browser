@@ -3,6 +3,7 @@ import {isNew} from "../Utility/functions";
 import New from "../Assets/SVG/new.svg"
 import LazyLoad from 'react-lazy-load'
 
+
 const ArtWork = ({
                      src,
                      title,
@@ -48,7 +49,7 @@ const ArtWork = ({
                 className={`${isNew(creationDate) ? "" : "hidden"} text-sm absolute z-10 bottom-1 left-2 bg-black bg-opacity-50 rounded-xl px-3`}>
                 {title}
             </div>
-            
+
             {/*❤️ sur l'image "new"*/}
             <svg
                 className={`${isLoading ? "hidden" : "block"} absolute bottom-1 right-1 z-10 cursor-pointer`}
