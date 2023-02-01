@@ -275,7 +275,7 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                     </thead>
                                     <tbody className="bg-white">
                                     {artworks
-                                        // .sort((a, b) => a.id - b.id)
+                                        .sort((a, b) => b.id - a.id)
                                         .map((artwork, index) => (
                                             <tr key={index} className={index % 2 === 0 ? undefined : 'bg-[#CEEAF3]'}>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">

@@ -43,7 +43,7 @@ const Header = ({totalArtworks, fav}) => {
 
                 {user.id === "user_2KUxMR4tOIgm9TIiSQT9XbgydPb"
                     ? <Link to="/upload-image"
-                            className="border border-[#009688] bg-[#009688] rounded-xl flex items-center justify-center px-3 mx-3 hover:bg-gray-700">
+                            className="hidden md:flex border border-[#009688] bg-[#009688] rounded-xl flex items-center justify-center px-3 mx-3 hover:bg-gray-700">
                         <svg fill="black"
                              height="20px"
                              width="20px"

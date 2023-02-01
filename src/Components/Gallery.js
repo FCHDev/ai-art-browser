@@ -115,9 +115,9 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
                         artworks
                             .filter((pic) => isNew(pic.creationDate))
                             .sort((a, b) => (a.creationDate < b.creationDate ? 1 : -1))
-                            .map((pic) =>
+                            .map((pic, index) =>
                                 <ArtWork
-                                    key={pic.id}
+                                    key={index}
                                     src={pic.imgURL}
                                     title={pic.title}
                                     creationDate={pic.creationDate}
