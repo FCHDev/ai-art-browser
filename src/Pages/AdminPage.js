@@ -51,10 +51,12 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
 
 
     const reset = () => {
-        setPicPreview(null);
-        setImageUpload(null);
+        setPicPreview("");
+        setImageUpload("");
         setTitle("");
         setImgURL("")
+        setTitleToModify("")
+        setIDToModify("")
     }
 
 
@@ -176,7 +178,7 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                 Ajouter une photo
             </h1>
 
-            <div className="h-[200px] flex flex-col justify-evenly items-center bg-gray-700 rounded-xl p-5 mb-5">
+            <div className="h-[100px] w-1/2 flex flex-col justify-evenly items-center bg-gray-700 rounded-xl p-5 mb-5">
                 <input
                     id="inputTag"
                     type="file"
@@ -186,24 +188,44 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                 />
             </div>
 
-            <div className="flex w-1/6 justify-between">
+            <div className="flex flex-col w-1/3 justify-between items-center">
                 <button
                     className="border bg-gray-700 text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
                     onClick={handleSubmit}>
-                    Ajouter
+                    Valider URL
                 </button>
-                <button
-                    className="border bg-gray-500 text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
-                    onClick={handleUpdate}>
-                    Updater
-                </button>
+                <div className="mb-10">
+                    {IDToModify
+                        ? <button
+                            className={`border bg-gray-500 text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5`}
+                            onClick={handleUpdate}>
+                            Updater Artwork
+                        </button>
+                        : (imgURL
+                        ? <span className="bg-gray-500 p-3 rounded-xl text-xl">
+                            ⚠️️ Sélectionner un artwork pour le modifier ⚠️
+                        </span>
+                        : "")}
+                </div>
+
+                <span
+                    className={`${titleToModify ? "block" : "hidden"} bg-gray-500 p-3 rounded-xl text-xl mb-5`}>
+                    Artwork à modifier : {titleToModify}
+                </span>
             </div>
 
-            <button
-                className="border bg-[crimson] text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
-                onClick={writeUserData}>
-                Envoyer
-            </button>
+            {title
+                ? <button
+                    className="border bg-[crimson] text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
+                    onClick={writeUserData}>
+                    Envoyer
+                </button>
+                : (imgURL
+                    ? ""
+                    : <span className="bg-gray-500 p-3 rounded-xl text-xl">
+                        Remplir le champ "Nom" pour ajouter un artwork
+                </span>)}
+
 
             {picPreview}
 
