@@ -194,7 +194,7 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                     onClick={handleSubmit}>
                     Valider URL
                 </button>
-                <div className="mb-10">
+                <div className="mb-5">
                     {IDToModify
                         ? <button
                             className={`border bg-gray-500 text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5`}
@@ -209,7 +209,7 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                 </div>
 
                 <span
-                    className={`${titleToModify ? "block" : "hidden"} text-center bg-green-600 p-3 rounded-xl text-xl mb-5`}>
+                    className={`${titleToModify ? "block" : "hidden"} text-center bg-green-600 p-3 rounded-xl text-xl mb-10`}>
                     Artwork à modifier sélectionné : <br/>
                     <strong>
                     {titleToModify}
@@ -244,7 +244,7 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                 </div>
                 <div className="mt-8 flex flex-col">
                     <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                        <div className="inline-block min-w-full h-screen py-2 align-middle md:px-6 lg:px-8">
                             <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                                 <table className="min-w-full divide-y divide-gray-300">
                                     <thead className="bg-gray-50">
