@@ -188,9 +188,9 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                 />
             </div>
 
-            <div className="flex flex-col w-1/3 justify-between items-center">
+            <div className="flex flex-col w-1/2 justify-between items-center">
                 <button
-                    className="border bg-gray-700 text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5"
+                    className={`${imgURL ? "bg-green-600" : "bg-gray-700"} w-full border  text-white text-xl cursor-pointer rounded px-5 py-2 flex justify-center my-5`}
                     onClick={handleSubmit}>
                     Valider URL
                 </button>
@@ -202,15 +202,18 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                             Updater Artwork
                         </button>
                         : (imgURL
-                        ? <span className="bg-gray-500 p-3 rounded-xl text-xl">
+                            ? <span className="bg-gray-500 p-3 rounded-xl text-xl">
                             ⚠️️ Sélectionner un artwork pour le modifier ⚠️
                         </span>
-                        : "")}
+                            : "")}
                 </div>
 
                 <span
-                    className={`${titleToModify ? "block" : "hidden"} bg-gray-500 p-3 rounded-xl text-xl mb-5`}>
-                    Artwork à modifier : {titleToModify}
+                    className={`${titleToModify ? "block" : "hidden"} text-center bg-green-600 p-3 rounded-xl text-xl mb-5`}>
+                    Artwork à modifier sélectionné : <br/>
+                    <strong>
+                    {titleToModify}
+                </strong>
                 </span>
             </div>
 
