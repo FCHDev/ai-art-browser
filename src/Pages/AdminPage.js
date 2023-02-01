@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {AiFillCaretLeft} from "react-icons/ai";
 
-import {onValue, ref, set} from "firebase/database";
+import {onValue, ref, set, remove} from "firebase/database";
 import {refDb} from "../service/firebase-config";
 import {db} from "../service/firebase-config";
 
@@ -88,8 +88,17 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
         setTitleToModify(selectedTitle)
     }
     // FONCTION POUR SUPPRIMER UN ARTWORK SUR FIREBASE
-    const handleRemove = (idToRemove) => {
-        console.log(idToRemove);
+    const removeUserData = (titleToRemove) => {
+        remove(refDb(db, `/${titleToRemove}`), {
+            id,
+            title,
+            imgURL,
+            creationDate
+        })
+    };
+    const handleRemove = (titleToRemove) => {
+        removeUserData(titleToRemove)
+        console.log(titleToRemove + " a bien été supprimé !");
     }
 
     // POUR ENREGISTRER LES DONNEES AVANT SOUMISSION
@@ -266,10 +275,14 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                     </thead>
                                     <tbody className="bg-white">
                                     {artworks
+                                        // .sort((a, b) => a.id - b.id)
                                         .map((artwork, index) => (
                                             <tr key={index} className={index % 2 === 0 ? undefined : 'bg-[#CEEAF3]'}>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                     {artwork.id.length > 5 ? artwork.id.substring(0, 5) + "..." : artwork.id}
+                                                </td>
+                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                    {index}/{artworks.length}
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden">
                                                     {artwork.title}
