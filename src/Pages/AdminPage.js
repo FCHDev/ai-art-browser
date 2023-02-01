@@ -46,14 +46,6 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
         setTitle(event.target.value);
     };
 
-    const handleSortTitle = (event) => {
-        event.preventDefault()
-        artworks.sort((a, b) => (a.title > b.title ? 1 : -1))
-    }
-    const handleSortId = (event) => {
-        event.preventDefault()
-        setArtworks(artworks.sort((a, b) => (a.id > b.id ? 1 : -1)))
-    }
 
     const reset = () => {
         setPicPreview(null);
@@ -231,18 +223,15 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                     <thead className="bg-gray-50">
                                     <tr>
                                         <th scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-base font-semibold text-gray-900 sm:pl-6 cursor-pointer"
-                                            onClick={handleSortId}>
+                                            className="py-3.5 pl-4 pr-3 text-left text-base font-semibold text-gray-900 sm:pl-6 cursor-pointer">
                                             ID
                                         </th>
                                         <th scope="col"
-                                            className="px-3 py-3.5 text-left text-base font-semibold text-gray-900 cursor-pointer"
-                                            onClick={handleSortTitle}>
+                                            className="px-3 py-3.5 text-left text-base font-semibold text-gray-900 cursor-pointer">
                                             Titre
                                         </th>
                                         <th scope="col"
-                                            className="px-3 py-3.5 text-left text-base font-semibold text-gray-900 cursor-pointer"
-                                            onClick={() => console.log("Prout ")}>
+                                            className="px-3 py-3.5 text-left text-base font-semibold text-gray-900 cursor-pointer">
                                             URL Image
                                         </th>
 
@@ -262,10 +251,10 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                                     {artwork.imgURL.length > 40 ? artwork.imgURL.substring(0, 40) + "..." : artwork.imgURL}
                                                 </td>
                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                    <a href="#" className="text-[#FF585D] hover:text-[#FFC2C4]"
-                                                       onClick={() => handleRemove(artwork.id)}>
+                                                    <div className="text-[#FF585D] hover:text-[#FFC2C4] cursor-pointer"
+                                                       onClick={() => handleRemove(artwork.title)}>
                                                         Supprimer
-                                                    </a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
