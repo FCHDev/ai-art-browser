@@ -29,7 +29,6 @@ function App() {
 
     // GESTION DES FAVORIS / CLEAR
 
-
     function clearFavorites() {
         setFav([]);
         localStorage.clear();
@@ -70,6 +69,7 @@ function App() {
                         }/>
                         <Route path="/upload-image" element={
                             <AdminPage artworks={artworks}
+                                       setArtworks={setArtworks}
                                        totalArtwork={totalArtworks}/>
                         }/>
                         <Route path="/favorites" element={
