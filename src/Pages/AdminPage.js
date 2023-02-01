@@ -17,7 +17,10 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
     const creationDate = new Date().getTime()
     const [id, setId] = useState("")
     const [imgURL, setImgURL] = useState("");
+    const [IDToModify, setIDToModify] = useState("")
+    const [titleToModify, setTitleToModify] = useState("")
     const [title, setTitle] = useState("")
+
 
     // CALL BASE POUR LISTING
     useEffect(() => {
@@ -67,17 +70,21 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
     };
 
     // FONCTION POUR MODIFIER UN NOUVEL ARTWORK SUR FIREBASE
-    const idItem = 112
-    const path = "A futuristic knight"
     const handleUpdate = () => {
-        set(refDb(db, `/${path}`), {
-            id: idItem,
-            imgURL: "/uploads/FuturisticKnight.jpg",
-            title: path
+        set(refDb(db, `/${titleToModify}`), {
+            id: IDToModify,
+            imgURL: imgURL,
+            title: titleToModify,
         });
         console.log("Update done !")
+        reset();
     }
 
+    const handleSelect = (selectedId, selectedTitle) => {
+        console.log(selectedId, selectedTitle);
+        setIDToModify(selectedId)
+        setTitleToModify(selectedTitle)
+    }
     // FONCTION POUR SUPPRIMER UN ARTWORK SUR FIREBASE
     const handleRemove = (idToRemove) => {
         console.log(idToRemove);
@@ -177,11 +184,6 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                         setImageUpload(event.target.files[0]);
                     }}
                 />
-                {/*<label className="border bg-white text-gray-700 cursor-pointer rounded px-3 py-1 flex justify-center"*/}
-                {/*       htmlFor="inputButtonTag">*/}
-                {/*    Upload Image*/}
-                {/*    <input id="inputButtonTag" type="button" onClick={uploadImage}/>{" "}*/}
-                {/*</label>*/}
             </div>
 
             <div className="flex w-1/6 justify-between">
@@ -251,8 +253,14 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                                     {artwork.imgURL.length > 40 ? artwork.imgURL.substring(0, 40) + "..." : artwork.imgURL}
                                                 </td>
                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                    <div className="text-green-700 hover:text-[#FFC2C4] cursor-pointer"
+                                                         onClick={() => handleSelect(artwork.id, artwork.title)}>
+                                                        Select
+                                                    </div>
+                                                </td>
+                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                     <div className="text-[#FF585D] hover:text-[#FFC2C4] cursor-pointer"
-                                                       onClick={() => handleRemove(artwork.title)}>
+                                                         onClick={() => handleRemove(artwork.title)}>
                                                         Supprimer
                                                     </div>
                                                 </td>
