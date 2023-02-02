@@ -47,8 +47,8 @@ const Favorites = ({personalFav, setPersonalFav}) => {
         return (
             <Slider {...settings}>
                 {personalFav.map((item, index) =>
-                    <div key={index} className="mb-10">
-                        <img src={item.src} alt={item.title} className="mx-auto rounded-xl object-fit max-h-[700px]"/>
+                    <div key={index} className="md:mb-10">
+                        <img src={item.src} alt={item.title} className="mx-auto md:rounded-xl object-fit md:max-h-[700px] max-h-[400px]"/>
                     </div>)}
             </Slider>
         );
@@ -57,28 +57,28 @@ const Favorites = ({personalFav, setPersonalFav}) => {
 
     return (
         <div className="flex flex-col">
-            <h1 className="text-2xl text-center my-10">Espace Favoris de <strong className="text-[crimson]">
+            <h1 className="md:block hidden text-2xl text-center my-10">Espace Favoris de <strong className="text-[crimson]">
                 {user.firstName}
             </strong>
             </h1>
+
             <div className={`${personalFav.length === 0 ? "hidden" : "block"}`}>
                 <Carousel/>
             </div>
 
-
             <div
-                className="flex flex-wrap justify-evenly border border-white border-opacity-20 w-3/4 mx-auto p-3 rounded-xl">
+                className="flex flex-wrap justify-evenly border border-white border-opacity-20 md:w-3/4 mx-2 md:mx-auto p-3 rounded-xl">
                 {personalFav.length === 0
                     ? "Vous n'avez pas encore ajouté de favoris 🥹"
                     : personalFav.map((item, index) =>
                         <div key={index} className="flex flex-col justify-center items-center relative">
-                            <img className="h-[200px] w-auto rounded-xl" src={item.src} alt={item.title}/>
+                            <img className="md:h-[200px] h-[130px] w-auto rounded-xl" src={item.src} alt={item.title}/>
                             <img src={closeIcon}
                                  alt="close icon"
                                  className="h-6 absolute top-1 right-1 bg-[crimson] text-white rounded-full p-1 flex justify-center items-center cursor-pointer"
                                  onClick={() => removeThisFav(item.title)}
                             />
-                            <span className="text-xs text-center mx-auto">
+                            <span className="md:text-xs md:block hidden text-center mx-auto">
                                    {item.title}
                                </span>
                         </div>)}

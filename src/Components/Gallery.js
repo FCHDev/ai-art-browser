@@ -7,6 +7,7 @@ import ScrollToTop from "react-scroll-to-top";
 import {onValue, ref, update, remove} from "firebase/database";
 import {db, refDb} from "../service/firebase-config";
 import {useUserContext} from "../Context/Context";
+import Loader from "./Loader";
 
 
 const Gallery = ({
@@ -50,13 +51,13 @@ const Gallery = ({
                 Object.values([data]).map((item) => {
                     setArtworks(Object.values(item));
                     setTotalArtworks(Object.values(item).length);
-                    setIsLoading(false);
                     setConnectedId(user.id)
                 });
             } else {
                 throw new Error("Il y a un souci");
             }
         });
+        setIsLoading(false);
 
     }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id]);
 
@@ -146,12 +147,52 @@ const Gallery = ({
             </div>
 
             {/*VUE NEW*/}
-            <div className={`${anyNewItems ? "block" : "hidden"} flex flex-col mx-auto md:my-16 my-5`}>
-                <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20">
+            {isLoading
+                ? <Loader/>
+                : <div className={`${anyNewItems ? "block" : "hidden"} flex flex-col mx-auto md:my-16 my-5`}>
+                    <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20 md:mb-10">
+                        {
+                            artworks
+                                .filter((pic) => isNew(pic.creationDate))
+                                .sort((a, b) => (a.creationDate < b.creationDate ? 1 : -1))
+                                .map((pic, index) =>
+                                    <ArtWork
+                                        key={index}
+                                        src={pic.imgURL}
+                                        title={pic.title}
+                                        creationDate={pic.creationDate}
+                                        isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
+                                        onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
+                                        setHoldSrc={setHoldSrc}
+                                        setHoldTitle={setHoldTitle}
+                                        setModal={setModal}
+                                        isLoading={isLoading}
+                                    />
+                                )}
+                        <div
+                            className={`bg-[#009688] h-[30px] rounded-xl text-center font-bold text-xl flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
+                            What's new ?
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            {/*VUE PRINCIPALE*/}
+            {isLoading
+                ? <Loader/>
+                : <div className="gallery">
+                    <h2 className="text-3xl md:pt-20 text-center text-white font-bold my-5">
+                        Tous les <span className="text-[#009787]">
+                    Artworks...
+                </span>
+                    </h2>
                     {
                         artworks
-                            .filter((pic) => isNew(pic.creationDate))
-                            .sort((a, b) => (a.creationDate < b.creationDate ? 1 : -1))
+                            .sort((a, b) => (a.creationDate && b.creationDate
+                                ? (a.creationDate < b.creationDate ? 1 : -1)
+                                : null)) // On trie les images par date de création
+                            .filter((pic) => !isNew(pic.creationDate)) // On filtre les images qui ne sont pas nouvelles
                             .map((pic, index) =>
                                 <ArtWork
                                     key={index}
@@ -166,38 +207,9 @@ const Gallery = ({
                                     isLoading={isLoading}
                                 />
                             )}
-                    <div
-                        className={`bg-[#009688] h-[30px] rounded-xl text-center font-bold text-xl flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
-                        What's new ?
-                    </div>
-                </div>
-            </div>
 
+                </div>}
 
-            {/*VUE PRINCIPALE*/}
-            <div className="gallery">
-
-                {
-                    artworks
-                        .sort((a, b) => (a.creationDate && b.creationDate
-                            ? (a.creationDate < b.creationDate ? 1 : -1)
-                            : null))
-                        .map((pic, index) =>
-                            <ArtWork
-                                key={index}
-                                src={pic.imgURL}
-                                title={pic.title}
-                                creationDate={pic.creationDate}
-                                isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
-                                onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
-                                setHoldSrc={setHoldSrc}
-                                setHoldTitle={setHoldTitle}
-                                setModal={setModal}
-                                isLoading={isLoading}
-                            />
-                        )}
-
-            </div>
             <ScrollToTop
                 smooth={true}
                 className="flex justify-center items-center"/>

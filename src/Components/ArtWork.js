@@ -26,7 +26,7 @@ const ArtWork = ({
 
     return (
         <div
-            className="gallery-item relative transition ease-in-out delay-75 md:hover:-translate-y-1 md:hover:scale-105 duration-75">
+            className={`gallery-item relative transition ease-in-out delay-75 md:hover:-translate-y-1 md:hover:scale-105 duration-75`}>
             <LazyLoad height={250}>
                 <img
                     className={`${isNew(creationDate) ? "border border-2 border-[#009688]" : ""} block object-cover object-center w-full h-full rounded-lg z-1 cursor-pointer`}
