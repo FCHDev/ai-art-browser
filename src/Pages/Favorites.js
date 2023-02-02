@@ -61,10 +61,13 @@ const Favorites = ({personalFav, setPersonalFav}) => {
                 {user.firstName}
             </strong>
             </h1>
-
+            <div className={`${personalFav.length === 0 ? "hidden" : "block"}`}>
                 <Carousel/>
+            </div>
 
-            <div className="flex flex-wrap justify-evenly border border-white border-opacity-20 w-3/4 mx-auto p-3 rounded-xl">
+
+            <div
+                className="flex flex-wrap justify-evenly border border-white border-opacity-20 w-3/4 mx-auto p-3 rounded-xl">
                 {personalFav.length === 0
                     ? "Vous n'avez pas encore ajouté de favoris 🥹"
                     : personalFav.map((item, index) =>
@@ -88,7 +91,6 @@ const Favorites = ({personalFav, setPersonalFav}) => {
                     Vider Favoris
                 </button>
             </div>
-
 
 
         </div>
