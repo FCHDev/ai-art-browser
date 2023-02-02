@@ -45,7 +45,6 @@ function App() {
                                     <Header
                                         totalArtworks={totalArtworks}
                                         personalFav={personalFav}/>
-
                                     <Gallery
                                         artworks={artworks}
                                         setArtworks={setArtworks}
@@ -56,6 +55,7 @@ function App() {
                                         setConnectedId={setConnectedId}
                                         personalFav={personalFav}
                                         setPersonalFav={setPersonalFav}/>
+
                                     <Hello/>
                                 </SignedIn>
                                 <SignedOut>

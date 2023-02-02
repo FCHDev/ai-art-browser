@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import loading from "../Assets/SVG/loading.svg"
 
 const Loader = () => {
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        setTimeout(() => setIsLoading(false), 2000);
-    }, []);
 
     return (
-        isLoading ? (
-            <div>Chargement...</div>
-        ) : null
+        <div className="w-1/2 h-2/3 mx-auto flex justify-center items-center my-20 animate-pulse">
+            <img src={loading} alt="chargement en cours"/>
+        </div>
+
+
     );
 };
 

@@ -57,8 +57,6 @@ const Gallery = ({
                 throw new Error("Il y a un souci");
             }
         });
-        setIsLoading(false);
-
     }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id]);
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
@@ -129,27 +127,31 @@ const Gallery = ({
         })
     }
 
+    useEffect(() => {
+        setTimeout(() => setIsLoading(false), 3000);
+    }, [setIsLoading])
+
     return (
-        <>
-            {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
-            <div className={`${!modal ? "modal" : "modal open relative"} flex flex-col`}>
-                <q
-                    className="img-title fixed bg-[#161215] text-white
+        isLoading
+            ? (<Loader/>)
+            : (<>
+                {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
+                <div className={`${!modal ? "modal" : "modal open relative"} flex flex-col`}>
+                    <q
+                        className="img-title fixed bg-[#161215] text-white
                     md:text-3xl md:top-4
                     top-8 px-4 rounded-xl">
-                    {holdTitle}
-                </q>
-                <img className="rounded-xl max-h-screen mb-5" src={holdSrc} alt={holdTitle}/>
-                <img className="fixed md:top-10 md:left-10 bottom-10 h-8 cursor-pointer opacity-80"
-                     onClick={(e) => closeImg(e)}
-                     src={closeIcon}
-                     alt="fermer close"/>
-            </div>
+                        {holdTitle}
+                    </q>
+                    <img className="rounded-xl max-h-screen mb-5" src={holdSrc} alt={holdTitle}/>
+                    <img className="fixed md:top-10 md:left-10 bottom-10 h-8 cursor-pointer opacity-80"
+                         onClick={(e) => closeImg(e)}
+                         src={closeIcon}
+                         alt="fermer close"/>
+                </div>
 
-            {/*VUE NEW*/}
-            {isLoading
-                ? <Loader/>
-                : <div className={`${anyNewItems ? "block" : "hidden"} flex flex-col mx-auto md:my-16 my-5`}>
+                {/*VUE NEW*/}
+                <div className={`${anyNewItems ? "block" : "hidden"} flex flex-col mx-auto md:my-16 my-5`}>
                     <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20 md:mb-10">
                         {
                             artworks
@@ -175,13 +177,10 @@ const Gallery = ({
                         </div>
                     </div>
                 </div>
-            }
 
 
-            {/*VUE PRINCIPALE*/}
-            {isLoading
-                ? <Loader/>
-                : <div className="gallery">
+                {/*VUE PRINCIPALE*/}
+                <div className="gallery">
                     <h2 className="text-3xl md:pt-20 text-center text-white font-bold my-5">
                         Tous les <span className="text-[#009787]">
                     Artworks...
@@ -207,13 +206,13 @@ const Gallery = ({
                                     isLoading={isLoading}
                                 />
                             )}
+                </div>
 
-                </div>}
+                <ScrollToTop
+                    smooth={true}
+                    className="flex justify-center items-center"/>
+            </>)
 
-            <ScrollToTop
-                smooth={true}
-                className="flex justify-center items-center"/>
-        </>
     )
 
 
