@@ -21,18 +21,12 @@ const frontendApi = process.env.REACT_APP_CLERK_FRONTEND_API;
 
 function App() {
     // STATES GLOBAUX
-    const [fav, setFav] = useState([])
     const [artworks, setArtworks] = useState([])
     const [totalArtworks, setTotalArtworks] = useState("")
+    const [totalFav, setTotalFav] = useState("")
     const [isLoading, setIsLoading] = useState(true);
-
-
-    // GESTION DES FAVORIS / CLEAR
-
-    function clearFavorites() {
-        setFav([]);
-        localStorage.clear();
-    }
+    const [connectedId, setConnectedId] = useState("")
+    const [personalFav, setPersonalFav] = useState([])
 
 
     return (
@@ -50,16 +44,18 @@ function App() {
                                 <SignedIn>
                                     <Header
                                         totalArtworks={totalArtworks}
-                                        fav={fav}/>
+                                        personalFav={personalFav}/>
 
-                                        <Gallery
-                                            fav={fav}
-                                            setFav={setFav}
-                                            artworks={artworks}
-                                            setArtworks={setArtworks}
-                                            setTotalArtworks={setTotalArtworks}
-                                            isLoading={isLoading}
-                                            setIsLoading={setIsLoading}/>
+                                    <Gallery
+                                        artworks={artworks}
+                                        setArtworks={setArtworks}
+                                        setTotalArtworks={setTotalArtworks}
+                                        setTotalFav={setTotalFav}
+                                        isLoading={isLoading}
+                                        setIsLoading={setIsLoading}
+                                        setConnectedId={setConnectedId}
+                                        personalFav={personalFav}
+                                        setPersonalFav={setPersonalFav}/>
                                     <Hello/>
                                 </SignedIn>
                                 <SignedOut>
@@ -74,8 +70,12 @@ function App() {
                         }/>
                         <Route path="/favorites" element={
                             <>
-                                <Header totalArtworks={totalArtworks} fav={fav}/>
-                                <Favorites fav={fav} setFav={setFav} clearFavorites={clearFavorites}/>
+                                <Header totalArtworks={totalArtworks} personalFav={personalFav}/>
+                                <Favorites
+                                    personalFav={personalFav}
+                                    setPersonalFav={setPersonalFav}
+                                    totalFav={totalFav}
+                                    connectedId={connectedId}/>
                                 <Hello/>
                             </>}/>
                     </Routes>

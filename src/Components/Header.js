@@ -4,14 +4,14 @@ import Heart from "../Assets/SVG/heart.svg";
 import {Link} from "react-router-dom";
 import {useUserContext} from "../Context/Context";
 
-const Header = ({totalArtworks, fav}) => {
+const Header = ({totalArtworks, personalFav}) => {
 
     const user = useUserContext();
-
+    // console.log(personalFav.length)
 
     return (
         <div>
-            <h1 className="text-center text-4xl md:text-6xl font-bold mt-5">
+            <h1 className="text-center text-4xl md:text-6xl font-bold mt-5 ">
                 My A.I. Art Gallery
             </h1>
             <div className="flex h-8 justify-center items-center mx-auto">
@@ -34,7 +34,7 @@ const Header = ({totalArtworks, fav}) => {
                     </span>
                 </Link>
                 <Link to="/favorites"
-                      className={`${fav.length === 0 ? "" : "border-[crimson] hover:text-[crimson]"} w-1/6 border rounded-xl flex items-center justify-center px-3 mx-3 hover:bg-white hover:text-black`}>
+                      className={`${personalFav.length === 0 ? "" : "border-[crimson] hover:text-[crimson]"} w-1/6 border rounded-xl flex items-center justify-center px-3 mx-3 hover:bg-white hover:text-black`}>
                     <img src={Heart} alt="maison home" className=" h-9 md:mr-2"/>
                     <span className="md:block hidden">
                         Favoris

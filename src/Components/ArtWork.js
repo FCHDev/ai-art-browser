@@ -50,7 +50,7 @@ const ArtWork = ({
                 {title}
             </div>
 
-            {/*❤️ sur l'image "new"*/}
+            {/*❤️ sur l'image*/}
             <svg
                 className={`${isLoading ? "hidden" : "block"} absolute bottom-1 right-1 z-10 cursor-pointer`}
                 onClick={onClick}

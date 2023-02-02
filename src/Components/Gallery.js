@@ -4,18 +4,32 @@ import {isNew} from "../Utility/functions";
 
 import closeIcon from '../Assets/SVG/close.svg'
 import ScrollToTop from "react-scroll-to-top";
-import {onValue, ref} from "firebase/database";
-import {db} from "../service/firebase-config";
+import {onValue, ref, update, remove} from "firebase/database";
+import {db, refDb} from "../service/firebase-config";
+import {useUserContext} from "../Context/Context";
 
 
-const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoading, setIsLoading}) => {
+const Gallery = ({
+                     artworks,
+                     setArtworks,
+                     setTotalArtworks,
+                     setTotalFav,
+                     isLoading,
+                     setIsLoading,
+                     personalFav,
+                     setPersonalFav,
+                     setConnectedId
+                 }) => {
+
+    // DÉCLARATION DU CONTEXTE USER
+    const user = useUserContext();
+
     // STATES LOCAUX
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
 
-
-// REPERER LES NEWS
+    // REPERER LES NOUVEAUX ARTWORKS
     function anyNewItems() {
         let thereIsNews = false
         // eslint-disable-next-line
@@ -27,7 +41,7 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
         return thereIsNews
     }
 
-    // CREATION IMAGE EN LOCAL STORAGE
+    // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
     useEffect(() => {
         onValue(ref(db), (snapshot) => {
             const data = snapshot.val();
@@ -37,56 +51,79 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
                     setArtworks(Object.values(item));
                     setTotalArtworks(Object.values(item).length);
                     setIsLoading(false);
-                    storeImages();
-                    console.log("🔥🔥🔥🔥 Firebase is called 🔥🔥🔥🔥");
+                    setConnectedId(user.id)
                 });
             } else {
                 throw new Error("Il y a un souci");
             }
         });
-        // eslint-disable-next-line
-    }, []);
 
+    }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id]);
 
-// create function to keep images in local storage
-    function storeImages() {
-        localStorage.setItem('localArtworks', JSON.stringify(artworks.map((item) => item.imgURL)));
-        console.log("🔥🔥🔥🔥 Images are stored in local storage 🔥🔥🔥🔥")
+    // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
+    useEffect(() => {
+        onValue(ref(db, `/fav/${user.id}`), (snapshot) => {
+            const data = snapshot.val();
+            if (data !== null) {
+                // eslint-disable-next-line
+                Object.values([data]).map((item) => {
+                    setPersonalFav(Object.values(item))
+                    setTotalFav(Object.values(item).length)
+                });
+            } else {
+                console.log("🔥🔥🔥🔥 NO FAV 🔥🔥🔥🔥");
+            }
+        })
+    }, [setPersonalFav, setTotalFav, user.id])
 
-    }
-
-
-
-
-    // Clique pour ouvrir l'image dans une modale pleine page
+    // GESTION DE LA MODALE
     function closeImg(e) {
         e.preventDefault()
         setModal(false)
     }
 
+    // // GESTION DES FAV DANS LE LOCALSTORAGE
+    // useEffect(() => {
+    //     // Charger les favoris stockés à partir du stockage local
+    //     const storedFavorites = JSON.parse(localStorage.getItem('favorites'));
+    //     if (storedFavorites) {
+    //         setPersonalFav(storedFavorites);
+    //     }
+    // }, [setFav]);
+    //
+    // useEffect(() => {
+    //     // Stocker les favoris dans le stockage local à chaque mise à jour
+    //     localStorage.setItem('favorites', JSON.stringify(personalFav));
+    // }, [personalFav]);
 
-    // GESTION DES FAV DANS LE LOCALSTORAGE
-    useEffect(() => {
-        // Charger les favoris stockés à partir du stockage local
-        const storedFavorites = JSON.parse(localStorage.getItem('favorites'));
-        if (storedFavorites) {
-            setFav(storedFavorites);
-        }
-    }, [setFav]);
+    // ÉCRITURE DU NOUVEAU FAV DANS FIREBASE
+    function writeNewFav(id, title, src) {
+        const newFavPost = {
+            id: id,
+            title: title,
+            src: src
+        };
+        const updates = {};
+        updates[`/fav/${user.id}/${title}`] = newFavPost;
 
-    useEffect(() => {
-        // Stocker les favoris dans le stockage local à chaque mise à jour
-        localStorage.setItem('favorites', JSON.stringify(fav));
-    }, [fav]);
+        return update(ref(db), updates);
+    }
 
+    // SUPPRESSION D'UN FAV DANS FIREBASE
+    function removeNewFav(titleToRemove) {
+        remove(refDb(db, `/fav/${user.id}/${titleToRemove}`), {});
+    }
+
+    // AJOUT/SUPP DE LA LISTE DES FAVORIS + ÉCRITURE DANS FIREBASE
     function toggleFavorite(id, src, title) {
-        // Sélectionner ou désélectionner les favoris
-        setFav(prevFavorites => {
-            const alreadyFavorited = prevFavorites.find(fav => fav.id === id);
+        setPersonalFav(personalFav => {
+            const alreadyFavorited = personalFav.find(fav => fav.title === title);
             if (alreadyFavorited) {
-                return prevFavorites.filter(item => item !== alreadyFavorited);
+                removeNewFav(title)
+                return personalFav.filter(item => item !== alreadyFavorited);
             } else {
-                return [...prevFavorites, {id, src, title}];
+                writeNewFav(id, title, src)
+                return [...personalFav, {id, src, title}];
             }
         })
     }
@@ -121,15 +158,14 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
                                     src={pic.imgURL}
                                     title={pic.title}
                                     creationDate={pic.creationDate}
-                                    isFavorited={fav.find(fav => fav.id === pic.id)}
-                                    onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)}
+                                    isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
+                                    onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
                                     setHoldSrc={setHoldSrc}
                                     setHoldTitle={setHoldTitle}
                                     setModal={setModal}
                                     isLoading={isLoading}
                                 />
                             )}
-
                     <div
                         className={`bg-[#009688] h-[30px] rounded-xl text-center font-bold text-xl flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
                         What's new ?
@@ -146,14 +182,14 @@ const Gallery = ({fav, setFav, artworks, setArtworks, setTotalArtworks, isLoadin
                         .sort((a, b) => (a.creationDate && b.creationDate
                             ? (a.creationDate < b.creationDate ? 1 : -1)
                             : null))
-                        .map((pic) =>
+                        .map((pic, index) =>
                             <ArtWork
-                                key={pic.id}
+                                key={index}
                                 src={pic.imgURL}
                                 title={pic.title}
                                 creationDate={pic.creationDate}
-                                isFavorited={fav.find(fav => fav.id === pic.id)}
-                                onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)}
+                                isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
+                                onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
                                 setHoldSrc={setHoldSrc}
                                 setHoldTitle={setHoldTitle}
                                 setModal={setModal}
