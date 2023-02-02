@@ -7,18 +7,23 @@ const Favorites = ({personalFav, setPersonalFav}) => {
     // DÉCLARATION DU CONTEXTE USER
     const user = useUserContext();
 
-    // SUPPRIMER UN ITEM FAVORI
+    // SUPPRIMER TOUS LES FAVORIS DU USER
     const removeAllFav = () => {
         const areYouSure = window.confirm("Voulez-vous vraiment supprimer tous vos favoris ?");
 
         if (areYouSure) {
-            remove(refDb(db, `/fav/${user.id}/`), {
-            })
+            remove(refDb(db, `/fav/${user.id}/`), {})
             setPersonalFav([])
             alert("Tous vos favoris ont bien été supprimés 😢")
         } else {
             alert("Vous avez annulé la suppression de vos favoris")
-        }};
+        }
+    };
+
+    // SUPPRIMER LE FAVORI SÉLECTIONNÉ
+    const removeThisFav = (titleToRemove) => {
+        remove(refDb(db, `/fav/${user.id}/${titleToRemove}`), {})
+    };
 
 
     return (
@@ -31,8 +36,14 @@ const Favorites = ({personalFav, setPersonalFav}) => {
                 {personalFav.length === 0
                     ? "Vous n'avez pas encore ajouté de favoris 🥹"
                     : personalFav.map((item, index) =>
-                        <div key={index} className="flex flex-col justify-center items-center">
+                        <div key={index} className="flex flex-col justify-center items-center relative">
                             <img className="h-[200px] w-auto rounded-xl" src={item.src} alt={item.title}/>
+                            <span
+                                className="absolute top-1 right-1 bg-[crimson] text-white rounded-full px-2 flex justify-center items-center cursor-pointer"
+                                onClick={() => removeThisFav(item.title)}
+                            >
+                                x
+                            </span>
                             <span className="text-xs text-center mx-auto">
                                    {item.title}
                                </span>
