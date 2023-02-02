@@ -31,7 +31,6 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                 Object.values([data]).map((item) => {
                     setArtworks(Object.values(item));
                     setId(Object.values(item).length);
-                    console.log("🔥🔥🔥🔥 Firebase is called 🔥🔥🔥🔥");
                 });
             } else {
                 throw new Error("Il y a un souci");
@@ -279,16 +278,16 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                         .map((artwork, index) => (
                                             <tr key={index} className={index % 2 === 0 ? undefined : 'bg-[#CEEAF3]'}>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                    {artwork.id.length > 5 ? artwork.id.substring(0, 5) + "..." : artwork.id}
+                                                    {/*{artwork.id.length > 5 ? artwork.id.substring(0, 5) + "..." : artwork.id}*/}
+                                                    {artwork.id}
                                                 </td>
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                    {index}/{artworks.length}
-                                                </td>
+
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden">
                                                     {artwork.title}
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden">
-                                                    {artwork.imgURL.length > 40 ? artwork.imgURL.substring(0, 40) + "..." : artwork.imgURL}
+                                                    {/*{artwork.imgURL.length > 40 ? artwork.imgURL.substring(0, 40) + "..." : artwork.imgURL}*/}
+                                                    {artwork.imgURL}
                                                 </td>
                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                     <div className="text-green-700 hover:text-[#FFC2C4] cursor-pointer"
