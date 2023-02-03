@@ -30,6 +30,9 @@ const Gallery = ({
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
 
+    // const storedData = localStorage.getItem("data")
+    // console.log(Object.entries(JSON.parse(storedData)))
+
     // REPERER LES NOUVEAUX ARTWORKS
     function anyNewItems() {
         let thereIsNews = false
@@ -44,21 +47,35 @@ const Gallery = ({
 
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
     useEffect(() => {
-        onValue(ref(db), (snapshot) => {
-            const data = snapshot.val();
-            if (data !== null) {
-                // eslint-disable-next-line
-                Object.values([data]).map((item) => {
-                    setArtworks(Object.values(item));
-                    setTotalArtworks(Object.values(item).length);
-                    setConnectedId(user.id)
-                });
-            } else {
-                throw new Error("Il y a un souci");
-            }
-        });
-        setTimeout(() => setIsLoading(false), 3000)
-    }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id]);
+        // Vérifiez si les données sont déjà stockées dans localStorage
+        const sourceLocal = localStorage.getItem("data");
+        const storedData = Object.entries(JSON.parse(sourceLocal)).map((item) => item[1])
+        console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥")
+        if (storedData) {
+            // Utilisez les données stockées pour mettre à jour l'état
+            setArtworks(storedData);
+            setTotalArtworks(storedData.length);
+            setConnectedId(user.id);
+        } else {
+            // Chargez les données depuis le serveur
+            onValue(ref(db), (snapshot) => {
+                const data = snapshot.val();
+                if (data !== null) {
+                    // Stocker les données dans localStorage
+                    localStorage.setItem("data", JSON.stringify(data));
+                    // Mettre à jour l'état
+                    setArtworks(Object.values(data));
+                    setTotalArtworks(Object.values(data).length);
+                    setConnectedId(user.id);
+                    console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
+                } else {
+                    throw new Error("Il y a un souci");
+                }
+            });
+        }
+        setTimeout(() => setIsLoading(false), 3000);
+    }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id])
+
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
     useEffect(() => {
