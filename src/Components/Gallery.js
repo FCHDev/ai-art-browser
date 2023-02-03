@@ -44,50 +44,109 @@ const Gallery = ({
     }
 
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
+
     useEffect(() => {
         // Vérifiez si les données sont déjà stockées dans localStorage
         const sourceLocal = localStorage.getItem("data");
+        const timestampLocal = localStorage.getItem("timestamp");
 
-        if (sourceLocal !== null) {
-            setTimeout(() => setIsLoading(false), 2000);
-            const storedData = Object.entries(JSON.parse(sourceLocal))
-            const parsedStoredData = storedData.map((item) => item[1])
-            // Utilisez les données stockées pour mettre à jour l'état
-            setArtworks(parsedStoredData.sort(() => Math.random() - 0.5));
-            setTotalArtworks(parsedStoredData.length);
-            setConnectedId(user.id);
-            console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥")
+        if (sourceLocal !== null && timestampLocal !== null) {
+            const now = Date.now();
+            const storedTimestamp = parseInt(timestampLocal, 10);
 
-            // Ecouter les changements dans Firebase
-            onValue(ref(db), (snapshot) => {
-                const data = snapshot.val();
-                // Mettre à jour les données dans localStorage
-                localStorage.setItem("data", JSON.stringify(data));
-                // Mettre à jour l'état
-                setArtworks(Object.values(data).sort(() => Math.random() - 0.5));
-                setTotalArtworks(Object.values(data).length);
+            // Si la différence de temps est inférieure à un seuil donné, utilisez les données stockées
+            if (now - storedTimestamp < 900000) { // 15 minutes
+                const storedData = Object.entries(JSON.parse(sourceLocal))
+                const parsedStoredData = storedData.map((item) => item[1])
+                // Utilisez les données stockées pour mettre à jour l'état
+                setArtworks(parsedStoredData.sort(() => Math.random() - 0.5));
+                setTotalArtworks(parsedStoredData.length);
                 setConnectedId(user.id);
-                console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
-            });
+                setIsLoading(false);
+                console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥");
+            } else {
+                // Chargez les données depuis le serveur
+                onValue(ref(db), (snapshot) => {
+                    const data = snapshot.val();
+                    if (data !== null) {
+                        // Stocker les données et le timestamp dans localStorage
+                        localStorage.setItem("data", JSON.stringify(data));
+                        localStorage.setItem("timestamp", now.toString());
+                        // Mettre à jour l'état
+                        setArtworks(Object.values(data));
+                        setTotalArtworks(Object.values(data).length);
+                        setConnectedId(user.id);
+                        console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
+                    } else {
+                        throw new Error("Il y a un souci");
+                    }
+                });
+            }
         } else {
             // Chargez les données depuis le serveur
             onValue(ref(db), (snapshot) => {
                 const data = snapshot.val();
                 if (data !== null) {
-                    // Stocker les données dans localStorage
+                    // Stocker les données et le timestamp dans localStorage
                     localStorage.setItem("data", JSON.stringify(data));
+                    localStorage.setItem("timestamp", Date.now().toString());
                     // Mettre à jour l'état
                     setArtworks(Object.values(data));
                     setTotalArtworks(Object.values(data).length);
                     setConnectedId(user.id);
-                    console.log("🔥🔥🔥🔥 DATAS INIT FROM FIREBASE 🔥🔥🔥🔥");
+                    setIsLoading(false);
+                    console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                 } else {
                     throw new Error("Il y a un souci");
                 }
             });
         }
-        setTimeout(() => setIsLoading(false), 3000);
-    }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id])
+    }, [setArtworks, setTotalArtworks, setConnectedId, setIsLoading, user.id]);
+
+    // useEffect(() => {
+    //     // Vérifiez si les données sont déjà stockées dans localStorage
+    //     const sourceLocal = localStorage.getItem("data");
+    //
+    //     if (sourceLocal !== null) {
+    //         setTimeout(() => setIsLoading(false), 2000);
+    //         const storedData = Object.entries(JSON.parse(sourceLocal))
+    //         const parsedStoredData = storedData.map((item) => item[1])
+    //         // Utilisez les données stockées pour mettre à jour l'état
+    //         setArtworks(parsedStoredData.sort(() => Math.random() - 0.5));
+    //         setTotalArtworks(parsedStoredData.length);
+    //         setConnectedId(user.id);
+    //         console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥")
+    //
+    //         // Ecouter les changements dans Firebase
+    //         onValue(ref(db), (snapshot) => {
+    //             const data = snapshot.val();
+    //             // Mettre à jour les données dans localStorage
+    //             localStorage.setItem("data", JSON.stringify(data));
+    //             // Mettre à jour l'état
+    //             setArtworks(Object.values(data).sort(() => Math.random() - 0.5));
+    //             setTotalArtworks(Object.values(data).length);
+    //             setConnectedId(user.id);
+    //             console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
+    //         });
+    //     } else {
+    //         // Chargez les données depuis le serveur
+    //         onValue(ref(db), (snapshot) => {
+    //             const data = snapshot.val();
+    //             if (data !== null) {
+    //                 // Stocker les données dans localStorage
+    //                 localStorage.setItem("data", JSON.stringify(data));
+    //                 // Mettre à jour l'état
+    //                 setArtworks(Object.values(data));
+    //                 setTotalArtworks(Object.values(data).length);
+    //                 setConnectedId(user.id);
+    //                 console.log("🔥🔥🔥🔥 DATAS INIT FROM FIREBASE 🔥🔥🔥🔥");
+    //             } else {
+    //                 throw new Error("Il y a un souci");
+    //             }
+    //         });
+    //     }
+    //     setTimeout(() => setIsLoading(false), 3000);
+    // }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id])
 
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
@@ -231,22 +290,22 @@ const Gallery = ({
                         </>
                     )
                     : (
-                    artworks
-                        .filter((pic) => !isNew(pic.creationDate)) // On filtre les images qui ne sont pas nouvelles
-                        .map((pic, index) =>
-                            <ArtWork
-                                key={index}
-                                src={pic.imgURL}
-                                title={pic.title}
-                                creationDate={pic.creationDate}
-                                isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
-                                onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
-                                setHoldSrc={setHoldSrc}
-                                setHoldTitle={setHoldTitle}
-                                setModal={setModal}
-                                isLoading={isLoading}
-                            />
-                        ))}
+                        artworks
+                            .filter((pic) => !isNew(pic.creationDate)) // On filtre les images qui ne sont pas nouvelles
+                            .map((pic, index) =>
+                                <ArtWork
+                                    key={index}
+                                    src={pic.imgURL}
+                                    title={pic.title}
+                                    creationDate={pic.creationDate}
+                                    isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
+                                    onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
+                                    setHoldSrc={setHoldSrc}
+                                    setHoldTitle={setHoldTitle}
+                                    setModal={setModal}
+                                    isLoading={isLoading}
+                                />
+                            ))}
             </div>
 
             <ScrollToTop
