@@ -26,7 +26,7 @@ const Favorites = ({personalFav, setPersonalFav}) => {
 
     // SUPPRIMER UNIQUEMENT LE FAVORI SÉLECTIONNÉ
     const removeThisFav = (titleToRemove) => {
-        const areYouSure = window.confirm("Voulez-vous vraiment supprimer ce favori ?");
+        const areYouSure = window.confirm(`Voulez-vous vraiment supprimer "${titleToRemove}" de vos favoris ?`);
 
         if (areYouSure) {
             remove(refDb(db, `/fav/${user.id}/${titleToRemove}`), {})
