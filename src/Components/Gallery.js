@@ -30,8 +30,6 @@ const Gallery = ({
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
 
-    // const storedData = localStorage.getItem("data")
-    // console.log(Object.entries(JSON.parse(storedData)))
 
     // REPERER LES NOUVEAUX ARTWORKS
     function anyNewItems() {
@@ -51,13 +49,26 @@ const Gallery = ({
         const sourceLocal = localStorage.getItem("data");
 
         if (sourceLocal !== null) {
+            setTimeout(() => setIsLoading(false), 2000);
             const storedData = Object.entries(JSON.parse(sourceLocal))
             const parsedStoredData = storedData.map((item) => item[1])
             // Utilisez les données stockées pour mettre à jour l'état
-            setArtworks(parsedStoredData);
+            setArtworks(parsedStoredData.sort(() => Math.random() - 0.5));
             setTotalArtworks(parsedStoredData.length);
             setConnectedId(user.id);
             console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥")
+
+            // Ecouter les changements dans Firebase
+            onValue(ref(db), (snapshot) => {
+                const data = snapshot.val();
+                // Mettre à jour les données dans localStorage
+                localStorage.setItem("data", JSON.stringify(data));
+                // Mettre à jour l'état
+                setArtworks(Object.values(data).sort(() => Math.random() - 0.5));
+                setTotalArtworks(Object.values(data).length);
+                setConnectedId(user.id);
+                console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
+            });
         } else {
             // Chargez les données depuis le serveur
             onValue(ref(db), (snapshot) => {
@@ -69,7 +80,7 @@ const Gallery = ({
                     setArtworks(Object.values(data));
                     setTotalArtworks(Object.values(data).length);
                     setConnectedId(user.id);
-                    console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
+                    console.log("🔥🔥🔥🔥 DATAS INIT FROM FIREBASE 🔥🔥🔥🔥");
                 } else {
                     throw new Error("Il y a un souci");
                 }
@@ -101,19 +112,6 @@ const Gallery = ({
         setModal(false)
     }
 
-    // // GESTION DES FAV DANS LE LOCALSTORAGE
-    // useEffect(() => {
-    //     // Charger les favoris stockés à partir du stockage local
-    //     const storedFavorites = JSON.parse(localStorage.getItem('favorites'));
-    //     if (storedFavorites) {
-    //         setPersonalFav(storedFavorites);
-    //     }
-    // }, [setFav]);
-    //
-    // useEffect(() => {
-    //     // Stocker les favoris dans le stockage local à chaque mise à jour
-    //     localStorage.setItem('favorites', JSON.stringify(personalFav));
-    // }, [personalFav]);
 
     // ÉCRITURE DU NOUVEAU FAV DANS FIREBASE
     function writeNewFav(id, title, src) {
@@ -147,10 +145,6 @@ const Gallery = ({
         })
     }
 
-    // useEffect(() => {
-    //     setTimeout(() => setIsLoading(false), 5000);
-    // }, [setIsLoading])
-
     return (
         <>
             {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
@@ -161,8 +155,8 @@ const Gallery = ({
                     top-8 px-4 rounded-xl">
                     {holdTitle}
                 </q>
-                <img className="rounded-xl max-h-screen mb-5" src={holdSrc} alt={holdTitle}/>
-                <img className="fixed md:top-10 md:left-10 bottom-10 h-8 cursor-pointer opacity-80"
+                <img className="max-h-screen md:mb-5" src={holdSrc} alt={holdTitle}/>
+                <img className="fixed md:top-10 md:left-10 bottom-20 h-8 cursor-pointer opacity-80"
                      onClick={(e) => closeImg(e)}
                      src={closeIcon}
                      alt="fermer close"/>
@@ -238,9 +232,6 @@ const Gallery = ({
                     )
                     : (
                     artworks
-                        .sort((a, b) => (a.creationDate && b.creationDate
-                            ? (a.creationDate < b.creationDate ? 1 : -1)
-                            : null)) // On trie les images par date de création
                         .filter((pic) => !isNew(pic.creationDate)) // On filtre les images qui ne sont pas nouvelles
                         .map((pic, index) =>
                             <ArtWork
