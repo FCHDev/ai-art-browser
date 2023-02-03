@@ -49,13 +49,15 @@ const Gallery = ({
     useEffect(() => {
         // Vérifiez si les données sont déjà stockées dans localStorage
         const sourceLocal = localStorage.getItem("data");
-        const storedData = Object.entries(JSON.parse(sourceLocal)).map((item) => item[1])
-        console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥")
-        if (storedData) {
+
+        if (sourceLocal !== null) {
+            const storedData = Object.entries(JSON.parse(sourceLocal))
+            const parsedStoredData = storedData.map((item) => item[1])
             // Utilisez les données stockées pour mettre à jour l'état
-            setArtworks(storedData);
-            setTotalArtworks(storedData.length);
+            setArtworks(parsedStoredData);
+            setTotalArtworks(parsedStoredData.length);
             setConnectedId(user.id);
+            console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥")
         } else {
             // Chargez les données depuis le serveur
             onValue(ref(db), (snapshot) => {
