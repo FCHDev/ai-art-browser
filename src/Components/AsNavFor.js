@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import closeIcon from "../Assets/SVG/close.svg";
 
-const AsNavFor = ({personalFav}) => {
+const AsNavFor = ({personalFav, removeThisFav}) => {
 
     // GESTION DU NOMBRE DE THUMBNAILS DANS LE SLIDER2 EN FONCTION DE LA TAILLE DE L'ÉCRAN
     const [itemsInSlider2, setItemsInSlider2] = useState(8);
@@ -22,7 +22,6 @@ const AsNavFor = ({personalFav}) => {
         };
         handleWindowResize();
         window.addEventListener("resize", handleWindowResize);
-        console.log("window.innerWidth", window.innerWidth)
         return () => window.removeEventListener("resize", handleWindowResize);
     }, []);
 
@@ -91,8 +90,8 @@ const AsNavFor = ({personalFav}) => {
                                  alt={item.title}/>
                             <img src={closeIcon}
                                  alt="close icon"
-                                 className="h-6 absolute top-1 right-3 bg-[crimson] text-white rounded-full p-1 flex justify-center items-center cursor-pointer"
-                                // onClick={() => removeThisFav(item.title)}
+                                 className="md:h-6 h-8 absolute top-1 right-3 bg-[crimson] text-white rounded-full p-1 flex justify-center items-center cursor-pointer"
+                                onClick={() => removeThisFav(item.title)}
                             />
                             <span className="md:text-xs md:block hidden text-center mx-auto text-white">
                                    {item.title}
