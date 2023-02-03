@@ -4,7 +4,28 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import closeIcon from "../Assets/SVG/close.svg";
 
-const AsNavFor = ({personalFav, itemsInSlider2}) => {
+const AsNavFor = ({personalFav}) => {
+
+    // GESTION DU NOMBRE DE THUMBNAILS DANS LE SLIDER2 EN FONCTION DE LA TAILLE DE L'ÉCRAN
+    const [itemsInSlider2, setItemsInSlider2] = useState(8);
+
+    useEffect(() => {
+        const handleWindowResize = () => {
+            if (window.innerWidth > 1 && window.innerWidth < 900) {
+                setItemsInSlider2(2);
+            }
+            if (window.innerWidth > 900 && window.innerWidth < 1400) {
+                setItemsInSlider2(4);
+            } else if (window.innerWidth > 1400) {
+                setItemsInSlider2(8);
+            }
+        };
+        handleWindowResize();
+        window.addEventListener("resize", handleWindowResize);
+        console.log("window.innerWidth", window.innerWidth)
+        return () => window.removeEventListener("resize", handleWindowResize);
+    }, [window.innerWidth]);
+
     const [nav, setNav] = useState({
         nav1: null,
         nav2: null

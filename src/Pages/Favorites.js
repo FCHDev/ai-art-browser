@@ -1,4 +1,3 @@
-import {useState, useEffect} from 'react';
 import {remove} from "firebase/database";
 import {db, refDb} from "../service/firebase-config";
 import {useUserContext} from "../Context/Context";
@@ -11,17 +10,6 @@ const Favorites = ({personalFav, setPersonalFav}) => {
     // DÉCLARATION DU CONTEXTE USER
     const user = useUserContext();
 
-    const [itemsInSlider2, setItemsInSlider2] = useState(8);
-
-    useEffect(() => {
-        const handleWindowResize = () => {
-            if (window.matchMedia("(max-width: 900px)").matches) {
-                setItemsInSlider2(2);
-            }
-        };
-        window.addEventListener("resize", handleWindowResize);
-        return () => window.removeEventListener("resize", handleWindowResize);
-    });
 
     // SUPPRIMER TOUS LES FAVORIS DU USER
     const removeAllFav = () => {
@@ -50,7 +38,6 @@ const Favorites = ({personalFav, setPersonalFav}) => {
                 {/*<Carousel/>*/}
                 <AsNavFor
                     personalFav={personalFav}
-                    itemsInSlider2={itemsInSlider2}
                     removeThisFav={removeThisFav}/>
             </div>
 
