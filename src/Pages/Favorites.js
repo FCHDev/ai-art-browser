@@ -34,8 +34,10 @@ const Favorites = ({personalFav, setPersonalFav}) => {
     function Carousel() {
         const settings = {
             className: "center",
-            dots: true,
+            dots: false,
+            pauseOnHover: false,
             infinite: true,
+            fade: true,
             speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -57,12 +59,12 @@ const Favorites = ({personalFav, setPersonalFav}) => {
 
     return (
         <div className="flex flex-col">
-            <h1 className="md:block hidden text-2xl text-center my-10">Espace Favoris de <strong className="text-[crimson]">
-                {user.firstName}
-            </strong>
-            </h1>
+            {/*<h1 className="md:block hidden text-2xl text-center my-10">Espace Favoris de <strong className="text-[crimson]">*/}
+            {/*    {user.firstName}*/}
+            {/*</strong>*/}
+            {/*</h1>*/}
 
-            <div className={`${personalFav.length === 0 ? "hidden" : "block"}`}>
+            <div className={`${personalFav.length === 0 ? "hidden" : "block"} md:mt-10`}>
                 <Carousel/>
             </div>
 

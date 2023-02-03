@@ -113,4 +113,17 @@ q::after {
     width: 100%;
 }
 
+.skeleton {
+    opacity: .7;
+    animation: skeleton-loading .5s linear infinite alternate;
+}
+@keyframes skeleton-loading {
+    0% {
+        background-color: hsl(200, 20%, 50%);
+    }
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}
+
 
