@@ -12,7 +12,7 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
     useEffect(() => {
         const handleWindowResize = () => {
             if (window.innerWidth > 1 && window.innerWidth < 900) {
-                setItemsInSlider2(2);
+                setItemsInSlider2(3);
             }
             if (window.innerWidth > 900 && window.innerWidth < 1400) {
                 setItemsInSlider2(4);
@@ -65,12 +65,12 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
                 {personalFav.map((item, index) =>
                     <div key={index}>
                         <img src={item.src} alt={item.title}
-                             className="mx-auto md:rounded-xl object-fit md:max-h-[700px] max-h-[460px]"/>
+                             className="mx-auto md:rounded-xl object-fit md:max-h-[700px] max-h-[550px]"/>
                     </div>)}
             </Slider>
 
             <div
-                className="md:h-[250px] h-[180px] mt-5 mx-1 border border-white border-opacity-20 p-3 rounded-xl">
+                className="md:h-[250px] h-[130px] md:mt-5 mx-1 border border-white border-opacity-20 p-3 rounded-xl">
                 <Slider
                     asNavFor={nav.nav1}
                     ref={(slider) => {
@@ -81,12 +81,10 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
                     focusOnSelect={true}
                     arrows={false}
                 >
-
-
                     {personalFav.map((item, index) =>
                         <div key={index}
                              className="max-w-[180px] md:max-w-[220px] relative">
-                            <img className="md:h-[210px] md:w-[210px] w-[150px] h-[150px] object-cover rounded-xl mx-auto" src={item.src}
+                            <img className="md:h-[210px] md:w-[210px] w-[100px] h-[100px] object-cover rounded-xl mx-auto" src={item.src}
                                  alt={item.title}/>
                             <img src={closeIcon}
                                  alt="close icon"

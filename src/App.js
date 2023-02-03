@@ -14,6 +14,7 @@ import Header from "./Components/Header";
 import Gallery from "./Components/Gallery";
 import Favorites from "./Pages/Favorites";
 import AdminPage from "./Pages/AdminPage";
+import HeaderFav from "./Components/HeaderFav";
 
 
 // On configure notre clé API Clerk dans un variable d'environnement'
@@ -70,13 +71,12 @@ function App() {
                         }/>
                         <Route path="/favorites" element={
                             <>
-                                <Header totalArtworks={totalArtworks} personalFav={personalFav}/>
+                                <HeaderFav totalArtworks={totalArtworks} personalFav={personalFav}/>
                                 <Favorites
                                     personalFav={personalFav}
                                     setPersonalFav={setPersonalFav}
                                     totalFav={totalFav}
                                     connectedId={connectedId}/>
-                                <Hello/>
                             </>}/>
                     </Routes>
                 </UserProvider>
