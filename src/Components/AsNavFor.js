@@ -24,7 +24,7 @@ const AsNavFor = ({personalFav}) => {
         window.addEventListener("resize", handleWindowResize);
         console.log("window.innerWidth", window.innerWidth)
         return () => window.removeEventListener("resize", handleWindowResize);
-    }, [window.innerWidth]);
+    }, []);
 
     const [nav, setNav] = useState({
         nav1: null,
