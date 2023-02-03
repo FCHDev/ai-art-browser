@@ -44,7 +44,7 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
         dots: false,
         pauseOnHover: false,
         infinite: true,
-        fade: true,
+        fade: false,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -65,12 +65,12 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
                 {personalFav.map((item, index) =>
                     <div key={index}>
                         <img src={item.src} alt={item.title}
-                             className="mx-auto md:rounded-xl object-fit md:max-h-[700px] max-h-[400px]"/>
+                             className="mx-auto md:rounded-xl object-fit md:max-h-[700px] max-h-[460px]"/>
                     </div>)}
             </Slider>
 
             <div
-                className="md:h-[250px] h-[200px] mt-5 mx-1 border border-white border-opacity-20 p-3 rounded-xl">
+                className="md:h-[250px] h-[180px] mt-5 mx-1 border border-white border-opacity-20 p-3 rounded-xl">
                 <Slider
                     asNavFor={nav.nav1}
                     ref={(slider) => {
@@ -86,7 +86,7 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
                     {personalFav.map((item, index) =>
                         <div key={index}
                              className="max-w-[180px] md:max-w-[220px] relative">
-                            <img className="md:h-[210px] md:w-[210px] w-[170px] h-[170px] object-cover rounded-xl mx-auto" src={item.src}
+                            <img className="md:h-[210px] md:w-[210px] w-[150px] h-[150px] object-cover rounded-xl mx-auto" src={item.src}
                                  alt={item.title}/>
                             <img src={closeIcon}
                                  alt="close icon"
