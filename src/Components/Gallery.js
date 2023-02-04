@@ -76,6 +76,7 @@ const Gallery = ({
                         setArtworks(Object.values(data));
                         setTotalArtworks(Object.values(data).length);
                         setConnectedId(user.id);
+                        setIsLoading(false);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                     } else {
                         throw new Error("Il y a un souci");
@@ -103,6 +104,7 @@ const Gallery = ({
         }
     }, [setArtworks, setTotalArtworks, setConnectedId, setIsLoading, user.id]);
 
+    //BACKUP USEEFFECT
     // useEffect(() => {
     //     // Vérifiez si les données sont déjà stockées dans localStorage
     //     const sourceLocal = localStorage.getItem("data");
