@@ -29,6 +29,7 @@ const Gallery = ({
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
+    const [showNew, setShowNew] = useState(true)
 
 
     // REPERER LES NOUVEAUX ARTWORKS
@@ -55,7 +56,7 @@ const Gallery = ({
             const storedTimestamp = parseInt(timestampLocal, 10);
 
             // Si la différence de temps est inférieure à un seuil donné, utilisez les données stockées
-            if (now - storedTimestamp < 900000) { // 15 minutes
+            if (now - storedTimestamp < 10000) { // 30 secondes (15 minutes : 900000ms)
                 const storedData = Object.entries(JSON.parse(sourceLocal))
                 const parsedStoredData = storedData.map((item) => item[1])
                 // Utilisez les données stockées pour mettre à jour l'état
@@ -70,11 +71,11 @@ const Gallery = ({
                     const data = snapshot.val();
                     if (data !== null) {
                         // Stocker les données et le timestamp dans localStorage
-                        localStorage.setItem("data", JSON.stringify(data));
+                        localStorage.setItem("data", JSON.stringify(data.images));
                         localStorage.setItem("timestamp", now.toString());
                         // Mettre à jour l'état
-                        setArtworks(Object.values(data));
-                        setTotalArtworks(Object.values(data).length);
+                        setArtworks(Object.values(data.images).sort(() => Math.random() - 0.5));
+                        setTotalArtworks(Object.values(data.images).length);
                         setConnectedId(user.id);
                         setIsLoading(false);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
@@ -89,14 +90,15 @@ const Gallery = ({
                 const data = snapshot.val();
                 if (data !== null) {
                     // Stocker les données et le timestamp dans localStorage
-                    localStorage.setItem("data", JSON.stringify(data));
+                    localStorage.setItem("data", JSON.stringify(data.images));
                     localStorage.setItem("timestamp", Date.now().toString());
                     // Mettre à jour l'état
-                    setArtworks(Object.values(data));
-                    setTotalArtworks(Object.values(data).length);
+                    setArtworks(Object.values(data.images));
+                    setTotalArtworks(Object.values(data.images).length);
                     setConnectedId(user.id);
                     setIsLoading(false);
-                    console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
+                    console.log("🔥🔥🔥🔥 FIRST SERVE 🔥🔥🔥🔥");
+                    console.log(data.images)
                 } else {
                     throw new Error("Il y a un souci");
                 }
@@ -206,6 +208,11 @@ const Gallery = ({
         })
     }
 
+    // fonction qui permet de faire un toggle sur le bouton "nouveau" pour afficher les nouveaux artworks
+    const toggleShowNew = () => {
+        setShowNew(!showNew)
+    }
+
     return (
         <>
             {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
@@ -223,8 +230,14 @@ const Gallery = ({
                      alt="fermer close"/>
             </div>
 
+            <div className="w-1/2 mx-auto flex justify-center md:mb-12 md:mt-8">
+                <button className={`${showNew ? "text-[#009688] border-[#009688]" : "bg-[#009688]"} font-bold text-xl w-[150px] border py-2 px-3 rounded-xl`} onClick={toggleShowNew}>
+                    {showNew ? "Cacher New" : "Montrer New"}
+                </button>
+            </div>
+
             {/*VUE NEW*/}
-            <div className={`${anyNewItems ? "block" : "hidden"} flex flex-col mx-auto md:my-16 my-5`}>
+            <div className={`${anyNewItems && showNew ? "block" : "hidden"} flex flex-col mx-auto my-5`}>
                 <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20 md:mb-10">
                     {isLoading
                         ? (<>
