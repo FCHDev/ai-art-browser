@@ -8,6 +8,8 @@ import {onValue, ref, update, remove} from "firebase/database";
 import {db, refDb} from "../service/firebase-config";
 import {useUserContext} from "../Context/Context";
 import Skeleton from "./Skeleton";
+import portraitSVG from "../Assets/SVG/portrait.svg";
+import landscapeSVG from "../Assets/SVG/landscape.svg";
 
 
 const Gallery = ({
@@ -29,7 +31,11 @@ const Gallery = ({
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
+    // eslint-disable-next-line
+    const [holdType, setHoldType] = useState('')
+    const [typeFilter, setTypeFilter] = useState(artworks)
     const [showNew, setShowNew] = useState(true)
+    const [titleCategory, setTitleCategory] = useState('artworks')
 
 
     // REPERER LES NOUVEAUX ARTWORKS
@@ -213,6 +219,17 @@ const Gallery = ({
         setShowNew(!showNew)
     }
 
+    // fonction qui permet de filtrer les artworks par catégorie
+    const filterByType = (keyword) => {
+    const filteredArtworks = artworks.filter(function (obj) {
+            return obj?.type && obj?.type.includes(keyword);
+        })
+        setTypeFilter(filteredArtworks)
+        setTitleCategory(keyword)
+        setShowNew(false)
+    }
+
+
     return (
         <>
             {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
@@ -230,9 +247,27 @@ const Gallery = ({
                      alt="fermer close"/>
             </div>
 
-            <div className="w-1/2 mx-auto flex justify-center md:mb-12 md:mt-8">
-                <button className={`${showNew ? "text-[#009688] border-[#009688]" : "bg-[#009688]"} font-bold text-xl w-[150px] border py-2 px-3 rounded-xl`} onClick={toggleShowNew}>
-                    {showNew ? "Cacher New" : "Montrer New"}
+            {/*// SECTION GESTION DES CATEGORIES*/}
+            <div className="w-full md:w-1/2 mx-auto flex justify-evenly md:mb-12 md:mt-8">
+                <button
+                    className={`${showNew ? "text-[#009688] border border-[#009688] line-through" : "bg-[#009688]"} font-bold md:text-base text-sm w-[150px] py-2 px-3 rounded-xl`}
+                    onClick={toggleShowNew}>
+                    New
+                </button>
+
+                <button className="w-20 font-bold md:text-xl text-sm w-[150px] border py-2 px-3 rounded-xl"
+                        onClick={() => setTypeFilter(artworks)}>
+                    ALL
+                </button>
+                <button className="text-base md:w-[150px] w-[50px] border py-2 px-2 rounded-full md:bg-black bg-white"
+                        onClick={() => filterByType("paysages")}>
+                    <span className="md:block hidden">Paysages</span>
+                    <img src={landscapeSVG} alt="svg pour filtrer les paysages"/>
+                </button>
+                <button className="text-base md:w-[150px] w-[50px] border py-2 px-2 rounded-full md:bg-black bg-white"
+                        onClick={() => filterByType("portrait")}>
+                    <span className="md:block hidden">Portraits</span>
+                    <img src={portraitSVG} alt="svg pour filtrer les portrtaits"/>
                 </button>
             </div>
 
@@ -263,11 +298,13 @@ const Gallery = ({
                                         key={index}
                                         src={pic.imgURL}
                                         title={pic.title}
+                                        type={pic?.type}
                                         creationDate={pic.creationDate}
                                         isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
                                         onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
                                         setHoldSrc={setHoldSrc}
                                         setHoldTitle={setHoldTitle}
+                                        setHoldType={setHoldType}
                                         setModal={setModal}
                                         isLoading={isLoading}
                                     />
@@ -283,8 +320,8 @@ const Gallery = ({
             {/*VUE PRINCIPALE*/}
             <div className="gallery">
                 <h2 className="text-3xl md:pt-20 text-center text-white font-bold my-5">
-                    Tous les <span className="text-[#009787]">
-                    Artworks...
+                    Tous les <span className="text-[#009787] capitalize">
+                    {titleCategory === "portrait" ? "portraits" : titleCategory}...
                 </span>
                 </h2>
 
@@ -305,18 +342,18 @@ const Gallery = ({
                         </>
                     )
                     : (
-                        artworks
-                            .filter((pic) => !isNew(pic.creationDate)) // On filtre les images qui ne sont pas nouvelles
-                            .map((pic, index) =>
+                       typeFilter.map((pic, index) =>
                                 <ArtWork
                                     key={index}
                                     src={pic.imgURL}
                                     title={pic.title}
+                                    type={pic?.type}
                                     creationDate={pic.creationDate}
                                     isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
                                     onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
                                     setHoldSrc={setHoldSrc}
                                     setHoldTitle={setHoldTitle}
+                                    setHoldType={setHoldType}
                                     setModal={setModal}
                                     isLoading={isLoading}
                                 />

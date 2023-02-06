@@ -7,21 +7,25 @@ import LazyLoad from 'react-lazy-load'
 const ArtWork = ({
                      src,
                      title,
+                     type,
                      creationDate,
                      isFavorited,
                      onClick,
                      setHoldSrc,
                      setHoldTitle,
+                     setHoldType,
                      setModal,
                      isLoading,
                  }) => {
 
-    function getImg(imgSrc, imgTitle, event) {
+    function getImg(imgSrc, imgTitle, imgType, event) {
         event.preventDefault()
         setHoldSrc(imgSrc)
         setHoldTitle(imgTitle)
+        setHoldType(imgType)
         setModal(true)
         console.log(title + " " + (creationDate ? `a été créé le ${creationDate}` : "n'a pas de date de création"))
+        console.log(imgType)
     }
 
     return (
@@ -33,7 +37,7 @@ const ArtWork = ({
                     src={src}
                     alt={title}
                     loading={"lazy"}
-                    onClick={(event) => getImg(src, title, event)}
+                    onClick={(event) => getImg(src, title, type, event)}
                 />
             </LazyLoad>
 
