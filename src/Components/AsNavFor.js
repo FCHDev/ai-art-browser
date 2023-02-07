@@ -88,7 +88,7 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
                                  alt={item.title}/>
                             <img src={closeIcon}
                                  alt="close icon"
-                                 className="md:h-6 h-8 absolute top-1 right-3 bg-[crimson] text-white rounded-full p-1 flex justify-center items-center cursor-pointer"
+                                 className="h-6 absolute top-1 right-3 bg-gray-500 bg-opacity-50 backdrop-blur-lg text-white rounded-full p-1 flex justify-center items-center cursor-pointer"
                                 onClick={() => removeThisFav(item.title)}
                             />
                             <span className="md:text-xs md:block hidden text-center mx-auto text-white">

@@ -37,18 +37,6 @@ const Gallery = ({
     const [titleCategory, setTitleCategory] = useState('artworks')
 
 
-    // REPERER LES NOUVEAUX ARTWORKS
-    function anyNewItems() {
-        let thereIsNews = false
-        // eslint-disable-next-line
-        artworks.map((item) => {
-            if (isNew(item.date, thereIsNews)) {
-                thereIsNews = true
-            }
-        })
-        return thereIsNews
-    }
-
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
 
     useEffect(() => {
@@ -158,6 +146,17 @@ const Gallery = ({
     //     setTimeout(() => setIsLoading(false), 3000);
     // }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id])
 
+    // REPERER LES NOUVEAUX ARTWORKS
+    function anyNewItems() {
+        let thereIsNews = false
+        // eslint-disable-next-line
+        artworks.map((item) => {
+            if (isNew(item.date, thereIsNews)) {
+                thereIsNews = true
+            }
+        })
+        return thereIsNews
+    }
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
     useEffect(() => {
