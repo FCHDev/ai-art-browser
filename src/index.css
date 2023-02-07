@@ -24,6 +24,10 @@ body {
     display: block;
     flex-grow: 10;
 }
+.gallery-item {
+    height: 250px;
+    flex-grow: 1;
+}
 
 .newOnes {
     max-width: 1200px;
@@ -42,10 +46,6 @@ body {
 }
 
 
-.gallery-item {
-    height: 250px;
-    flex-grow: 1;
-}
 
 .modal {
     width: 100%;

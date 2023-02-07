@@ -10,6 +10,7 @@ import {useUserContext} from "../Context/Context";
 import Skeleton from "./Skeleton";
 import portraitSVG from "../Assets/SVG/portrait.svg";
 import landscapeSVG from "../Assets/SVG/landscape.svg";
+import allSVG from "../Assets/SVG/all.svg";
 
 
 const Gallery = ({
@@ -31,8 +32,6 @@ const Gallery = ({
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
     const [holdTitle, setHoldTitle] = useState('')
-    // eslint-disable-next-line
-    const [holdType, setHoldType] = useState('')
     const [typeFilter, setTypeFilter] = useState(artworks)
     const [showNew, setShowNew] = useState(true)
     const [titleCategory, setTitleCategory] = useState('artworks')
@@ -69,7 +68,8 @@ const Gallery = ({
                 setArtworks(parsedStoredData.sort(() => Math.random() - 0.5));
                 setTotalArtworks(parsedStoredData.length);
                 setConnectedId(user.id);
-                setIsLoading(false);
+                setTypeFilter(parsedStoredData.sort(() => Math.random() - 0.5))
+                setTimeout(() => setIsLoading(false), 3000);
                 console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥");
             } else {
                 // Chargez les données depuis le serveur
@@ -83,7 +83,8 @@ const Gallery = ({
                         setArtworks(Object.values(data.images).sort(() => Math.random() - 0.5));
                         setTotalArtworks(Object.values(data.images).length);
                         setConnectedId(user.id);
-                        setIsLoading(false);
+                        setTypeFilter(Object.values(data.images).sort(() => Math.random() - 0.5))
+                        setTimeout(() => setIsLoading(false), 3000);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                     } else {
                         throw new Error("Il y a un souci");
@@ -102,9 +103,8 @@ const Gallery = ({
                     setArtworks(Object.values(data.images));
                     setTotalArtworks(Object.values(data.images).length);
                     setConnectedId(user.id);
-                    setIsLoading(false);
-                    console.log("🔥🔥🔥🔥 FIRST SERVE 🔥🔥🔥🔥");
-                    console.log(data.images)
+                    setTypeFilter(Object.values(data.images))
+                    setTimeout(() => setIsLoading(false), 3000);
                 } else {
                     throw new Error("Il y a un souci");
                 }
@@ -181,7 +181,6 @@ const Gallery = ({
         setModal(false)
     }
 
-
     // ÉCRITURE DU NOUVEAU FAV DANS FIREBASE
     function writeNewFav(id, title, src) {
         const newFavPost = {
@@ -219,14 +218,21 @@ const Gallery = ({
         setShowNew(!showNew)
     }
 
+    // FILTRE SUR LES ARTWORKS PAR CATÉGORIE
     // fonction qui permet de filtrer les artworks par catégorie
     const filterByType = (keyword) => {
-    const filteredArtworks = artworks.filter(function (obj) {
-            return obj?.type && obj?.type.includes(keyword);
-        })
-        setTypeFilter(filteredArtworks)
-        setTitleCategory(keyword)
-        setShowNew(false)
+        if (keyword === "all") {
+            setTypeFilter(artworks)
+            setTitleCategory("artworks")
+            setShowNew(false)
+        } else {
+            const filteredArtworks = artworks.filter(function (obj) {
+                return obj?.type && obj?.type.includes(keyword);
+            })
+            setTypeFilter(filteredArtworks)
+            setTitleCategory(keyword)
+            setShowNew(false)
+        }
     }
 
 
@@ -248,25 +254,26 @@ const Gallery = ({
             </div>
 
             {/*// SECTION GESTION DES CATEGORIES*/}
-            <div className="w-full md:w-1/2 mx-auto flex justify-evenly md:mb-12 md:mt-8">
+            <div className="w-full md:w-1/4 mx-auto flex justify-evenly items-center md:mb-12 md:mt-8">
                 <button
-                    className={`${showNew ? "text-[#009688] border border-[#009688] line-through" : "bg-[#009688]"} font-bold md:text-base text-sm w-[150px] py-2 px-3 rounded-xl`}
+                    className={`${showNew ? "text-[#009688] border border-[#009688] line-through" : "bg-[#009688]"} font-bold md:text-base text-sm w-[130px] md:w-20 md:h-12 py-2 px-2 rounded-xl cursor-pointer`}
                     onClick={toggleShowNew}>
                     New
                 </button>
 
-                <button className="w-20 font-bold md:text-xl text-sm w-[150px] border py-2 px-3 rounded-xl"
-                        onClick={() => setTypeFilter(artworks)}>
-                    ALL
+                <button
+                    className="md:flex md:items-center text-base w-[65px] py-2 px-2 rounded-full cursor-pointer"
+                    onClick={() => filterByType("all")}>
+                    <img src={allSVG} alt="svg pour enlever les filtres"/>
                 </button>
-                <button className="text-base md:w-[150px] w-[50px] border py-2 px-2 rounded-full md:bg-black bg-white"
-                        onClick={() => filterByType("paysages")}>
-                    <span className="md:block hidden">Paysages</span>
+                <button
+                    className="md:flex md:items-center md:p-5 text-base md:w-20 md:h-12 w-[50px] py-2 px-2 rounded-full bg-white cursor-pointer md:hover:bg-gray-300"
+                    onClick={() => filterByType("paysages")}>
                     <img src={landscapeSVG} alt="svg pour filtrer les paysages"/>
                 </button>
-                <button className="text-base md:w-[150px] w-[50px] border py-2 px-2 rounded-full md:bg-black bg-white"
-                        onClick={() => filterByType("portrait")}>
-                    <span className="md:block hidden">Portraits</span>
+                <button
+                    className="md:flex md:items-center md:p-5 text-base md:w-20 md:h-12 w-[50px] py-2 px-2 rounded-full bg-white cursor-pointer md:hover:bg-gray-300"
+                    onClick={() => filterByType("portrait")}>
                     <img src={portraitSVG} alt="svg pour filtrer les portrtaits"/>
                 </button>
             </div>
@@ -304,7 +311,6 @@ const Gallery = ({
                                         onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
                                         setHoldSrc={setHoldSrc}
                                         setHoldTitle={setHoldTitle}
-                                        setHoldType={setHoldType}
                                         setModal={setModal}
                                         isLoading={isLoading}
                                     />
@@ -342,22 +348,21 @@ const Gallery = ({
                         </>
                     )
                     : (
-                       typeFilter.map((pic, index) =>
-                                <ArtWork
-                                    key={index}
-                                    src={pic.imgURL}
-                                    title={pic.title}
-                                    type={pic?.type}
-                                    creationDate={pic.creationDate}
-                                    isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
-                                    onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
-                                    setHoldSrc={setHoldSrc}
-                                    setHoldTitle={setHoldTitle}
-                                    setHoldType={setHoldType}
-                                    setModal={setModal}
-                                    isLoading={isLoading}
-                                />
-                            ))}
+                        typeFilter.map((pic, index) =>
+                            <ArtWork
+                                key={index}
+                                src={pic.imgURL}
+                                title={pic.title}
+                                type={pic?.type}
+                                creationDate={pic.creationDate}
+                                isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
+                                onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
+                                setHoldSrc={setHoldSrc}
+                                setHoldTitle={setHoldTitle}
+                                setModal={setModal}
+                                isLoading={isLoading}
+                            />
+                        ))}
             </div>
 
             <ScrollToTop
