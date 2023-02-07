@@ -54,6 +54,7 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
     };
 
 
+
     return (
         <div className="md:w-2/3 mx-auto text-black flex flex-col">
             <Slider {...settings}
