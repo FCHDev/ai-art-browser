@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alexandria:wght@400;700&family=Kanit&family=Lobster&family=Noto+Sans+JP:wght@400;900&family=Nunito:wght@400;700&family=Padyakke+Expanded+One&family=Poppins&family=Prompt&family=Roboto+Mono&family=Sono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alexandria:wght@400;700&family=Kanit&family=Lobster&family=Noto+Sans+JP:wght@400;900&family=Nunito:wght@400;700&family=Padyakke+Expanded+One&family=Poppins&family=Prompt&family=Roboto+Mono&family=Silkscreen:wght@400;700&family=Sono&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,7 +7,6 @@
 body {
     background-color: #161215;
     color: #FAF7F0;
-    font-family: 'Nunito', sans-serif;
 }
 
 .gallery {
@@ -73,7 +72,7 @@ body {
 
 .img-title {
     z-index: 999;
-    font-family: 'Noto Sans JP', cursive;
+    font-family: 'Poppins', cursive;
 }
 
 q {

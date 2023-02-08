@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import ArtWork from "./ArtWork";
 import {isNew} from "../Utility/functions";
 
-import closeIcon from '../Assets/SVG/close.svg'
 import ScrollToTop from "react-scroll-to-top";
 import {onValue, ref, update, remove} from "firebase/database";
 import {db, refDb} from "../service/firebase-config";
@@ -11,6 +10,7 @@ import Skeleton from "./Skeleton";
 import portraitSVG from "../Assets/SVG/portrait.svg";
 import landscapeSVG from "../Assets/SVG/landscape.svg";
 import allSVG from "../Assets/SVG/all.svg";
+import newStartSVG from "../Assets/SVG/newStar.svg";
 
 
 const Gallery = ({
@@ -240,26 +240,25 @@ const Gallery = ({
             {/*SECTION QUAND ON CLIQUE DESSUS (LA MODALE QUI PREND TOUT L'ÉCRAN)*/}
             <div className={`${!modal ? "modal" : "modal open relative"} flex flex-col`}>
                 <q
-                    className="img-title fixed bg-[#161215] text-white
-                    md:text-3xl md:top-4
+                    className="img-title fixed bg-[#161215] bg-opacity-50 text-white
+                    text-xl md:text-3xl md:top-4
                     top-8 px-4 rounded-xl">
                     {holdTitle}
                 </q>
-                <img className="max-h-screen md:mb-5" src={holdSrc} alt={holdTitle}/>
-                <img className="fixed md:top-10 md:left-10 bottom-20 h-8 cursor-pointer opacity-80"
-                     onClick={(e) => closeImg(e)}
-                     src={closeIcon}
-                     alt="fermer close"/>
+                <span className="top-16 fixed font-[Poppins] text-gray-400 text-xs">
+                    Cliquez sur l'image pour fermer
+                </span>
+                <img className="max-h-screen md:mb-5" src={holdSrc} alt={holdTitle} onClick={(e) => closeImg(e)}/>
             </div>
 
             {/*// SECTION GESTION DES CATEGORIES*/}
             <div className="w-full md:w-1/4 mx-auto flex justify-evenly items-center md:mb-12 md:mt-8">
-                <button
-                    className={`${showNew ? "text-[#009688] border border-[#009688] line-through" : "bg-[#009688]"} font-bold md:text-base text-sm w-[130px] md:w-20 md:h-12 py-2 px-2 rounded-xl cursor-pointer`}
-                    onClick={toggleShowNew}>
-                    New
-                </button>
 
+                <button
+                    className={`${showNew ? "line-through" : ""} md:flex md:items-center text-base w-[65px] py-2 px-2 rounded-full cursor-pointer`}
+                    onClick={toggleShowNew}>
+                    <img className={`${showNew ? "opacity-40" : ""}`} src={newStartSVG} alt="svg pour toggle New"/>
+                </button>
                 <button
                     className="md:flex md:items-center text-base w-[65px] py-2 px-2 rounded-full cursor-pointer"
                     onClick={() => filterByType("all")}>
@@ -315,7 +314,7 @@ const Gallery = ({
                                     />
                                 ))}
                     <div
-                        className={`bg-[#009688] h-[30px] rounded-xl text-center font-bold text-xl flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
+                        className={`bg-[#009688] h-[30px] rounded-xl font-[Poppins] text-center font-bold text-xl flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
                         What's new ?
                     </div>
                 </div>
@@ -324,8 +323,8 @@ const Gallery = ({
 
             {/*VUE PRINCIPALE*/}
             <div className="gallery">
-                <h2 className="text-3xl md:pt-20 text-center text-white font-bold my-5">
-                    Tous les <span className="text-[#009787] capitalize">
+                <h2 className="text-3xl md:pt-20 text-white font-bold my-5 font-[Poppins]">
+                    Tous les <span className="text-[#3db49f] capitalize">
                     {titleCategory === "portrait" ? "portraits" : titleCategory}...
                 </span>
                 </h2>
