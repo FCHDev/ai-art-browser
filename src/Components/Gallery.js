@@ -7,7 +7,7 @@ import {onValue, ref, update, remove} from "firebase/database";
 import {db, refDb} from "../service/firebase-config";
 import {useUserContext} from "../Context/Context";
 import Skeleton from "./Skeleton";
-import portraitSVG from "../Assets/SVG/portrait.svg";
+import portrait2SVG from "../Assets/SVG/portrait2.svg";
 import landscapeSVG from "../Assets/SVG/landscape.svg";
 import allSVG from "../Assets/SVG/all.svg";
 import newStartSVG from "../Assets/SVG/newStar.svg";
@@ -252,12 +252,15 @@ const Gallery = ({
             </div>
 
             {/*// SECTION GESTION DES CATEGORIES*/}
-            <div className="w-full md:w-1/4 mx-auto flex justify-evenly items-center md:mb-12 md:mt-8">
-
+            <div
+                className="w-full md:w-1/4 mx-auto flex justify-evenly items-center md:mb-12 md:mt-8 border border-[#3cb5a0] border-opacity-40 rounded-2xl py-1.5 md:py-0 relative">
+                <span className="absolute left-4 -top-2.5 bg-opacity-80 bg-black font-bold text-sm font-[Poppins] text-[#3cb5a0] px-1">
+                    Filtres
+                </span>
                 <button
                     className={`${showNew ? "line-through" : ""} md:flex md:items-center text-base w-[65px] py-2 px-2 rounded-full cursor-pointer`}
                     onClick={toggleShowNew}>
-                    <img className={`${showNew ? "opacity-40" : ""}`} src={newStartSVG} alt="svg pour toggle New"/>
+                    <img className={`${showNew ? "opacity-30" : ""}`} src={newStartSVG} alt="svg pour toggle New"/>
                 </button>
                 <button
                     className="md:flex md:items-center text-base w-[65px] py-2 px-2 rounded-full cursor-pointer"
@@ -265,14 +268,16 @@ const Gallery = ({
                     <img src={allSVG} alt="svg pour enlever les filtres"/>
                 </button>
                 <button
-                    className="md:flex md:items-center md:p-5 text-base md:w-20 md:h-12 w-[50px] py-2 px-2 rounded-full bg-white cursor-pointer md:hover:bg-gray-300"
+                    className="flex flex-col items-center md:w-20 w-[50px] md:p-4 rounded-full cursor-pointer"
                     onClick={() => filterByType("paysages")}>
                     <img src={landscapeSVG} alt="svg pour filtrer les paysages"/>
+                    <span className="md:text-sm text-xs text-[#3cb5a0]">Paysages</span>
                 </button>
                 <button
-                    className="md:flex md:items-center md:p-5 text-base md:w-20 md:h-12 w-[50px] py-2 px-2 rounded-full bg-white cursor-pointer md:hover:bg-gray-300"
+                    className="flex flex-col items-center md:w-20 w-[50px] md:p-4 rounded-full cursor-pointer"
                     onClick={() => filterByType("portrait")}>
-                    <img src={portraitSVG} alt="svg pour filtrer les portrtaits"/>
+                    <img src={portrait2SVG} alt="svg pour filtrer les portraits"/>
+                    <span className="md:text-sm text-xs text-[#3cb5a0]">Personnages</span>
                 </button>
             </div>
 
@@ -325,7 +330,7 @@ const Gallery = ({
             <div className="gallery">
                 <h2 className="text-3xl md:pt-20 text-white font-bold my-5 font-[Poppins]">
                     Tous les <span className="text-[#3db49f] capitalize">
-                    {titleCategory === "portrait" ? "portraits" : titleCategory}...
+                    {titleCategory === "portrait" ? "personnages" : titleCategory}...
                 </span>
                 </h2>
 

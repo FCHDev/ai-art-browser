@@ -30,7 +30,7 @@ const Favorites = ({personalFav, setPersonalFav}) => {
 
         if (areYouSure) {
             remove(refDb(db, `/fav/${user.id}/${titleToRemove}`), {})
-            alert("Le favori a bien été supprimé 😢")
+            alert(`"${titleToRemove}" a bien été supprimé 😢 ?`)
         }
     };
 
