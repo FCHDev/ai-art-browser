@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-    background-color: #161215;
+    background-color: #120204;
     color: #FAF7F0;
 }
 
@@ -130,4 +130,55 @@ q::after {
     align-items: center;
 }
 
+
+
+
+.image-slider {
+    display: flex;
+    width: 50%;
+    height: 20%;
+    overflow: hidden;
+}
+
+.slider-image {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out;
+    opacity: 0.5;
+}
+
+.slider-image:hover,
+.slider-image.selected {
+    opacity: 1;
+}
+
+.slider-container {
+    height: 230px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+
+.slider-frame {
+    /*padding-top: 30px;*/
+    height: 280px!important;
+}
+
+@media screen and (max-width: 1366px) {
+    .slider-frame {
+        height: 230px!important;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .slider-frame {
+        height: 130px!important;
+    }
+}
 

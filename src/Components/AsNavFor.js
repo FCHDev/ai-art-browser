@@ -7,23 +7,25 @@ import closeIcon from "../Assets/SVG/close.svg";
 const AsNavFor = ({personalFav, removeThisFav}) => {
 
     // GESTION DU NOMBRE DE THUMBNAILS DANS LE SLIDER2 EN FONCTION DE LA TAILLE DE L'ÉCRAN
-    const [itemsInSlider2, setItemsInSlider2] = useState(8);
+    // const [itemsInSlider2, setItemsInSlider2] = useState(8);
 
-    useEffect(() => {
-        const handleWindowResize = () => {
-            if (window.innerWidth > 1 && window.innerWidth < 900) {
-                setItemsInSlider2(3);
-            }
-            if (window.innerWidth > 900 && window.innerWidth < 1400) {
-                setItemsInSlider2(4);
-            } else if (window.innerWidth > 1400) {
-                setItemsInSlider2(8);
-            }
-        };
-        handleWindowResize();
-        window.addEventListener("resize", handleWindowResize);
-        return () => window.removeEventListener("resize", handleWindowResize);
-    }, []);
+    // useEffect(() => {
+    //     console.log(personalFav)
+    //     const handleWindowResize = () => {
+    //         if (window.innerWidth > 1 && window.innerWidth < 900) {
+    //             setItemsInSlider2(3);
+    //         }
+    //         if (window.innerWidth > 900 && window.innerWidth < 1400) {
+    //             setItemsInSlider2(4);
+    //         }
+    //         if (window.innerWidth > 1400) {
+    //             setItemsInSlider2(8);
+    //         }
+    //     };
+    //     handleWindowResize();
+    //     window.addEventListener("resize", handleWindowResize);
+    //     return () => window.removeEventListener("resize", handleWindowResize);
+    // }, []);
 
     const [nav, setNav] = useState({
         nav1: null,
@@ -43,7 +45,8 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
         className: "center",
         dots: false,
         pauseOnHover: false,
-        infinite: true,
+        // infinite: personalFav.length > 4,
+        infinite: false,
         fade: false,
         speed: 500,
         slidesToShow: 1,
@@ -77,7 +80,7 @@ const AsNavFor = ({personalFav, removeThisFav}) => {
                     ref={(slider) => {
                         slider2 = slider;
                     }}
-                    slidesToShow={itemsInSlider2}
+                    slidesToShow={4}
                     swipeToSlide={true}
                     focusOnSelect={true}
                     arrows={false}

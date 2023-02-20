@@ -35,7 +35,10 @@ const Gallery = ({
     const [typeFilter, setTypeFilter] = useState(artworks)
     const [showNew, setShowNew] = useState(true)
     const [titleCategory, setTitleCategory] = useState('artworks')
+    // eslint-disable-next-line
+    const [newArtworks, setNewArtworks] = useState([artworks.filter((pic) => isNew(pic.creationDate))])
 
+    console.log(newArtworks[0].length)
 
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
 
@@ -57,7 +60,7 @@ const Gallery = ({
                 setTotalArtworks(parsedStoredData.length);
                 setConnectedId(user.id);
                 setTypeFilter(parsedStoredData.sort(() => Math.random() - 0.5))
-                setTimeout(() => setIsLoading(false), 3000);
+                setTimeout(() => setIsLoading(false), 4000);
                 console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥");
             } else {
                 // Chargez les données depuis le serveur
@@ -72,7 +75,7 @@ const Gallery = ({
                         setTotalArtworks(Object.values(data.images).length);
                         setConnectedId(user.id);
                         setTypeFilter(Object.values(data.images).sort(() => Math.random() - 0.5))
-                        setTimeout(() => setIsLoading(false), 3000);
+                        setTimeout(() => setIsLoading(false), 4000);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                     } else {
                         throw new Error("Il y a un souci");
@@ -92,7 +95,7 @@ const Gallery = ({
                     setTotalArtworks(Object.values(data.images).length);
                     setConnectedId(user.id);
                     setTypeFilter(Object.values(data.images))
-                    setTimeout(() => setIsLoading(false), 3000);
+                    setTimeout(() => setIsLoading(false), 4000);
                 } else {
                     throw new Error("Il y a un souci");
                 }
@@ -234,6 +237,7 @@ const Gallery = ({
         }
     }
 
+    // console.log(personalFav)
 
     return (
         <>
@@ -282,7 +286,7 @@ const Gallery = ({
             </div>
 
             {/*VUE NEW*/}
-            <div className={`${anyNewItems && showNew ? "block" : "hidden"} flex flex-col mx-auto my-5`}>
+            <div className={`${anyNewItems && showNew && (newArtworks[0].length) !== 0 ? "block" : "hidden"} flex flex-col mx-auto my-5`}>
                 <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20 md:mb-10">
                     {isLoading
                         ? (<>
@@ -372,10 +376,7 @@ const Gallery = ({
                 smooth={true}
                 className="flex justify-center items-center"/>
         </>
-
     )
-
-
 };
 
 export default Gallery;

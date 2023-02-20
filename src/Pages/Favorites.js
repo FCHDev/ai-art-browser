@@ -3,7 +3,9 @@ import {db, refDb} from "../service/firebase-config";
 import {useUserContext} from "../Context/Context";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import AsNavFor from "../Components/AsNavFor";
+// import AsNavFor from "../Components/AsNavFor";
+// import ImageViewer from "../Components/ImageViewer";
+import SwiperFav from "../Components/SwiperFav";
 
 
 const Favorites = ({personalFav, setPersonalFav}) => {
@@ -35,18 +37,17 @@ const Favorites = ({personalFav, setPersonalFav}) => {
     };
 
 
-
     return (
         <div className="flex flex-col">
+            {personalFav.length > 0
+                &&
+                <SwiperFav personalFav={personalFav}
+                           removeThisFav={removeThisFav}/>
+                }
 
-            <div className={`${personalFav.length === 0 ? "hidden" : "block"} md:mt-10`}>
-                {/*<Carousel/>*/}
-                <AsNavFor
-                    personalFav={personalFav}
-                    removeThisFav={removeThisFav}/>
+            <div className={`${personalFav.length !== 0 ? "hidden" : "block"} md:mt-10 mx-auto text-xl font-[Poppins]`}>
+                Vous n'avez pas encore de favoris 😢
             </div>
-
-
 
             <div className="flex justify-center pt-5">
                 <button
