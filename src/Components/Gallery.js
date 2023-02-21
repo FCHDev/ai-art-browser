@@ -38,7 +38,7 @@ const Gallery = ({
     // eslint-disable-next-line
     const [newArtworks, setNewArtworks] = useState([artworks.filter((pic) => isNew(pic.creationDate))])
 
-    console.log(newArtworks[0].length)
+    // console.log(newArtworks[0].length)
 
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
 
