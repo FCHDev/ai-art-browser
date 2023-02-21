@@ -60,6 +60,7 @@ const Gallery = ({
                 setTotalArtworks(parsedStoredData.length);
                 setConnectedId(user.id);
                 setTypeFilter(parsedStoredData.sort(() => Math.random() - 0.5))
+                setNewArtworks([artworks.filter((pic) => isNew(pic.creationDate))])
                 setTimeout(() => setIsLoading(false), 4000);
                 console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥");
             } else {
@@ -75,6 +76,7 @@ const Gallery = ({
                         setTotalArtworks(Object.values(data.images).length);
                         setConnectedId(user.id);
                         setTypeFilter(Object.values(data.images).sort(() => Math.random() - 0.5))
+                        setNewArtworks([artworks.filter((pic) => isNew(pic.creationDate))])
                         setTimeout(() => setIsLoading(false), 4000);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                     } else {
@@ -95,12 +97,14 @@ const Gallery = ({
                     setTotalArtworks(Object.values(data.images).length);
                     setConnectedId(user.id);
                     setTypeFilter(Object.values(data.images))
+                    setNewArtworks([artworks.filter((pic) => isNew(pic.creationDate))])
                     setTimeout(() => setIsLoading(false), 4000);
                 } else {
                     throw new Error("Il y a un souci");
                 }
             });
         }
+        // eslint-disable-next-line
     }, [setArtworks, setTotalArtworks, setConnectedId, setIsLoading, user.id]);
 
     //BACKUP USEEFFECT
@@ -160,6 +164,9 @@ const Gallery = ({
         })
         return thereIsNews
     }
+
+    console.log(anyNewItems())
+    console.log(newArtworks)
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
     useEffect(() => {
