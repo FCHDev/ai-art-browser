@@ -55,7 +55,7 @@ const Favorites = ({personalFav, setPersonalFav}) => {
 
             <div className="flex justify-center">
                 <button
-                    className={`${personalFav?.length === 0 ? "hidden" : "block"} bg-[crimson] py-1 px-3 rounded-xl mx-auto md:my-5 hover:bg-white hover:text-[crimson]`}
+                    className={`${personalFav?.length === 0 ? "hidden" : "block"} bg-[crimson] py-1 px-3 rounded-xl mx-auto md:my-1 hover:bg-white hover:text-[crimson] 4K:text-3xl 4K:py-2 4K:px-5 font-[Poppins]`}
                     onClick={removeAllFav}>
                     Vider Favoris
                 </button>
