@@ -41,7 +41,6 @@ const Gallery = ({
     // console.log(newArtworks[0].length)
 
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
-
     useEffect(() => {
         // Vérifiez si les données sont déjà stockées dans localStorage
         const sourceLocal = localStorage.getItem("data");
@@ -52,15 +51,15 @@ const Gallery = ({
             const storedTimestamp = parseInt(timestampLocal, 10);
 
             // Si la différence de temps est inférieure à un seuil donné, utilisez les données stockées
-            if (now - storedTimestamp < 10000) { // 30 secondes (15 minutes : 900000ms)
+            if (now - storedTimestamp < 900000) { // 30 secondes (15 minutes : 900000ms)
                 const storedData = Object.entries(JSON.parse(sourceLocal))
                 const parsedStoredData = storedData.map((item) => item[1])
                 // Utilisez les données stockées pour mettre à jour l'état
-                setArtworks(parsedStoredData.sort(() => Math.random() - 0.5));
+                setArtworks(parsedStoredData);
                 setTotalArtworks(parsedStoredData.length);
                 setConnectedId(user.id);
                 setTypeFilter(parsedStoredData.sort(() => Math.random() - 0.5))
-                setNewArtworks([artworks.filter((pic) => isNew(pic.creationDate))])
+                setNewArtworks((parsedStoredData.sort(() => Math.random() - 0.5)).filter((pic) => isNew(pic.creationDate)))
                 setTimeout(() => setIsLoading(false), 4000);
                 console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥");
             } else {
@@ -72,11 +71,11 @@ const Gallery = ({
                         localStorage.setItem("data", JSON.stringify(data.images));
                         localStorage.setItem("timestamp", now.toString());
                         // Mettre à jour l'état
-                        setArtworks(Object.values(data.images).sort(() => Math.random() - 0.5));
+                        setArtworks(Object.values(data.images));
                         setTotalArtworks(Object.values(data.images).length);
                         setConnectedId(user.id);
                         setTypeFilter(Object.values(data.images).sort(() => Math.random() - 0.5))
-                        setNewArtworks([artworks.filter((pic) => isNew(pic.creationDate))])
+                        setNewArtworks((Object.values(data.images).sort(() => Math.random() - 0.5)).filter((pic) => isNew(pic.creationDate)))
                         setTimeout(() => setIsLoading(false), 4000);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                     } else {
@@ -97,7 +96,7 @@ const Gallery = ({
                     setTotalArtworks(Object.values(data.images).length);
                     setConnectedId(user.id);
                     setTypeFilter(Object.values(data.images))
-                    setNewArtworks([artworks.filter((pic) => isNew(pic.creationDate))])
+                    setNewArtworks((Object.values(data.images)).filter((pic) => isNew(pic.creationDate)))
                     setTimeout(() => setIsLoading(false), 4000);
                 } else {
                     throw new Error("Il y a un souci");
@@ -107,51 +106,7 @@ const Gallery = ({
         // eslint-disable-next-line
     }, [setArtworks, setTotalArtworks, setConnectedId, setIsLoading, user.id]);
 
-    //BACKUP USEEFFECT
-    // useEffect(() => {
-    //     // Vérifiez si les données sont déjà stockées dans localStorage
-    //     const sourceLocal = localStorage.getItem("data");
-    //
-    //     if (sourceLocal !== null) {
-    //         setTimeout(() => setIsLoading(false), 2000);
-    //         const storedData = Object.entries(JSON.parse(sourceLocal))
-    //         const parsedStoredData = storedData.map((item) => item[1])
-    //         // Utilisez les données stockées pour mettre à jour l'état
-    //         setArtworks(parsedStoredData.sort(() => Math.random() - 0.5));
-    //         setTotalArtworks(parsedStoredData.length);
-    //         setConnectedId(user.id);
-    //         console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥")
-    //
-    //         // Ecouter les changements dans Firebase
-    //         onValue(ref(db), (snapshot) => {
-    //             const data = snapshot.val();
-    //             // Mettre à jour les données dans localStorage
-    //             localStorage.setItem("data", JSON.stringify(data));
-    //             // Mettre à jour l'état
-    //             setArtworks(Object.values(data).sort(() => Math.random() - 0.5));
-    //             setTotalArtworks(Object.values(data).length);
-    //             setConnectedId(user.id);
-    //             console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
-    //         });
-    //     } else {
-    //         // Chargez les données depuis le serveur
-    //         onValue(ref(db), (snapshot) => {
-    //             const data = snapshot.val();
-    //             if (data !== null) {
-    //                 // Stocker les données dans localStorage
-    //                 localStorage.setItem("data", JSON.stringify(data));
-    //                 // Mettre à jour l'état
-    //                 setArtworks(Object.values(data));
-    //                 setTotalArtworks(Object.values(data).length);
-    //                 setConnectedId(user.id);
-    //                 console.log("🔥🔥🔥🔥 DATAS INIT FROM FIREBASE 🔥🔥🔥🔥");
-    //             } else {
-    //                 throw new Error("Il y a un souci");
-    //             }
-    //         });
-    //     }
-    //     setTimeout(() => setIsLoading(false), 3000);
-    // }, [setArtworks, setTotalArtworks, setIsLoading, setConnectedId, user.id])
+
 
     // REPERER LES NOUVEAUX ARTWORKS
     function anyNewItems() {
@@ -165,7 +120,6 @@ const Gallery = ({
         return thereIsNews
     }
 
-    console.log(anyNewItems())
     console.log(newArtworks)
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
@@ -244,7 +198,6 @@ const Gallery = ({
         }
     }
 
-    // console.log(personalFav)
 
     return (
         <>
@@ -297,10 +250,6 @@ const Gallery = ({
                 <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20 md:mb-10">
                     {isLoading
                         ? (<>
-                                <Skeleton/>
-                                <Skeleton/>
-                                <Skeleton/>
-                                <Skeleton/>
                                 <Skeleton/>
                                 <Skeleton/>
                                 <Skeleton/>

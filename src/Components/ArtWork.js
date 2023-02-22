@@ -59,7 +59,7 @@ const ArtWork = ({
                 {/*❤️ sur l'image*/}
                 <LazyLoad>
                     <svg
-                        className={`${isLoading ? "hidden" : "block"} absolute bottom-1 right-2 z-10 cursor-pointer`}
+                        className={`${isLoading ? "hidden" : "block"} absolute bottom-1 right-2 z-20 cursor-pointer`}
                         onClick={onClick}
                         id="Heart"
                         height="35px"

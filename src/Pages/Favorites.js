@@ -5,13 +5,15 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 // import AsNavFor from "../Components/AsNavFor";
 // import ImageViewer from "../Components/ImageViewer";
-import SwiperFav from "../Components/SwiperFav";
+// import SwiperFav from "../Components/SwiperFav";
+import MyCarousel from "../Components/MyCarousel";
 
 
 const Favorites = ({personalFav, setPersonalFav}) => {
     // DÉCLARATION DU CONTEXTE USER
     const user = useUserContext();
 
+    console.log(personalFav)
 
     // SUPPRIMER TOUS LES FAVORIS DU USER
     const removeAllFav = () => {
@@ -41,8 +43,10 @@ const Favorites = ({personalFav, setPersonalFav}) => {
         <div className="flex flex-col">
             {personalFav.length > 0
                 &&
-                <SwiperFav personalFav={personalFav}
+                <MyCarousel personalFav={personalFav}
                            removeThisFav={removeThisFav}/>
+                // <SwiperFav personalFav={personalFav}
+                //            removeThisFav={removeThisFav}/>
                 }
 
             <div className={`${personalFav.length !== 0 ? "hidden" : "block"} md:mt-10 mx-auto text-xl font-[Poppins]`}>
