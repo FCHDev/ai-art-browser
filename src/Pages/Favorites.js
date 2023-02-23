@@ -1,11 +1,6 @@
 import {remove} from "firebase/database";
 import {db, refDb} from "../service/firebase-config";
 import {useUserContext} from "../Context/Context";
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-// import AsNavFor from "../Components/AsNavFor";
-// import ImageViewer from "../Components/ImageViewer";
-// import SwiperFav from "../Components/SwiperFav";
 import MyCarousel from "../Components/MyCarousel";
 
 

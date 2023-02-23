@@ -13,15 +13,6 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
     /// UPLOAD IMAGES
     const [imageUpload, setImageUpload] = useState(null);
     const [picPreview, setPicPreview] = useState();
-    const keywords = [
-        "dessin",
-        "portrait",
-        "paysages",
-        "funny",
-        "realPeople",
-        "animal",
-        "concept"
-    ];
 
     // STATES
     const creationDate = new Date().getTime()
@@ -35,20 +26,6 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
     const [selectedRowId, setSelectedRowId] = useState(null);
     const [type, setType] = useState([])
     const [selectedButton, setSelectedButton] = useState([])
-
-    function convert(data) {
-        console.log(data)
-        console.log(data.type)
-        // console.log(data.type.match(new RegExp(keywords.join("|"), "gi")))
-
-        return data.id === 13
-            ? data.type
-            : "Prout"
-
-        // const converted = datac
-        // return converted
-        // console.log(Object.values(data))
-    }
 
 
     // FONCTION POUR AJOUTER UN TYPE
