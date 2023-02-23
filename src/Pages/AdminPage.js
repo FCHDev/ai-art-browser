@@ -24,7 +24,17 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
     const [creationDateToModify, setCreationDateToModify] = useState("")
     const [title, setTitle] = useState("")
     const [selectedRowId, setSelectedRowId] = useState(null);
+    const [type, setType] = useState([])
+    const [selectedButton, setSelectedButton] = useState([])
 
+
+    const addType = (e) => {
+        e.preventDefault()
+        setType([...type, e.target.value])
+        setSelectedButton([...selectedButton, e.target.value])
+    }
+
+    console.log(type)
 
     // CALL BASE POUR LISTING
     useEffect(() => {
@@ -60,6 +70,8 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
         setImgURL("")
         setTitleToModify("")
         setIDToModify("")
+        setType([])
+        setSelectedButton([])
     }
 
 
@@ -69,7 +81,8 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
             id,
             imgURL,
             title,
-            creationDate
+            creationDate,
+            type,
         });
         reset()
     };
@@ -212,6 +225,52 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                     fullWidth={true}
                     onChange={handleImgURLChange}
                 />
+                {/*SELECTION DES TYPES/STYLES*/}
+                <div className="flex w-full font-[Alexandria]">
+                    <button
+                        className={`${selectedButton.includes("portrait") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        value={"portrait"}
+                        onClick={(e) => addType(e)}>
+                        Portrait
+                    </button>
+                    <button
+                        className={`${selectedButton.includes("paysages") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        value={"paysages"}
+                        onClick={(e) => addType(e)}>
+                        Paysages
+                    </button>
+                    <button
+                        className={`${selectedButton.includes("dessin") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        value={"dessin"}
+                        onClick={(e) => addType(e)}>
+                        Dessin
+                    </button>
+                    <button
+                        className={`${selectedButton.includes("realPeople") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        value={"realPeople"}
+                        onClick={(e) => addType(e)}>
+                        Real People
+                    </button>
+                    <button
+                        className={`${selectedButton.includes("concept") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        value={"concept"}
+                        onClick={(e) => addType(e)}>
+                        Concept
+                    </button>
+                    <button
+                        className={`${selectedButton.includes("animal") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        value={"animal"}
+                        onClick={(e) => addType(e)}>
+                        Animal
+                    </button>
+                    <button
+                        className={`${selectedButton.includes("funny") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        value={"funny"}
+                        onClick={(e) => addType(e)}>
+                        Funny
+                    </button>
+                </div>
+
             </form>
 
 
