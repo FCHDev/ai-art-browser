@@ -13,7 +13,6 @@ const Favorites = ({personalFav, setPersonalFav}) => {
     // DÉCLARATION DU CONTEXTE USER
     const user = useUserContext();
 
-    console.log(personalFav)
 
     // SUPPRIMER TOUS LES FAVORIS DU USER
     const removeAllFav = () => {

@@ -120,7 +120,6 @@ const Gallery = ({
         return thereIsNews
     }
 
-    console.log(newArtworks)
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
     useEffect(() => {
@@ -218,7 +217,7 @@ const Gallery = ({
             {/*// SECTION GESTION DES CATEGORIES*/}
             <div
                 className="w-full md:w-1/4 mx-auto flex justify-evenly items-center md:mb-12 md:mt-8 border border-[#3cb5a0] border-opacity-40 rounded-2xl py-1.5 md:py-0 relative">
-                <span className="absolute left-4 -top-2.5 bg-opacity-80 bg-black font-bold text-sm font-[Poppins] text-[#3cb5a0] px-1">
+                <span className="absolute left-1 -top-2.5 bg-[#25292d] bg-opacity-100 font-bold text-sm font-[Poppins] text-[#3cb5a0] px-1 z-20">
                     Filtres
                 </span>
                 <button

@@ -267,7 +267,7 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
             {picPreview}
 
             {/*APERCU DE LA LISTE DES ARTWORKS*/}
-            <div className="hidden md:block w-1/2">
+            <div className="hidden md:block w-5/6">
                 <div className="sm:flex sm:items-center">
                     <div className="sm:flex-auto">
                         <h1 className="text-xl md:text-2xl font-semibold text-[#174A5B]">Artworks DB</h1>

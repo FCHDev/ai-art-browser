@@ -4,15 +4,15 @@ import next from "../Assets/SVG/next.svg"
 
 
 function MyCarousel({personalFav}) {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(personalFav.length - 1);
 
     const goToPrevSlide = () => {
-        const index = (currentIndex === 0) ? personalFav.length - 1 : currentIndex - 1;
+        const index = (currentIndex === personalFav.length - 1) ? 0 : currentIndex + 1;
         setCurrentIndex(index);
     };
 
     const goToNextSlide = () => {
-        const index = (currentIndex === personalFav.length - 1) ? 0 : currentIndex + 1;
+        const index = (currentIndex === 0) ? personalFav.length - 1 : currentIndex - 1;
         setCurrentIndex(index);
     };
 
@@ -22,14 +22,18 @@ function MyCarousel({personalFav}) {
         >
             <ImageViewer image={personalFav[currentIndex]}/>
             <div className="carousel-controls 4K:mb-10">
-                <button onClick={goToPrevSlide}><img className="h-[50px] sm:h-[40px] 4K:h-[70px] w-auto" src={previous}
-                                                     alt="flèche vers la gauche"/></button>
+                <button onClick={goToPrevSlide}>
+                    <img className="h-[50px] sm:h-[40px] 4K:h-[70px] w-auto"
+                         src={previous}
+                         alt="flèche vers la gauche"/></button>
                 <div className="w-[100px] text-center text-xl 4K:text-4xl text-[#009788] font-bold font-[Alexandria]">
                     <span
                         className="text-3xl 4K:text-6xl text-white">
-                        {currentIndex + 1}</span>/{personalFav.length}</div>
-                <button onClick={goToNextSlide}><img className="h-[50px] sm:h-[40px] 4K:h-[70px] w-auto" src={next}
-                                                     alt="flèche vers la droite"/></button>
+                        {personalFav.length - currentIndex}</span>/{personalFav.length}</div>
+                <button onClick={goToNextSlide}>
+                    <img className="h-[50px] sm:h-[40px] 4K:h-[70px] w-auto"
+                         src={next}
+                         alt="flèche vers la droite"/></button>
             </div>
         </div>
     );
