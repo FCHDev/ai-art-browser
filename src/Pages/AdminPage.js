@@ -13,6 +13,15 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
     /// UPLOAD IMAGES
     const [imageUpload, setImageUpload] = useState(null);
     const [picPreview, setPicPreview] = useState();
+    const keywords = [
+        "dessin",
+        "portrait",
+        "paysages",
+        "funny",
+        "realPeople",
+        "animal",
+        "concept"
+    ];
 
     // STATES
     const creationDate = new Date().getTime()
@@ -27,14 +36,27 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
     const [type, setType] = useState([])
     const [selectedButton, setSelectedButton] = useState([])
 
+    function convert(data) {
+        console.log(data)
+        console.log(data.type)
+        // console.log(data.type.match(new RegExp(keywords.join("|"), "gi")))
 
+        return data.id === 13
+            ? data.type
+            : "Prout"
+
+        // const converted = datac
+        // return converted
+        // console.log(Object.values(data))
+    }
+
+
+    // FONCTION POUR AJOUTER UN TYPE
     const addType = (e) => {
         e.preventDefault()
         setType([...type, e.target.value])
         setSelectedButton([...selectedButton, e.target.value])
     }
-
-    console.log(type)
 
     // CALL BASE POUR LISTING
     useEffect(() => {
@@ -44,7 +66,7 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                 // eslint-disable-next-line
                 Object.values([data.images]).map((item) => {
                     setArtworks(Object.values(item).sort((a, b) => a.id - b.id)); // TRI PAR ID
-                    setId(Object.values(item).length+1);
+                    setId(Object.values(item).length + 1);
                 });
             } else {
                 throw new Error("Il y a un souci");
@@ -52,7 +74,6 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
         });
         // eslint-disable-next-line
     }, []);
-
 
     // HANDLES
     const handleImgURLChange = (event) => {
@@ -234,37 +255,37 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                         Portrait
                     </button>
                     <button
-                        className={`${selectedButton.includes("paysages") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        className={`${selectedButton.includes("paysages") ? "bg-red-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
                         value={"paysages"}
                         onClick={(e) => addType(e)}>
                         Paysages
                     </button>
                     <button
-                        className={`${selectedButton.includes("dessin") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        className={`${selectedButton.includes("dessin") ? "bg-green-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
                         value={"dessin"}
                         onClick={(e) => addType(e)}>
                         Dessin
                     </button>
                     <button
-                        className={`${selectedButton.includes("realPeople") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        className={`${selectedButton.includes("realPeople") ? "bg-green-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
                         value={"realPeople"}
                         onClick={(e) => addType(e)}>
                         Real People
                     </button>
                     <button
-                        className={`${selectedButton.includes("concept") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        className={`${selectedButton.includes("concept") ? "bg-green-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
                         value={"concept"}
                         onClick={(e) => addType(e)}>
                         Concept
                     </button>
                     <button
-                        className={`${selectedButton.includes("animal") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        className={`${selectedButton.includes("animal") ? "bg-green-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
                         value={"animal"}
                         onClick={(e) => addType(e)}>
                         Animal
                     </button>
                     <button
-                        className={`${selectedButton.includes("funny") ? "bg-yellow-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
+                        className={`${selectedButton.includes("funny") ? "bg-green-500" : ""} bg-gray-500 w-1/5 mr-1 border text-white text-lg cursor-pointer rounded-xl px-5 py-2 flex justify-center items-center my-5`}
                         value={"funny"}
                         onClick={(e) => addType(e)}>
                         Funny
@@ -322,7 +343,6 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                 </button>
                 : ""}
 
-
             {picPreview}
 
             {/*APERCU DE LA LISTE DES ARTWORKS*/}
@@ -360,6 +380,10 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                         </th>
                                         <th scope="col"
                                             className="px-3 py-3.5 text-left text-base font-semibold text-gray-900 cursor-pointer">
+                                            Types
+                                        </th>
+                                        <th scope="col"
+                                            className="px-3 py-3.5 text-left text-base font-semibold text-gray-900 cursor-pointer">
                                             URL Image
                                         </th>
 
@@ -379,7 +403,11 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                                     {/*{artwork.id.length > 5 ? artwork.id.substring(0, 5) + "..." : artwork.id}*/}
                                                     {artwork.creationDate === undefined || artwork.creationDate === 0
                                                         ? (<div className="w-4 h-4 rounded-full bg-red-600"></div>)
-                                                        : new Date(artwork.creationDate).toLocaleDateString('fr-FR', {year: 'numeric', month: 'numeric', day: 'numeric'})}
+                                                        : new Date(artwork.creationDate).toLocaleDateString('fr-FR', {
+                                                            year: 'numeric',
+                                                            month: 'numeric',
+                                                            day: 'numeric'
+                                                        })}
                                                 </td>
 
                                                 {/*soonNotNew = fonction pour créer un effet d'urgence à moins de 30min de la fin du statut "new"*/}
@@ -391,22 +419,34 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                                         : "Pas new"}
                                                 </td>
 
-                                                <td className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF] underline" : ""} whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden cursor-pointer`} onClick={popUpChangeTitle}>
+                                                <td className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF] underline" : ""} whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden cursor-pointer`}
+                                                    onClick={popUpChangeTitle}>
                                                     {artwork.title}
+                                                </td>
+                                                <td className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF] underline" : ""} whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden cursor-pointer`}>
+                                                    {artwork.type.map((type, index) =>
+                                                            (type === "portrait"
+                                                                ? <span key={index} className="bg-yellow-500 px-1 py-1 text-white font-bold rounded-xl">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                                                                : type !== "paysages"
+                                                                    ? <span key={index} className="px-1">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                                                            :<span key={index} className="bg-red-500 px-1 py-1 text-white font-bold rounded-xl">{type.charAt(0).toUpperCase() + type.slice(1)}</span>)
+                                                    )}
                                                 </td>
                                                 <td className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF]" : ""} whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden`}>
                                                     {/*{artwork.imgURL.length > 40 ? artwork.imgURL.substring(0, 40) + "..." : artwork.imgURL}*/}
                                                     {artwork.imgURL}
                                                 </td>
                                                 <td className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF]" : ""} relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6`}>
-                                                    <div className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF]" : ""} text-green-700 hover:text-[#FFC2C4] cursor-pointer`}
-                                                         onClick={() => handleSelect(artwork.id, artwork.title, artwork.imgURL, artwork?.creationDate)}>
+                                                    <div
+                                                        className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF]" : ""} text-green-700 hover:text-[#FFC2C4] cursor-pointer`}
+                                                        onClick={() => handleSelect(artwork.id, artwork.title, artwork.imgURL, artwork?.creationDate)}>
                                                         Select
                                                     </div>
                                                 </td>
                                                 <td className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF]" : ""} relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6`}>
-                                                    <div className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF]" : ""} text-[#FF585D] hover:text-[#FFC2C4] cursor-pointer`}
-                                                         onClick={() => handleRemove(artwork.title)}>
+                                                    <div
+                                                        className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF]" : ""} text-[#FF585D] hover:text-[#FFC2C4] cursor-pointer`}
+                                                        onClick={() => handleRemove(artwork.title)}>
                                                         Supprimer
                                                     </div>
                                                 </td>
