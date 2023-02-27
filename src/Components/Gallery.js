@@ -247,7 +247,7 @@ const Gallery = ({
             </div>
 
             {/*VUE NEW*/}
-            <div className={`${newArtworks.length !== 0 ? "block" : "hidden"} flex flex-col mx-auto my-5`}>
+            <div className={`${newArtworks.length !== 0 && showNew ? "block" : "hidden"} flex flex-col mx-auto my-5`}>
                 <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20 md:mb-10">
                     {isLoading
                         ? (<>
