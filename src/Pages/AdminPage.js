@@ -403,10 +403,10 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
                                                 <td className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF] underline" : ""} whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden cursor-pointer`}>
                                                     {artwork.type.map((type, index) =>
                                                             (type === "portrait"
-                                                                ? <span key={index} className="bg-yellow-500 px-1 py-1 text-white font-bold rounded-xl">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                                                                ? <span key={index} className="bg-yellow-500 px-1 py-1 text-white font-bold rounded-xl">{type?.charAt(0).toUpperCase() + type?.slice(1)}</span>
                                                                 : type !== "paysages"
-                                                                    ? <span key={index} className="px-1">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
-                                                            :<span key={index} className="bg-red-500 px-1 py-1 text-white font-bold rounded-xl">{type.charAt(0).toUpperCase() + type.slice(1)}</span>)
+                                                                    ? <span key={index} className="px-1">{type?.charAt(0).toUpperCase() + type?.slice(1)}</span>
+                                                            :<span key={index} className="bg-red-500 px-1 py-1 text-white font-bold rounded-xl">{type?.charAt(0).toUpperCase() + type?.slice(1)}</span>)
                                                     )}
                                                 </td>
                                                 <td className={`${selectedRowId === artwork.id ? "bg-green-600 text-[#FFFFFF]" : ""} whitespace-nowrap px-3 py-4 text-sm text-gray-500 overflow-hidden`}>

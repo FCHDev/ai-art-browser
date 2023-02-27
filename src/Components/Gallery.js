@@ -28,6 +28,7 @@ const Gallery = ({
     // DÉCLARATION DU CONTEXTE USER
     const user = useUserContext();
 
+
     // STATES LOCAUX
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
@@ -38,7 +39,8 @@ const Gallery = ({
     // eslint-disable-next-line
     const [newArtworks, setNewArtworks] = useState([artworks.filter((pic) => isNew(pic.creationDate))])
 
-    // console.log(newArtworks[0].length)
+    console.log("Nombre de nouveaux Artworks = " + newArtworks.length)
+
 
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
     useEffect(() => {
@@ -51,7 +53,7 @@ const Gallery = ({
             const storedTimestamp = parseInt(timestampLocal, 10);
 
             // Si la différence de temps est inférieure à un seuil donné, utilisez les données stockées
-            if (now - storedTimestamp < 900000) { // 30 secondes (15 minutes : 900000ms)
+            if (now - storedTimestamp < 30000) { // 30 secondes (15 minutes : 900000ms)
                 const storedData = Object.entries(JSON.parse(sourceLocal))
                 const parsedStoredData = storedData.map((item) => item[1])
                 // Utilisez les données stockées pour mettre à jour l'état
@@ -108,17 +110,17 @@ const Gallery = ({
 
 
 
-    // REPERER LES NOUVEAUX ARTWORKS
-    function anyNewItems() {
-        let thereIsNews = false
-        // eslint-disable-next-line
-        artworks.map((item) => {
-            if (isNew(item.date, thereIsNews)) {
-                thereIsNews = true
-            }
-        })
-        return thereIsNews
-    }
+    // // REPERER LES NOUVEAUX ARTWORKS
+    // function anyNewItems() {
+    //     let thereIsNews = false
+    //     // eslint-disable-next-line
+    //     artworks.map((item) => {
+    //         if (isNew(item.date, thereIsNews)) {
+    //             thereIsNews = true
+    //         }
+    //     })
+    //     return thereIsNews
+    // }
 
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
@@ -245,7 +247,7 @@ const Gallery = ({
             </div>
 
             {/*VUE NEW*/}
-            <div className={`${anyNewItems && showNew && (newArtworks[0].length) !== 0 ? "block" : "hidden"} flex flex-col mx-auto my-5`}>
+            <div className={`${newArtworks.length !== 0 ? "block" : "hidden"} flex flex-col mx-auto my-5`}>
                 <div className="newOnes mt-10 mx-auto bg-gray-400 md:rounded-2xl bg-opacity-20 md:mb-10">
                     {isLoading
                         ? (<>
