@@ -53,7 +53,7 @@ const Gallery = ({
             const storedTimestamp = parseInt(timestampLocal, 10);
 
             // Si la différence de temps est inférieure à un seuil donné, utilisez les données stockées
-            if (now - storedTimestamp < 30000) { // 30 secondes (15 minutes : 900000ms)
+            if (now - storedTimestamp < 900000) { // 30 secondes (15 minutes : 900000ms)
                 const storedData = Object.entries(JSON.parse(sourceLocal))
                 const parsedStoredData = storedData.map((item) => item[1])
                 // Utilisez les données stockées pour mettre à jour l'état
@@ -76,8 +76,8 @@ const Gallery = ({
                         setArtworks(Object.values(data.images));
                         setTotalArtworks(Object.values(data.images).length);
                         setConnectedId(user.id);
-                        setTypeFilter(Object.values(data.images).sort(() => Math.random() - 0.5))
-                        setNewArtworks((Object.values(data.images).sort(() => Math.random() - 0.5)).filter((pic) => isNew(pic.creationDate)))
+                        setTypeFilter(Object.values(data.images)) // setTypeFilter(Object.values(data.images).sort(() => Math.random() - 0.5))
+                        setNewArtworks((Object.values(data.images))) // setNewArtworks((Object.values(data.images).sort(() => Math.random() - 0.5)).filter((pic) => isNew(pic.creationDate)))
                         setTimeout(() => setIsLoading(false), 4000);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                     } else {
