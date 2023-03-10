@@ -17,7 +17,7 @@ import AdminPage from "./Pages/AdminPage";
 import HeaderFav from "./Components/HeaderFav";
 
 
-// On configure notre clé API Clerk dans un variable d'environnement'
+// On configure notre clé API Clerk dans une variable d'environnement'
 const frontendApi = process.env.REACT_APP_CLERK_FRONTEND_API;
 
 function App() {

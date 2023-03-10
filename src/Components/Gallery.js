@@ -32,6 +32,7 @@ const Gallery = ({
     // STATES LOCAUX
     const [modal, setModal] = useState(false)
     const [holdSrc, setHoldSrc] = useState('')
+    const [holdId, setHoldId] = useState()
     const [holdTitle, setHoldTitle] = useState('')
     const [typeFilter, setTypeFilter] = useState(artworks)
     const [showNew, setShowNew] = useState(true)
@@ -40,6 +41,7 @@ const Gallery = ({
     const [newArtworks, setNewArtworks] = useState([artworks.filter((pic) => isNew(pic.creationDate))])
 
     console.log("Nombre de nouveaux Artworks = " + newArtworks.length)
+    // console.log(artworks[4].imgURL)
 
 
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
@@ -62,7 +64,7 @@ const Gallery = ({
                 setConnectedId(user.id);
                 setTypeFilter(parsedStoredData.sort(() => Math.random() - 0.5))
                 setNewArtworks((parsedStoredData.sort(() => Math.random() - 0.5)).filter((pic) => isNew(pic.creationDate)))
-                setTimeout(() => setIsLoading(false), 4000);
+                setTimeout(() => setIsLoading(false), 2000);
                 console.log("🔥🔥🔥🔥 DATAS FROM LOCALSTORAGE 🔥🔥🔥🔥");
             } else {
                 // Chargez les données depuis le serveur
@@ -77,8 +79,9 @@ const Gallery = ({
                         setTotalArtworks(Object.values(data.images).length);
                         setConnectedId(user.id);
                         setTypeFilter(Object.values(data.images)) // setTypeFilter(Object.values(data.images).sort(() => Math.random() - 0.5))
-                        setNewArtworks((Object.values(data.images))) // setNewArtworks((Object.values(data.images).sort(() => Math.random() - 0.5)).filter((pic) => isNew(pic.creationDate)))
-                        setTimeout(() => setIsLoading(false), 4000);
+                        setNewArtworks((Object.values(data.images)).filter((pic) => isNew(pic.creationDate)))
+                        // setNewArtworks((Object.values(data.images).sort(() => Math.random() - 0.5)).filter((pic) => isNew(pic.creationDate)))
+                        setTimeout(() => setIsLoading(false), 2000);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                     } else {
                         throw new Error("Il y a un souci");
@@ -99,7 +102,7 @@ const Gallery = ({
                     setConnectedId(user.id);
                     setTypeFilter(Object.values(data.images))
                     setNewArtworks((Object.values(data.images)).filter((pic) => isNew(pic.creationDate)))
-                    setTimeout(() => setIsLoading(false), 4000);
+                    setTimeout(() => setIsLoading(false), 2000);
                 } else {
                     throw new Error("Il y a un souci");
                 }
@@ -175,6 +178,7 @@ const Gallery = ({
                 return [...personalFav, {id, src, title}];
             }
         })
+        console.log(id, src, title)
     }
 
     // fonction qui permet de faire un toggle sur le bouton "nouveau" pour afficher les nouveaux artworks
@@ -213,7 +217,23 @@ const Gallery = ({
                 <span className="top-16 fixed font-[Poppins] text-gray-400 text-xs">
                     Cliquez sur l'image pour fermer
                 </span>
-                <img className="max-h-screen md:mb-5" src={holdSrc} alt={holdTitle} onClick={(e) => closeImg(e)}/>
+                <div className="relative">
+                    <img className="max-h-screen" src={holdSrc} alt={holdTitle} onClick={(e) => closeImg(e)}/>
+                    <div className={`${personalFav.find(fav => fav.title === holdTitle) ? "bg-transparent" : "bg-gray-400 bg-opacity-50"} rounded-full h-[80px] w-[80px] absolute bottom-[3%] left-[48%] z-20 cursor-pointer hover:-translate-y-1 transition-all ease-in-out flex justify-center items-center`}>
+                        <svg
+                            className={`${isLoading ? "hidden" : "block"} `}
+                            onClick={() => toggleFavorite(holdId, holdSrc, holdTitle)}
+                            id="Heart"
+                            height="60px"
+                            width="60px"
+                            viewBox="0 0 512 512">
+                            <path
+                                d="m449.28 121.43a115.2 115.2 0 0 0 -137.89-35.75c-21.18 9.14-40.07 24.55-55.39 45-15.32-20.5-34.21-35.91-55.39-45a115.2 115.2 0 0 0 -137.89 35.75c-16.5 21.62-25.22 48.64-25.22 78.13 0 42.44 25.31 89 75.22 138.44 40.67 40.27 88.73 73.25 113.75 89.32a54.78 54.78 0 0 0 59.06 0c25-16.07 73.08-49.05 113.75-89.32 49.91-49.42 75.22-96 75.22-138.44 0-29.49-8.72-56.51-25.22-78.13z"
+                                fill={personalFav.find(fav => fav.title === holdTitle) ? "#f9595f" : "white"}/>
+                        </svg>
+                    </div>
+                </div>
+
             </div>
 
             {/*// SECTION GESTION DES CATEGORIES*/}
@@ -268,12 +288,14 @@ const Gallery = ({
                                     <ArtWork
                                         key={index}
                                         src={pic.imgURL}
+                                        id={pic.id}
                                         title={pic.title}
                                         type={pic?.type}
                                         creationDate={pic.creationDate}
                                         isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
                                         onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
                                         setHoldSrc={setHoldSrc}
+                                        setHoldId={setHoldId}
                                         setHoldTitle={setHoldTitle}
                                         setModal={setModal}
                                         isLoading={isLoading}
@@ -316,12 +338,14 @@ const Gallery = ({
                             <ArtWork
                                 key={index}
                                 src={pic.imgURL}
+                                id={pic.id}
                                 title={pic.title}
                                 type={pic?.type}
                                 creationDate={pic.creationDate}
                                 isFavorited={personalFav.find(fav => fav.title === pic.title)} // Si l'image est dans les favoris
                                 onClick={() => toggleFavorite(pic.id, pic.imgURL, pic.title)} // Fonction pour ajouter/supprimer des favoris
                                 setHoldSrc={setHoldSrc}
+                                setHoldId={setHoldId}
                                 setHoldTitle={setHoldTitle}
                                 setModal={setModal}
                                 isLoading={isLoading}
