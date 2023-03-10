@@ -40,8 +40,6 @@ const Gallery = ({
     // eslint-disable-next-line
     const [newArtworks, setNewArtworks] = useState([artworks.filter((pic) => isNew(pic.creationDate))])
 
-    console.log("Nombre de nouveaux Artworks = " + newArtworks.length)
-    // console.log(artworks[4].imgURL)
 
 
     // FIREBASE : INITIALISATION DE LA BASE DE DONNEES
@@ -78,9 +76,8 @@ const Gallery = ({
                         setArtworks(Object.values(data.images));
                         setTotalArtworks(Object.values(data.images).length);
                         setConnectedId(user.id);
-                        setTypeFilter(Object.values(data.images)) // setTypeFilter(Object.values(data.images).sort(() => Math.random() - 0.5))
+                        setTypeFilter(Object.values(data.images))
                         setNewArtworks((Object.values(data.images)).filter((pic) => isNew(pic.creationDate)))
-                        // setNewArtworks((Object.values(data.images).sort(() => Math.random() - 0.5)).filter((pic) => isNew(pic.creationDate)))
                         setTimeout(() => setIsLoading(false), 2000);
                         console.log("🔥🔥🔥🔥 DATAS FROM FIREBASE 🔥🔥🔥🔥");
                     } else {
@@ -110,20 +107,6 @@ const Gallery = ({
         }
         // eslint-disable-next-line
     }, [setArtworks, setTotalArtworks, setConnectedId, setIsLoading, user.id]);
-
-
-
-    // // REPERER LES NOUVEAUX ARTWORKS
-    // function anyNewItems() {
-    //     let thereIsNews = false
-    //     // eslint-disable-next-line
-    //     artworks.map((item) => {
-    //         if (isNew(item.date, thereIsNews)) {
-    //             thereIsNews = true
-    //         }
-    //     })
-    //     return thereIsNews
-    // }
 
 
     // FIREBASE : RECUPERATION DES FAV DU USER CONNECTÉ SUR FIREBASE
@@ -219,7 +202,7 @@ const Gallery = ({
                 </span>
                 <div className="relative">
                     <img className="max-h-screen" src={holdSrc} alt={holdTitle} onClick={(e) => closeImg(e)}/>
-                    <div className={`${personalFav.find(fav => fav.title === holdTitle) ? "bg-transparent" : "bg-gray-400 bg-opacity-50"} rounded-full h-[80px] w-[80px] absolute bottom-[3%] left-[48%] z-20 cursor-pointer hover:-translate-y-1 transition-all ease-in-out flex justify-center items-center`}>
+                    <div className={`${personalFav.find(fav => fav.title === holdTitle) ? "bg-transparent" : "bg-gray-400 bg-opacity-50"} rounded-full h-[80px] w-[80px] absolute bottom-[3%] left-[5%] z-20 cursor-pointer sm:hover:-translate-y-1 transition-all ease-in-out flex justify-center items-center`}>
                         <svg
                             className={`${isLoading ? "hidden" : "block"} `}
                             onClick={() => toggleFavorite(holdId, holdSrc, holdTitle)}

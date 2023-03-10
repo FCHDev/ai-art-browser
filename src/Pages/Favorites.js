@@ -28,7 +28,6 @@ const Favorites = ({personalFav, setPersonalFav}) => {
 
         if (areYouSure) {
             remove(refDb(db, `/fav/${user.id}/${titleToRemove}`), {})
-            alert(`"${titleToRemove}" a bien été supprimé 😢 ?`)
         }
     };
 
@@ -39,8 +38,6 @@ const Favorites = ({personalFav, setPersonalFav}) => {
                 &&
                 <MyCarousel personalFav={personalFav}
                            removeThisFav={removeThisFav}/>
-                // <SwiperFav personalFav={personalFav}
-                //            removeThisFav={removeThisFav}/>
                 }
 
             <div className={`${personalFav.length !== 0 ? "hidden" : "block"} md:mt-10 mx-auto text-xl font-[Poppins]`}>

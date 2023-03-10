@@ -148,10 +148,10 @@ const AdminPage = ({artworks, setArtworks, totalArtwork}) => {
     // POUR ENREGISTRER LES DONNEES AVANT SOUMISSION
     const handleSubmit = (event) => {
         event.preventDefault();
-        setImgURL("/uploads/" + imageUpload.name)
+        setImgURL("https://ik.imagekit.io/9znjgitjr/uploads/" + imageUpload.name)
         setPicPreview(
             <div className="artwork-preview">
-                <img className="rounded-xl" src={"/uploads/" + imageUpload.name} alt="artwork"/>
+                <img className="rounded-xl" src={"https://ik.imagekit.io/9znjgitjr/uploads/" + imageUpload.name} alt="artwork"/>
             </div>
         );
         console.log(title + " a bien été ajouté !")
