@@ -221,8 +221,8 @@ const Gallery = ({
 
             {/*// SECTION GESTION DES CATEGORIES*/}
             <div
-                className="w-full md:w-1/4 mx-auto flex justify-evenly items-center md:mb-12 md:mt-8 border border-[#3cb5a0] border-opacity-40 rounded-2xl py-1.5 md:py-0 relative">
-                <span className="absolute left-1 -top-2.5 bg-[#25292d] bg-opacity-100 font-bold text-sm font-[Poppins] text-[#3cb5a0] px-1 z-20">
+                className="w-full md:w-1/4 mx-auto flex justify-evenly items-center md:mb-12 md:mt-8 border border-[#1FFFE9] border-opacity-40 rounded-2xl py-1.5 md:py-0 relative">
+                <span className="absolute left-1 -top-2.5 bg-[#25292d] bg-opacity-100 font-bold text-sm font-[Poppins] text-[#1FFFE9] px-1 z-20">
                     Filtres
                 </span>
                 <button
@@ -239,13 +239,13 @@ const Gallery = ({
                     className="flex flex-col items-center md:w-20 w-[50px] md:p-4 rounded-full cursor-pointer"
                     onClick={() => filterByType("paysages")}>
                     <img src={landscapeSVG} alt="svg pour filtrer les paysages"/>
-                    <span className="md:text-sm text-xs text-[#3cb5a0]">Paysages</span>
+                    <span className="md:text-sm text-xs text-[#1FFFE9]">Paysages</span>
                 </button>
                 <button
                     className="flex flex-col items-center md:w-20 w-[50px] md:p-4 rounded-full cursor-pointer"
                     onClick={() => filterByType("portrait")}>
                     <img src={portrait2SVG} alt="svg pour filtrer les portraits"/>
-                    <span className="md:text-sm text-xs text-[#3cb5a0]">Personnages</span>
+                    <span className="md:text-sm text-xs text-[#1FFFE9]">Personnages</span>
                 </button>
             </div>
 
@@ -285,7 +285,7 @@ const Gallery = ({
                                     />
                                 ))}
                     <div
-                        className={`bg-[#009688] h-[30px] rounded-xl font-[Poppins] text-center font-bold text-xl flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
+                        className={`bg-[#1FFFE9] h-[30px] rounded-xl font-[Poppins] text-center font-bold text-xl text-black flex justify-center items-center px-3 py-4 absolute -top-6 md:-left-6 z-10`}>
                         What's new ?
                     </div>
                 </div>
@@ -295,7 +295,7 @@ const Gallery = ({
             {/*VUE PRINCIPALE*/}
             <div className="gallery">
                 <h2 className="text-3xl md:pt-20 text-white font-bold my-5 font-[Poppins]">
-                    Tous les <span className="text-[#3db49f] capitalize">
+                    Tous les <span className="text-[#1FFFE9] capitalize">
                     {titleCategory === "portrait" ? "personnages" : titleCategory}...
                 </span>
                 </h2>

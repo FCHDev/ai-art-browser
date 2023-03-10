@@ -26,7 +26,7 @@ function MyCarousel({personalFav, removeThisFav}) {
                     <img className="h-[50px] sm:h-[40px] 4K:h-[70px] w-auto"
                          src={previous}
                          alt="flèche vers la gauche"/></button>
-                <div className="w-[100px] text-center text-xl 4K:text-4xl text-[#009788] font-bold font-[Alexandria]">
+                <div className="w-[100px] text-center text-xl 4K:text-4xl text-[#1FFFE9] font-bold font-[Alexandria]">
                     <span
                         className="text-3xl 4K:text-6xl text-white">
                         {personalFav.length - currentIndex}</span>/{personalFav.length}</div>

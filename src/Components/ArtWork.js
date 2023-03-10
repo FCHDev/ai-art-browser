@@ -34,7 +34,7 @@ const ArtWork = ({
                 className={`gallery-item relative transition ease-in-out delay-75 md:hover:-translate-y-1 md:hover:scale-105 duration-75`}>
                 <LazyLoad height={250}>
                     <img
-                        className={`${isNew(creationDate) ? "border border-2 border-[#009688]" : ""} ${isFavorited ? "border border-2 border-[#f9595f]" : ""} block object-cover object-center w-full h-full rounded-lg z-1 cursor-pointer`}
+                        className={`${isNew(creationDate) ? "border border-2 border-[#1FFFE9]" : ""} ${isFavorited ? "border border-2 border-[#f9595f]" : ""} block object-cover object-center w-full h-full rounded-lg z-1 cursor-pointer`}
                         src={src}
                         alt={title}
                         id={id}

@@ -8,7 +8,7 @@ const HeaderFav = ({totalArtworks}) => {
     return (
         <div>
             <h1 className="font-[Silkscreen] text-center text-4xl md:text-6xl font-bold mt-5">
-                My A.I. Art Gallery
+                My <span className="text-[#1FFFE9]">A.I. Art</span> Gallery
             </h1>
             <div className="font-[Silkscreen] flex h-8 justify-center items-center mx-auto">
                 <h4 className="mr-2 text-sm md:text-base">
