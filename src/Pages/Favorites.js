@@ -34,6 +34,10 @@ const Favorites = ({personalFav, setPersonalFav}) => {
 
     return (
         <div className="flex flex-col">
+            {/*CODE TEST*/}
+            {/*<SwiperFav personalFav={personalFav}/>*/}
+
+            {/*BON CODE*/}
             {personalFav.length > 0
                 &&
                 <MyCarousel personalFav={personalFav}
@@ -46,7 +50,7 @@ const Favorites = ({personalFav, setPersonalFav}) => {
 
             <div className="flex justify-center">
                 <button
-                    className={`${personalFav?.length === 0 ? "hidden" : "block"} bg-[crimson] py-1 px-3 rounded-xl mx-auto md:my-1 hover:bg-white hover:text-[crimson] 4K:text-3xl 4K:py-2 4K:px-5 font-[Poppins]`}
+                    className={`${personalFav?.length === 0 ? "hidden" : "block"} bg-[crimson] py-1 px-3 rounded-xl mx-auto md:my-1 hover:bg-white hover:text-[crimson] 4K:text-3xl 4K:py-2 4K:px-5 font-[Poppins] mt-10`}
                     onClick={removeAllFav}>
                     Vider Favoris
                 </button>
